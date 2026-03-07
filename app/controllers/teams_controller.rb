@@ -5,6 +5,7 @@ class TeamsController < ApplicationController
     set_meta_tags(title: "Times — Kings Lendas Cup")
     @teams = TEAMS_DATA.select { |_, v| v.key?(:captain) }
     schedule = db_schedule
+    @standings = leaguepedia.standings_from_schedule(schedule)
     @records = build_records(schedule)
   end
 

@@ -11,23 +11,31 @@
 <% t2_score = match["Team2Score"].to_i %>
 <% best_of = match["BestOf"].to_i %>
 
-<div style="border:1px solid var(--retro-gold-dim);background:var(--retro-card);position:relative"
+<div style="border:1px solid var(--retro-gold-dim);background:var(--retro-card);position:relative;overflow:hidden"
      <% if show_expand && match_games.any? %>data-controller="match-accordion"<% end %>>
+  <div class="retro-corners"></div>
 
-  <!-- Match header -->
+  <!-- Gold top bar -->
+  <div style="height:2px;background:linear-gradient(to right,var(--retro-gold),transparent)"></div>
+
+  <!-- Panel header -->
+  <div style="padding:5px 12px;border-bottom:1px solid var(--retro-gold-dim);display:flex;align-items:center;justify-content:space-between;background:rgba(200,155,60,0.04)">
+    <span style="font-size:9px;letter-spacing:0.12em;color:var(--retro-gold-dim);font-family:Verdana,sans-serif;text-transform:uppercase">
+      // <%= played ? "RESULTADO" : "PARTIDA" %><% if match["Phase"].present? %> ◆ <%= phase_label(match["Phase"]).upcase %><% end %>
+    </span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:9px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">Bo<%= best_of > 0 ? best_of : 1 %></span>
+      <% if show_expand && match_games.any? %>
+        <span style="color:var(--retro-gold-dim);font-size:11px" data-match-accordion-target="icon">▼</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Match body -->
   <div style="padding:14px 16px<%= ';cursor:pointer' if show_expand && match_games.any? %>"
        <% if show_expand && match_games.any? %>data-action="click->match-accordion#toggle"<% end %>>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-      <% if match["Phase"].present? %>
-        <span class="retro-status" style="color:var(--retro-teal);border-color:var(--retro-teal);font-size:9px">
-          <%= phase_label(match["Phase"]) %>
-        </span>
-      <% end %>
-      <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Bo<%= best_of > 0 ? best_of : 1 %></span>
-      <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= format_datetime_brt(dt) %> BRT</span>
-      <% if show_expand && match_games.any? %>
-        <span style="color:rgba(255,255,255,0.35);font-size:12px" data-match-accordion-target="icon">▼</span>
-      <% end %>
+    <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:10px">
+      <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= format_datetime_brt(dt) %> BRT</span>
     </div>
 
     <!-- Teams row -->
@@ -152,4 +160,14 @@
       <% end %>
     </div>
   <% end %>
+
+  <!-- Footer strip -->
+  <div style="height:16px;background:linear-gradient(to right,var(--retro-blue),var(--retro-bg));border-top:1px solid var(--retro-gold-dim);display:flex;align-items:center;padding:0 10px;justify-content:space-between">
+    <span style="font-size:8px;letter-spacing:0.1em;color:rgba(200,155,60,0.4);font-family:Verdana,sans-serif">KINGS LENDAS CUP 2026</span>
+    <% if played %>
+      <span style="font-size:8px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">
+        <span style="color:var(--color-kl-win)"><%= team_abbr(winner) %></span> VENCEU
+      </span>
+    <% end %>
+  </div>
 </div>
