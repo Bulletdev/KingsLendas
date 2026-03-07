@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <title>Página não encontrada — Kings Lendas</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, width=device-width">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    @property --swing-x {
+      initial-value: 0;
+      inherits: false;
+      syntax: '<integer>';
+    }
+    @property --swing-y {
+      initial-value: 0;
+      inherits: false;
+      syntax: '<integer>';
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --kl-gold: #C89B3C;
+      --kl-gold-dim: rgba(200,155,60,0.45);
+      --kl-teal: #0596AA;
+      --kl-bg: #0A0E1A;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--kl-bg);
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Background image */
+    .bg-image {
+      position: absolute;
+      inset: 0;
+      background-image: url('/BACKGROUNDS/404.webp');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.12;
+      z-index: 0;
+    }
+
+    /* Cloak effect */
+    .cloak-wrapper {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cloak-container {
+      height: 250vmax;
+      width: 250vmax;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .cloak {
+      animation: swing 2s infinite alternate-reverse ease-in-out;
+      height: 100%;
+      width: 100%;
+      transform-origin: 50% 30%;
+      transform: rotate(calc(var(--swing-x) * -0.25deg));
+      background: radial-gradient(
+        40% 40% at 50% 42%,
+        transparent,
+        var(--kl-bg) 35%
+      );
+    }
+
+    /* Gold separator top */
+    .gold-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--kl-gold), transparent);
+      z-index: 5;
+    }
+
+    /* Content */
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .error-404 {
+      animation: swing 2s infinite alternate ease-in-out;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: clamp(5rem, 40vmin, 20rem);
+      font-weight: 900;
+      letter-spacing: 1rem;
+      margin: 0 0 1rem;
+      transform: translate3d(0, 0, 0);
+      --x: calc(50% + (var(--swing-x) * 0.5) * 1%);
+      background: radial-gradient(
+        var(--kl-gold) 0%,
+        var(--kl-gold-dim) 45%
+      ) var(--x) 100% / 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      line-height: 1;
+    }
+
+    .error-404::after {
+      animation: swing 2s infinite alternate ease-in-out;
+      content: "404";
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: rgba(200, 155, 60, 0.2);
+      filter: blur(1.5vmin);
+      transform: scale(1.05) translate3d(0, 12%, -10vmin)
+        translate(
+          calc((var(--swing-x, 0) * 0.05) * 1%),
+          calc((var(--swing-y) * 0.05) * 1%)
+        );
+    }
+
+    .info {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .retro-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--kl-teal);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .info h2 {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .info p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .btn-home {
+      display: inline-block;
+      padding: 12px 32px;
+      background: transparent;
+      border: 1px solid var(--kl-gold);
+      color: var(--kl-gold);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-home:hover {
+      background: var(--kl-gold);
+      color: var(--kl-bg);
+    }
+
+    /* Logo */
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--kl-gold);
+      letter-spacing: 0.08em;
+    }
+
+    .logo-sub {
+      font-size: 8px;
+      color: var(--kl-gold-dim);
+      letter-spacing: 0.2em;
+      margin-top: 2px;
+    }
+
+    /* Powered by */
+    .powered {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.35;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      z-index: 20;
+    }
+
+    .powered:hover { opacity: 0.9; }
+
+    .powered span {
+      font-size: 8px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .powered img {
+      height: 16px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    @keyframes swing {
+      0%   { --swing-x: -100; --swing-y: -100; }
+      50%  { --swing-y: 0; }
+      100% { --swing-y: -100; --swing-x: 100; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="gold-line"></div>
+    <div class="bg-image"></div>
+
+    <div class="cloak-wrapper">
+      <div class="cloak-container">
+        <div class="cloak"></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="logo-row">
+        <img class="logo-img" src="/Kings_Lendas_Cup.webp" alt="KL"
+          onerror="this.outerHTML='<div style=\'width:36px;height:36px;background:#C89B3C;display:flex;align-items:center;justify-content:center;\'><span style=\'color:#0A0E1A;font-weight:900;font-size:12px\'>KL</span></div>'">
+        <div>
+          <div class="logo-text">KINGS LENDAS</div>
+          <div class="logo-sub">CUP 2026 ◆ BY BAIANO</div>
+        </div>
+      </div>
+
+      <h1 class="error-404">404</h1>
+
+      <div class="info">
+        <div class="retro-label">// Página não encontrada</div>
+        <h2>Essa rota sumiu do mapa</h2>
+        <p>
+          O endereço que você tentou acessar não existe ou foi movido.<br>
+          Talvez os picks tenham mudado no último segundo.
+        </p>
+        <a href="/" class="btn-home">Voltar ao início</a>
+      </div>
+    </div>
+
+    <a href="https://prostaff.gg" target="_blank" rel="noopener" class="powered">
+      <span>Powered by</span>
+      <img src="/ProStaff/PROSTAFFLOGO.png" alt="ProStaff">
+      <img src="/ProStaff/prostaffgg.png" alt="ProStaff.gg">
+    </a>
+  </div>
+
+  <script>
+    (function () {
+      function updateSwing() {
+        var t = Date.now() / 1000;
+        var x = Math.sin(t) * 100;
+        var y = Math.cos(t * 0.5) * 100;
+        document.documentElement.style.setProperty('--swing-x', Math.round(x).toString());
+        document.documentElement.style.setProperty('--swing-y', Math.round(y).toString());
+        requestAnimationFrame(updateSwing);
+      }
+      requestAnimationFrame(updateSwing);
+    })();
+  </script>
+</body>
+</html>
