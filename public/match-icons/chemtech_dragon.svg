@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 13 13">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_6671" data-name="Rectangle 6671" width="10.858" height="11.37" fill="#b4ce48"/>
+    </clipPath>
+  </defs>
+  <g id="icon_graph_dragon_tech_w" transform="translate(-697 -307.75)">
+    <rect id="Rectangle_6672" data-name="Rectangle 6672" width="13" height="13" transform="translate(697 307.75)" fill="none"/>
+    <g id="Group_10363" data-name="Group 10363" transform="translate(698 308.284)">
+      <g id="Group_10362" data-name="Group 10362" clip-path="url(#clip-path)">
+        <path id="Path_7314" data-name="Path 7314" d="M8.727,6.33A4.088,4.088,0,0,1,5.863,5.293C4.631,4.233,3.455,5.216,3.9,6.079a1.338,1.338,0,0,1-.829-1.411,1.5,1.5,0,0,1,1.8-1.129C6.339,3.886,6.4,5.209,8.62,5.44c.829.086,2.238-.026,2.238-1.769,0-1.979-2.337-2.926-2.337-2.926s.142,1.249-1.243.751C5.947,1.018,6.057,0,3.766,0a3.027,3.027,0,0,0-2.9,3.42C.944,4.421,0,4.663,0,6.045a2.357,2.357,0,0,0,2.447,2.3c2.159,0,2.388-1.226,3.633-1.384.934-.118,1.337.872,1.026,1.149-.389.346-.723.235-1.2.235s-1.47-.476-1.989.216.476,2.811,2.292,2.811c.528,0-1.1-1.384.424-1.558.954-.109,3.017.023,3.57-1.681.509-1.571-.8-1.739-1.476-1.8" transform="translate(0 0.001)" fill="#b4ce48"/>
+      </g>
+    </g>
+  </g>
+</svg>

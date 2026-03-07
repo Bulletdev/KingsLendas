@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_6670" data-name="Rectangle 6670" width="18" height="17.886" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="icon_graph_dragon_hextech_w" transform="translate(-681 -307.75)">
+    <g id="Group_10361" data-name="Group 10361" transform="translate(681 307.75)">
+      <g id="Group_10360" data-name="Group 10360" transform="translate(0 0)">
+        <g id="Group_10359" data-name="Group 10359" clip-path="url(#clip-path)">
+          <rect id="Rectangle_6669" data-name="Rectangle 6669" width="16.935" height="16.828" transform="translate(0.532 0.529)" fill="none"/>
+        </g>
+      </g>
+      <path id="Path_7313" data-name="Path 7313" d="M20.523,4.276,13.28,11.47,18.7,16.857v3.612l1.819-1.806,7.243-7.194L22.342,6.082V2.47Zm3.516,7.182L21.7,13.782,20.523,14.95l-1.176-1.168-2.34-2.324,1.176-1.168,2.34,2.324,2.34-2.324ZM21.7,9.134,20.523,10.3,19.347,9.134l1.176-1.168Z" transform="translate(-11.595 -2.469)" fill="#657ef8"/>
+    </g>
+  </g>
+</svg>
