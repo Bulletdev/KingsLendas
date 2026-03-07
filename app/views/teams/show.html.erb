@@ -174,40 +174,29 @@
       <% end %>
 
       <!-- Match history -->
-      <%= retro_panel(title: "Histórico de Partidas", category: "// MATCHES", footer: @team_name) do %>
-        <%
-          played = @team_matches.select { |m| m["Winner"].present? }
-        %>
+      <div>
+        <div style="margin-bottom:8px">
+          <div class="retro-section-label">// MATCHES</div>
+          <span class="retro-title">Histórico de Partidas</span>
+        </div>
+        <% played = @team_matches.select { |m| m["Winner"].present? } %>
         <% if played.any? %>
-          <div style="padding:4px 0">
+          <div style="display:grid;gap:8px">
             <% played.reverse.each do |match| %>
-              <%
-                won = match["Winner"] == @team_name
-                opp = match["Team1"] == @team_name ? match["Team2"] : match["Team1"]
-              %>
-              <div style="display:flex;align-items:center;gap:12px;padding:10px 8px 10px 0;border-bottom:1px solid rgba(200,155,60,0.1)">
-                <span class="retro-status" style="color:<%= won ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;border-color:<%= won ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;background:<%= won ? 'rgba(0,211,100,0.08)' : 'rgba(255,68,68,0.08)' %>;flex-shrink:0">
-                  <%= won ? 'V' : 'D' %>
-                </span>
-                <div style="display:flex;align-items:center;gap:8px;flex:1">
-                  <%= team_logo(opp, size: 26) %>
-                  <span style="font-size:13px;color:rgba(255,255,255,0.75);font-family:Verdana,sans-serif"><%= opp %></span>
-                </div>
-                <div style="text-align:right;flex-shrink:0">
-                  <div style="font-size:14px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif">
-                    <%= match["Team1Score"] %>–<%= match["Team2Score"] %>
-                  </div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= format_datetime_brt(match["DateTime_UTC"]) %></div>
-                </div>
-              </div>
+              <% opp = match["Team1"] == @team_name ? match["Team2"] : match["Team1"] %>
+              <% match_games = @team_games.select { |g|
+                   (g["Team1"] == @team_name && g["Team2"] == opp) ||
+                   (g["Team1"] == opp && g["Team2"] == @team_name)
+                 } %>
+              <%= render "shared/match_card", match: match, games: match_games, show_expand: true %>
             <% end %>
           </div>
         <% else %>
-          <div style="padding:32px 20px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+          <div style="border:1px solid var(--retro-gold-dim);padding:32px 20px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
             Nenhuma partida jogada ainda
           </div>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

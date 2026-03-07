@@ -34,7 +34,7 @@
                (g["Team1"] == t1 && g["Team2"] == t2) ||
                (g["Team1"] == t2 && g["Team2"] == t1)
              } %>
-          <%= render "shared/match_card", match: match, games: match_games, show_expand: match_games.any? %>
+          <%= render "shared/match_card", match: match, games: match_games, show_expand: match["Winner"].present? %>
         <% end %>
       </div>
     </div>

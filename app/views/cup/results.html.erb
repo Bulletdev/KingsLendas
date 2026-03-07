@@ -19,47 +19,40 @@
         <table style="width:100%;border-collapse:collapse">
           <thead>
             <tr style="border-bottom:1px solid var(--retro-gold-dim)">
-              <th class="retro-table-head" style="text-align:center;width:28px">#</th>
+              <th class="retro-table-head" style="text-align:center;width:24px">#</th>
               <th class="retro-table-head" style="text-align:left">Time</th>
-              <th class="retro-table-head" style="text-align:center">V-D</th>
+              <th class="retro-table-head" style="text-align:center;white-space:nowrap">V-D</th>
               <th class="retro-table-head" style="text-align:center">WR%</th>
-              <th class="retro-table-head" style="text-align:center">Str</th>
             </tr>
           </thead>
           <tbody>
             <% @standings.each_with_index do |row, idx| %>
               <% zone_color = idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.2)') %>
               <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)">
-                <td style="padding:10px 8px;text-align:center">
-                  <div style="display:flex;align-items:center;gap:4px;justify-content:center">
+                <td style="padding:8px 4px;text-align:center">
+                  <div style="display:flex;align-items:center;gap:3px;justify-content:center">
                     <span style="font-size:12px;font-weight:bold;color:<%= zone_color %>;font-family:Verdana,sans-serif"><%= idx + 1 %></span>
-                    <span style="width:2px;height:14px;background:<%= zone_color %>;opacity:0.6;flex-shrink:0"></span>
+                    <span style="width:2px;height:12px;background:<%= zone_color %>;opacity:0.6;flex-shrink:0"></span>
                   </div>
                 </td>
-                <td style="padding:10px 8px 10px 0">
-                  <%= link_to team_path(team_slug(row["Team"])), style: "display:flex;align-items:center;gap:6px;text-decoration:none",
+                <td style="padding:8px 4px 8px 0">
+                  <%= link_to team_path(team_slug(row["Team"])), style: "display:flex;align-items:center;gap:5px;text-decoration:none",
                         onmouseover: "this.querySelector('span').style.color='var(--retro-gold)'",
                         onmouseout:  "this.querySelector('span').style.color='rgba(255,255,255,0.8)'" do %>
-                    <%= team_logo(row["Team"], size: 22) %>
-                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;transition:color 0.15s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px"><%= row["Team"] %></span>
+                    <%= team_logo(row["Team"], size: 18) %>
+                    <span style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;transition:color 0.15s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(row["Team"]) %></span>
                   <% end %>
                 </td>
-                <td style="padding:10px 8px;text-align:center;white-space:nowrap">
+                <td style="padding:8px 4px;text-align:center;white-space:nowrap">
                   <span style="font-size:13px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= row["Wins"] %></span>
-                  <span style="color:rgba(255,255,255,0.2);font-size:12px;margin:0 2px">-</span>
+                  <span style="color:rgba(255,255,255,0.2);font-size:12px;margin:0 1px">-</span>
                   <span style="font-size:13px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= row["Losses"] %></span>
                 </td>
-                <td style="padding:10px 8px;text-align:center">
+                <td style="padding:8px 4px;text-align:center">
                   <% wins = row["Wins"].to_i; losses = row["Losses"].to_i; total = wins + losses %>
                   <% pct = total.zero? ? 0 : (wins.to_f / total * 100).round %>
                   <span style="font-size:12px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>">
                     <%= pct %>%
-                  </span>
-                </td>
-                <td style="padding:10px 8px;text-align:center">
-                  <% str = @streak_map[row["Team"]] %>
-                  <span class="retro-status" style="font-size:9px;color:<%= str.to_s.end_with?('W') ? 'var(--color-kl-win)' : (str.to_s.end_with?('L') ? 'var(--color-kl-loss)' : 'rgba(255,255,255,0.3)') %>;border-color:<%= str.to_s.end_with?('W') ? 'var(--color-kl-win)' : (str.to_s.end_with?('L') ? 'var(--color-kl-loss)' : 'rgba(255,255,255,0.15)') %>">
-                    <%= str %>
                   </span>
                 </td>
               </tr>

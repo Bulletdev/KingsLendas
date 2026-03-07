@@ -32,6 +32,16 @@ class CupController < ApplicationController
       .transform_values { |records| records.map { |r| r["Team"] }.uniq.join(",") }
   end
 
+  def game_scoreboard
+    unique_game = params[:id]
+    @game    = @games.find { |g| g["UniqueGame"] == unique_game }
+    return render plain: "", status: :not_found unless @game
+    @players = db_players.select { |p| p["UniqueGame"] == unique_game }
+                         .sort_by { |p| ROLE_ORDER.index(p["Role"]&.downcase) || 99 }
+    @t1 = @game["Team1"]
+    @t2 = @game["Team2"]
+  end
+
   def champions
     set_meta_tags(title: "Campeões — Kings Lendas Cup")
     @sort_by = params[:sort] || "picks"
