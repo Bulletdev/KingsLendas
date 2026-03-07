@@ -1,0 +1,49 @@
+<div class="max-w-5xl mx-auto px-4 py-10">
+  <div style="margin-bottom:24px">
+    <div class="retro-section-label">// Kings Lendas Cup 2026</div>
+    <h1 class="retro-title-lg">Partidas</h1>
+  </div>
+
+  <!-- Phase tabs -->
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap" data-controller="tab-filter" data-tab-filter-active-class="tab-active">
+    <button data-action="click->tab-filter#filter" data-tab-filter-group-param="all"
+            style="font-size:10px;letter-spacing:0.12em;padding:6px 14px;font-family:Verdana,sans-serif;border:1px solid var(--retro-gold);background:rgba(200,155,60,0.12);color:var(--retro-gold);cursor:pointer;text-transform:uppercase">
+      TODAS
+    </button>
+    <% @matches_grouped.keys.sort.each do |phase| %>
+      <button data-action="click->tab-filter#filter" data-tab-filter-group-param="<%= phase.parameterize %>"
+              style="font-size:10px;letter-spacing:0.12em;padding:6px 14px;font-family:Verdana,sans-serif;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-transform:uppercase"
+              onmouseover="this.style.borderColor='var(--retro-gold-dim)';this.style.color='var(--retro-gold)'"
+              onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)'">
+        <%= phase_label(phase).upcase %>
+      </button>
+    <% end %>
+  </div>
+
+  <% @matches_grouped.each do |phase, phase_matches| %>
+    <div style="margin-bottom:32px" data-tab-group="<%= phase.parameterize %>">
+      <div class="retro-sep" style="margin-bottom:12px">
+        <div class="retro-sep-line"></div>
+        <span class="retro-sep-label"><%= phase_label(phase) %></span>
+        <div class="retro-sep-line-r"></div>
+      </div>
+      <div style="display:grid;gap:8px">
+        <% phase_matches.each do |match| %>
+          <% t1 = match["Team1"]; t2 = match["Team2"] %>
+          <% match_games = @games_by_unique.values.select { |g|
+               (g["Team1"] == t1 && g["Team2"] == t2) ||
+               (g["Team1"] == t2 && g["Team2"] == t1)
+             } %>
+          <%= render "shared/match_card", match: match, games: match_games, show_expand: match_games.any? %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @matches_grouped.empty? %>
+    <div style="border:1px solid var(--retro-gold-dim);padding:48px 20px;text-align:center">
+      <div class="retro-corners"></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Nenhuma partida agendada ainda</div>
+    </div>
+  <% end %>
+</div>

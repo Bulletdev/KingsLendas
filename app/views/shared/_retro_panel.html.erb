@@ -1,0 +1,74 @@
+<%#
+  RetroPanel — portado do prostaff-analytics-hub/RetroPanel.tsx
+  Uso:
+    <%= render "shared/retro_panel", title: "Classificação", category: "// COPA", footer: "Kings Lendas Cup" do %>
+      conteúdo
+    <% end %>
+
+  Parâmetros:
+    title    (string)  — título dourado em uppercase
+    category (string)  — badge teal acima do título, ex: "// COPA"
+    subtitle (string)  — texto dim à direita do título
+    footer   (string)  — texto do footer strip
+    slot     (string)  — HTML para o left slot (ícone, número)
+    pattern  (string)  — "diagonal" (padrão) | "scanline" | "grid"
+-%>
+<%
+  _title    = local_assigns[:title]    || ""
+  _category = local_assigns[:category]
+  _subtitle = local_assigns[:subtitle]
+  _footer   = local_assigns[:footer]   || "Kings Lendas Cup"
+  _slot     = local_assigns[:slot]
+%>
+<div class="retro-panel">
+
+  <%# ── HEADER ── %>
+  <div class="retro-panel-header">
+    <% if _slot %>
+      <div class="retro-panel-header-slot">
+        <%= _slot.html_safe %>
+      </div>
+    <% else %>
+      <div class="retro-panel-header-bar"></div>
+    <% end %>
+
+    <div class="retro-panel-header-content">
+      <% if _category %>
+        <span class="retro-badge"><%= _category %></span>
+      <% end %>
+      <div class="flex items-end justify-between gap-2">
+        <span class="retro-title"><%= _title %></span>
+        <% if _subtitle %>
+          <span style="font-size:9px;color:var(--retro-gold-dim);letter-spacing:0.05em;white-space:nowrap;font-family:var(--retro-font)"><%= _subtitle %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <%# cantos top -%>
+    <div class="retro-corners"></div>
+  </div>
+
+  <%# ── DIVIDER ── %>
+  <div class="retro-panel-divider"></div>
+
+  <%# ── BODY ── %>
+  <div class="retro-panel-body">
+    <div class="retro-panel-body-inner">
+      <%= content %>
+    </div>
+  </div>
+
+  <%# ── FOOTER ── %>
+  <div class="retro-panel-footer">
+    <div class="flex items-center gap-2">
+      <div class="retro-diamond"></div>
+      <div style="width:24px;height:1px;background:linear-gradient(to right,var(--retro-gold),transparent)"></div>
+    </div>
+    <span class="retro-panel-footer-label"><%= _footer %></span>
+    <div class="flex items-center gap-2">
+      <div style="width:24px;height:1px;background:linear-gradient(to left,var(--retro-gold),transparent)"></div>
+      <div class="retro-diamond"></div>
+    </div>
+  </div>
+
+</div>

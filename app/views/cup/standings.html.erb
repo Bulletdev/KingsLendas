@@ -1,0 +1,75 @@
+<div class="max-w-5xl mx-auto px-4 py-10">
+  <div style="margin-bottom:24px">
+    <div class="retro-section-label">// Kings Lendas Cup 2026</div>
+    <h1 class="retro-title-lg">Classificação</h1>
+  </div>
+
+  <%= retro_panel(title: "Tabela de Classificação", category: "// GRUPOS", footer: "Kings Lendas Cup 2026") do %>
+    <div class="overflow-x-auto">
+      <table style="width:100%;border-collapse:collapse" data-controller="sort-table">
+        <thead>
+          <tr style="border-bottom:1px solid var(--retro-gold-dim)">
+            <th class="retro-table-head" style="text-align:left;width:40px">#</th>
+            <th class="retro-table-head" style="text-align:left">Time</th>
+            <th class="retro-table-head" style="text-align:center;cursor:pointer" data-action="click->sort-table#sort" data-sort-col="2">V</th>
+            <th class="retro-table-head" style="text-align:center;cursor:pointer" data-action="click->sort-table#sort" data-sort-col="3">D</th>
+            <th class="retro-table-head hidden sm:table-cell" style="text-align:center">% Vitória</th>
+            <th class="retro-table-head hidden md:table-cell" style="text-align:center">Forma</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @standings.each_with_index do |row, idx| %>
+            <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.1)">
+              <td style="padding:12px 8px 12px 0">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <span style="font-size:14px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.35)') %>"><%= idx + 1 %></span>
+                  <div style="width:3px;height:20px;background:<%= idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.1)') %>"></div>
+                </div>
+              </td>
+              <td style="padding:12px 16px 12px 0">
+                <%= link_to team_path(team_slug(row["Team"])), style: "display:flex;align-items:center;gap:10px;text-decoration:none" do %>
+                  <%= team_logo(row["Team"], size: 34) %>
+                  <div>
+                    <div style="font-size:13px;font-weight:bold;font-family:Verdana,sans-serif;color:rgba(255,255,255,0.85)"><%= row["Team"] %></div>
+                    <div style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= TEAMS_DATA[row["Team"]]&.dig(:captain) %></div>
+                  </div>
+                <% end %>
+              </td>
+              <td style="padding:12px 8px;text-align:center;font-size:16px;font-weight:bold;font-family:Verdana,sans-serif;color:var(--color-kl-win)"><%= row["Wins"] %></td>
+              <td style="padding:12px 8px;text-align:center;font-size:16px;font-weight:bold;font-family:Verdana,sans-serif;color:var(--color-kl-loss)"><%= row["Losses"] %></td>
+              <td class="hidden sm:table-cell" style="padding:12px 8px;text-align:center">
+                <% wins = row["Wins"].to_i; losses = row["Losses"].to_i; total = wins + losses %>
+                <% pct = total.zero? ? 0 : (wins.to_f / total * 100).round %>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                  <span style="font-size:13px;font-weight:bold;font-family:Verdana,sans-serif;color:rgba(255,255,255,0.85)"><%= pct %>%</span>
+                  <div style="width:56px;height:2px;background:rgba(255,255,255,0.1)">
+                    <div style="height:100%;width:<%= pct %>%;background:var(--color-kl-win)"></div>
+                  </div>
+                </div>
+              </td>
+              <td class="hidden md:table-cell" style="padding:12px 8px;text-align:center">
+                <div style="display:flex;align-items:center;justify-content:center;gap:3px">
+                  <% form = @form_map[row["Team"]] || [] %>
+                  <% form.each do |result| %>
+                    <span class="retro-status" style="font-size:9px;padding:2px 5px;color:<%= result == 'W' ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;border-color:<%= result == 'W' ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>"><%= result == 'W' ? 'V' : 'D' %></span>
+                  <% end %>
+                  <% (5 - form.length).times do %>
+                    <span class="retro-status" style="font-size:9px;padding:2px 5px;color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1)">–</span>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="retro-sep" style="margin-top:8px">
+      <div class="retro-sep-line"></div><span class="retro-sep-label">Legenda</span><div class="retro-sep-line-r"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;padding:4px 0 8px;font-size:10px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:3px;height:14px;background:var(--retro-gold)"></div> Semifinal direto (Top 2)</div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:3px;height:14px;background:var(--retro-teal)"></div> Quartas de final (3º–4º)</div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:3px;height:14px;background:rgba(255,255,255,0.1)"></div> Eliminação</div>
+    </div>
+  <% end %>
+</div>

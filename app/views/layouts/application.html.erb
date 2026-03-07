@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark" data-turbo="true">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= display_meta_tags default: "Kings Lendas" %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <%= stylesheet_link_tag "tailwind", "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="bg-kl-bg text-white font-inter antialiased min-h-screen flex flex-col">
+    <!-- Background overlay (complementa o body::before do CSS) -->
+    <div class="fixed inset-0 pointer-events-none z-0" style="background:rgba(8,14,26,0.45)"></div>
+
+    <!-- Navbar -->
+    <%= render "shared/navbar" %>
+
+    <!-- Flash messages -->
+    <% if notice %>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 pt-2">
+        <div class="bg-green-500/20 border border-green-500/50 rounded-lg px-4 py-3 text-green-300 text-sm">
+          <%= notice %>
+        </div>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 pt-2">
+        <div class="bg-red-500/20 border border-red-500/50 rounded-lg px-4 py-3 text-red-300 text-sm">
+          <%= alert %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Main content -->
+    <main class="relative z-10 flex-1">
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <%= render "shared/footer" %>
+  </body>
+</html>

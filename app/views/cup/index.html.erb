@@ -1,0 +1,114 @@
+<div class="max-w-7xl mx-auto px-4 py-10">
+  <!-- Header -->
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px">
+    <div>
+      <div class="retro-section-label">// IDL Kings Lendas</div>
+      <h1 class="retro-title-lg">Kings Lendas Cup</h1>
+      <p style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;margin-top:4px;letter-spacing:0.05em">
+        6 times &nbsp;◆&nbsp; 06–15 Mar 2026 &nbsp;◆&nbsp; <span style="color:var(--retro-gold);font-weight:bold">R$ 50.000</span>
+      </p>
+    </div>
+    <div style="display:flex;gap:6px">
+      <%= link_to "Classificação", cup_standings_path, style: "font-size:11px;letter-spacing:0.1em;padding:7px 14px;font-family:Verdana,sans-serif;color:var(--retro-gold);border:1px solid var(--retro-gold-dim);background:rgba(200,155,60,0.08);text-decoration:none;text-transform:uppercase" %>
+      <%= link_to "Partidas", cup_matches_path, style: "font-size:11px;letter-spacing:0.1em;padding:7px 14px;font-family:Verdana,sans-serif;color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);background:transparent;text-decoration:none;text-transform:uppercase" %>
+    </div>
+  </div>
+
+  <!-- Stat boxes -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+    <% [["6","Times","var(--retro-gold)"],["10","Dias","var(--retro-teal)"],["R$50k","Premiação","var(--retro-gold)"],["Bo5","Final","var(--retro-teal)"]].each do |val, label, color| %>
+      <div class="retro-stat-box">
+        <div class="retro-corners"></div>
+        <div style="height:2px;background:linear-gradient(to right,<%= color %>,transparent);margin-bottom:8px"></div>
+        <div class="retro-stat-label"><%= label %></div>
+        <div class="retro-stat-value" style="color:<%= color %>"><%= val %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Formato -->
+  <%= retro_panel(title: "Formato do Torneio", category: "// ESTRUTURA", footer: "Kings Lendas Cup 2026") do %>
+    <div class="grid grid-cols-1 sm:grid-cols-3" style="gap:0;padding:4px 0">
+      <% [
+        ["FASE DE GRUPOS","Round Robin • Bo1","Todos jogam contra todos","var(--retro-teal)"],
+        ["QUARTAS / SEMIS","Eliminação Simples • Bo3","Fearless Draft • 1v1 de lado","var(--retro-teal)"],
+        ["FINAL","Eliminação Simples • Bo5","Fearless Draft • 1v1 de lado","var(--retro-gold)"],
+      ].each_with_index do |(phase, format, note, color), i| %>
+        <div style="padding:14px 12px 14px 0;<%= i < 2 ? 'border-right:1px solid rgba(200,155,60,0.15);margin-right:12px;' : '' %>">
+          <div style="height:2px;background:linear-gradient(to right,<%= color %>,transparent);margin-bottom:8px"></div>
+          <div style="font-size:11px;font-weight:bold;color:<%= color %>;font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:4px"><%= phase %></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);font-family:Verdana,sans-serif;margin-bottom:3px"><%= format %></div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= note %></div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <!-- Classificação -->
+    <%= retro_panel(title: "Classificação", category: "// TABELA",
+          subtitle: link_to("Ver completo →", cup_standings_path, style: "color:var(--retro-teal);font-size:11px;font-family:Verdana,sans-serif").html_safe,
+          footer: "Kings Lendas Cup") do %>
+      <% if @standings.any? %>
+        <div style="padding:4px 0">
+          <% @standings.each_with_index do |row, idx| %>
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 8px 9px 0;border-bottom:1px solid rgba(200,155,60,0.08)">
+              <span style="font-size:13px;font-weight:bold;font-family:Verdana,sans-serif;width:16px;text-align:center;color:<%= idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.3)') %>"><%= idx + 1 %></span>
+              <%= team_logo(row["Team"], size: 28) %>
+              <span style="flex:1;font-size:13px;color:rgba(255,255,255,0.75);font-family:Verdana,sans-serif"><%= row["Team"] %></span>
+              <span style="font-size:13px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= row["Wins"] %>V</span>
+              <span style="font-size:13px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= row["Losses"] %>D</span>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;padding:24px 0;font-family:Verdana,sans-serif">Classificação não disponível</p>
+      <% end %>
+    <% end %>
+
+    <!-- Últimas partidas -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div class="retro-section-label">// RESULTADOS</div>
+          <span class="retro-title">Últimas Partidas</span>
+        </div>
+        <%= link_to "Ver todas →", cup_matches_path, style: "font-size:11px;color:var(--retro-teal);font-family:Verdana,sans-serif;text-decoration:none" %>
+      </div>
+      <div class="space-y-2">
+        <% if @recent_matches.any? %>
+          <% @recent_matches.each do |match| %>
+            <%= render "shared/match_card", match: match, games: [], show_expand: false %>
+          <% end %>
+        <% else %>
+          <div style="border:1px solid var(--retro-gold-dim);padding:24px;text-align:center;font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+            Nenhuma partida jogada ainda
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Times -->
+  <div style="margin-top:32px">
+    <div style="margin-bottom:16px">
+      <div class="retro-section-label">// CUP 2026</div>
+      <span class="retro-title">Times Participantes</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <% TEAMS_DATA.select { |_, v| v.key?(:captain) }.each do |name, data| %>
+        <%= link_to team_path(data[:slug]),
+              style: "display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 12px;border:1px solid var(--retro-gold-dim);background:var(--retro-card);text-decoration:none;position:relative;transition:border-color 0.15s",
+              onmouseover: "this.style.borderColor='var(--retro-gold)'",
+              onmouseout:  "this.style.borderColor='var(--retro-gold-dim)'" do %>
+          <%= team_logo(name, size: 50) %>
+          <div style="text-align:center">
+            <div style="font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= data[:abbr] %></div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px"><%= name %></div>
+            <div style="font-size:9px;color:var(--retro-gold-dim);font-family:Verdana,sans-serif;margin-top:2px"><%= data[:captain] %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

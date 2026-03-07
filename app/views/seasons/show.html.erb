@@ -1,0 +1,54 @@
+<div class="max-w-5xl mx-auto px-4 py-10">
+  <%= link_to "← Temporadas", seasons_path, class: "text-sm text-gray-500 hover:text-white transition-colors mb-6 inline-block" %>
+
+  <div class="mb-8">
+    <p class="text-kl-teal text-sm font-medium uppercase tracking-wider mb-1">IDL Kings Lendas</p>
+    <h1 class="text-3xl font-black text-white"><%= @season_data[:label] %></h1>
+    <% if @season_data[:champion] %>
+      <p class="text-lg text-kl-gold mt-1">
+        <i class="ri-trophy-fill"></i> Campeão: <span class="font-bold"><%= @season_data[:champion] %></span>
+      </p>
+    <% end %>
+  </div>
+
+  <!-- Standings -->
+  <div class="card-glass rounded-2xl overflow-hidden mb-6">
+    <div class="p-5 border-b border-kl-border">
+      <h2 class="text-lg font-bold text-white">Classificação Final</h2>
+    </div>
+    <% if @standings.any? %>
+      <div class="divide-y divide-kl-border/40">
+        <% @standings.each_with_index do |row, idx| %>
+          <div class="flex items-center gap-4 px-5 py-3 hover:bg-white/3 transition-colors">
+            <span class="w-7 text-center font-bold <%= idx.zero? ? 'text-kl-gold' : 'text-gray-500' %>">
+              <%= idx + 1 %>
+              <%= idx.zero? ? "🏆" : "" %>
+            </span>
+            <%= team_logo(row["Team"], size: 32) %>
+            <span class="flex-1 font-medium text-white"><%= row["Team"] %></span>
+            <span class="text-kl-win font-semibold"><%= row["Wins"] %>V</span>
+            <span class="text-kl-loss font-semibold ml-2"><%= row["Losses"] %>D</span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="p-8 text-center text-gray-500">Dados não disponíveis</div>
+    <% end %>
+  </div>
+
+  <!-- Top champions -->
+  <% if @champion_stats.any? %>
+    <div class="card-glass rounded-2xl p-5">
+      <h2 class="text-lg font-bold text-white mb-4">Top Campeões</h2>
+      <div class="grid grid-cols-5 sm:grid-cols-10 gap-3">
+        <% @champion_stats.each do |champ| %>
+          <div class="text-center">
+            <%= champion_icon(champ["Champion"], size: 44, css_class: "mx-auto") %>
+            <p class="text-xs text-gray-400 mt-1 truncate"><%= champ["Champion"] %></p>
+            <p class="text-xs text-kl-teal"><%= champ["Picks"] %>P</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

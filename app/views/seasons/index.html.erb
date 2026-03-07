@@ -1,0 +1,43 @@
+<div class="max-w-4xl mx-auto px-4 py-10">
+  <div class="mb-8">
+    <p class="text-kl-teal text-sm font-medium uppercase tracking-wider mb-1">IDL Kings Lendas</p>
+    <h1 class="text-3xl font-black text-white">Temporadas</h1>
+  </div>
+
+  <div class="grid gap-4">
+    <% @seasons.each do |season| %>
+      <% next if season[:slug] == "copa" %>
+      <%= link_to season_path(season[:slug]), class: "card-glass rounded-2xl p-6 hover-lift flex items-center gap-5 group" do %>
+        <div class="w-16 h-16 rounded-full bg-kl-gold/10 border border-kl-gold/30 flex items-center justify-center flex-shrink-0">
+          <span class="text-kl-gold font-black text-lg"><%= season[:slug].split("-").last&.upcase || "S" %></span>
+        </div>
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-white group-hover:text-kl-gold transition-colors"><%= season[:label] %></h2>
+          <p class="text-sm text-gray-500 mt-0.5"><%= season[:name] %></p>
+          <% if season[:champion] %>
+            <p class="text-sm text-kl-gold mt-1">
+              <i class="ri-trophy-fill text-xs"></i> Campeão: <span class="font-bold"><%= season[:champion] %></span>
+            </p>
+          <% end %>
+        </div>
+        <i class="ri-arrow-right-line text-gray-500 group-hover:text-kl-gold transition-colors text-xl"></i>
+      <% end %>
+    <% end %>
+
+    <!-- Copa link -->
+    <%= link_to cup_path, class: "card-glass rounded-2xl p-6 hover-lift flex items-center gap-5 group border border-kl-gold/20" do %>
+      <div class="w-16 h-16 rounded-full bg-kl-gold/20 border border-kl-gold/50 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(200,155,60,0.3)]">
+        <span class="text-kl-gold font-black text-lg">CUP</span>
+      </div>
+      <div class="flex-1">
+        <div class="flex items-center gap-2">
+          <h2 class="text-xl font-bold text-kl-gold">Kings Lendas Cup 2026</h2>
+          <span class="text-xs px-2 py-0.5 bg-kl-teal/20 text-kl-teal border border-kl-teal/30 rounded-full">EM ANDAMENTO</span>
+        </div>
+        <p class="text-sm text-gray-500 mt-0.5">Off-season • 6 times • 06–15/Mar/2026</p>
+        <p class="text-sm text-kl-gold mt-1">Premiação: R$ 50.000</p>
+      </div>
+      <i class="ri-arrow-right-line text-kl-gold text-xl"></i>
+    <% end %>
+  </div>
+</div>

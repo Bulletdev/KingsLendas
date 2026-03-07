@@ -1,0 +1,473 @@
+<div class="max-w-6xl mx-auto px-4 py-10">
+  <div style="margin-bottom:24px">
+    <div class="retro-section-label">// Kings Lendas Cup 2026</div>
+    <h1 class="retro-title-lg">Resultados</h1>
+  </div>
+
+  <!-- ═══ GROUP STAGE ═══ -->
+  <section style="margin-bottom:40px">
+    <div class="retro-sep" style="margin-bottom:16px">
+      <div class="retro-sep-line"></div>
+      <span class="retro-sep-label">FASE DE GRUPOS</span>
+      <div class="retro-sep-line-r"></div>
+    </div>
+
+    <div class="grid lg:grid-cols-[300px_1fr] gap-6">
+
+      <!-- Standings Table -->
+      <%= retro_panel(title: "Classificação", category: "// GRUPOS", footer: "Kings Lendas Cup 2026") do %>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr style="border-bottom:1px solid var(--retro-gold-dim)">
+              <th class="retro-table-head" style="text-align:center;width:28px">#</th>
+              <th class="retro-table-head" style="text-align:left">Time</th>
+              <th class="retro-table-head" style="text-align:center">V-D</th>
+              <th class="retro-table-head" style="text-align:center">WR%</th>
+              <th class="retro-table-head" style="text-align:center">Str</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @standings.each_with_index do |row, idx| %>
+              <% zone_color = idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.2)') %>
+              <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)">
+                <td style="padding:10px 8px;text-align:center">
+                  <div style="display:flex;align-items:center;gap:4px;justify-content:center">
+                    <span style="font-size:12px;font-weight:bold;color:<%= zone_color %>;font-family:Verdana,sans-serif"><%= idx + 1 %></span>
+                    <span style="width:2px;height:14px;background:<%= zone_color %>;opacity:0.6;flex-shrink:0"></span>
+                  </div>
+                </td>
+                <td style="padding:10px 8px 10px 0">
+                  <%= link_to team_path(team_slug(row["Team"])), style: "display:flex;align-items:center;gap:6px;text-decoration:none",
+                        onmouseover: "this.querySelector('span').style.color='var(--retro-gold)'",
+                        onmouseout:  "this.querySelector('span').style.color='rgba(255,255,255,0.8)'" do %>
+                    <%= team_logo(row["Team"], size: 22) %>
+                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;transition:color 0.15s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px"><%= row["Team"] %></span>
+                  <% end %>
+                </td>
+                <td style="padding:10px 8px;text-align:center;white-space:nowrap">
+                  <span style="font-size:13px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= row["Wins"] %></span>
+                  <span style="color:rgba(255,255,255,0.2);font-size:12px;margin:0 2px">-</span>
+                  <span style="font-size:13px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= row["Losses"] %></span>
+                </td>
+                <td style="padding:10px 8px;text-align:center">
+                  <% wins = row["Wins"].to_i; losses = row["Losses"].to_i; total = wins + losses %>
+                  <% pct = total.zero? ? 0 : (wins.to_f / total * 100).round %>
+                  <span style="font-size:12px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>">
+                    <%= pct %>%
+                  </span>
+                </td>
+                <td style="padding:10px 8px;text-align:center">
+                  <% str = @streak_map[row["Team"]] %>
+                  <span class="retro-status" style="font-size:9px;color:<%= str.to_s.end_with?('W') ? 'var(--color-kl-win)' : (str.to_s.end_with?('L') ? 'var(--color-kl-loss)' : 'rgba(255,255,255,0.3)') %>;border-color:<%= str.to_s.end_with?('W') ? 'var(--color-kl-win)' : (str.to_s.end_with?('L') ? 'var(--color-kl-loss)' : 'rgba(255,255,255,0.15)') %>">
+                    <%= str %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div style="padding:8px 0 4px;border-top:1px solid rgba(200,155,60,0.1);margin-top:4px;display:flex;flex-wrap:wrap;gap:12px">
+          <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif">
+            <span style="width:8px;height:8px;background:var(--retro-gold);opacity:0.6;display:inline-block"></span>Semifinal direto
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif">
+            <span style="width:8px;height:8px;background:var(--retro-teal);opacity:0.6;display:inline-block"></span>Quartas
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif">
+            <span style="width:8px;height:8px;background:rgba(255,255,255,0.2);display:inline-block"></span>Eliminado
+          </span>
+        </div>
+      <% end %>
+
+      <!-- Head-to-Head Matrix -->
+      <%= retro_panel(title: "Confronto Direto", category: "// H2H", footer: "Kings Lendas Cup 2026") do %>
+        <div class="overflow-x-auto">
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr style="border-bottom:1px solid var(--retro-gold-dim)">
+                <th class="retro-table-head" style="text-align:left;min-width:90px"></th>
+                <% @teams_order.each do |team| %>
+                  <th class="retro-table-head" style="text-align:center;min-width:52px">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+                      <%= team_logo(team, size: 18) %>
+                      <span style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= team_abbr(team) %></span>
+                    </div>
+                  </th>
+                <% end %>
+                <th class="retro-table-head" style="text-align:center;min-width:48px">Total</th>
+                <th class="retro-table-head" style="text-align:center;min-width:40px">WR%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @teams_order.each do |row_team| %>
+                <% row_s = @standings.find { |s| s["Team"] == row_team } %>
+                <% wins = row_s&.dig("Wins").to_i; losses = row_s&.dig("Losses").to_i %>
+                <% total = wins + losses; pct = total.zero? ? 0 : (wins.to_f / total * 100).round %>
+                <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)">
+                  <td style="padding:8px 8px 8px 0">
+                    <%= link_to team_path(team_slug(row_team)), style: "display:flex;align-items:center;gap:6px;text-decoration:none",
+                          onmouseover: "this.querySelector('span').style.color='var(--retro-gold)'",
+                          onmouseout:  "this.querySelector('span').style.color='rgba(255,255,255,0.7)'" do %>
+                      <%= team_logo(row_team, size: 18) %>
+                      <span style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.7);font-family:Verdana,sans-serif;transition:color 0.15s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:55px"><%= team_abbr(row_team) %></span>
+                    <% end %>
+                  </td>
+                  <% @teams_order.each do |col_team| %>
+                    <% record = @h2h.dig(row_team, col_team) %>
+                    <td style="padding:8px;text-align:center;background:<%= row_team == col_team ? 'rgba(255,255,255,0.03)' : 'transparent' %>">
+                      <% if row_team == col_team %>
+                        <span style="color:rgba(255,255,255,0.15);font-weight:bold;font-family:Verdana,sans-serif">—</span>
+                      <% elsif record && (record[:wins] > 0 || record[:losses] > 0) %>
+                        <span style="font-size:12px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= record[:wins] > record[:losses] ? 'var(--color-kl-win)' : (record[:wins] < record[:losses] ? 'var(--color-kl-loss)' : 'rgba(255,255,255,0.5)') %>">
+                          <%= record[:wins] %> - <%= record[:losses] %>
+                        </span>
+                      <% else %>
+                        <span style="font-size:12px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">0 - 0</span>
+                      <% end %>
+                    </td>
+                  <% end %>
+                  <td style="padding:8px;text-align:center">
+                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.75);font-family:Verdana,sans-serif"><%= wins %> - <%= losses %></span>
+                  </td>
+                  <td style="padding:8px;text-align:center">
+                    <span style="font-size:12px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>">
+                      <%= pct %>%
+                    </span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- ═══ PLAYOFFS BRACKET ═══ -->
+  <section style="margin-bottom:40px">
+    <div class="retro-sep" style="margin-bottom:16px">
+      <div class="retro-sep-line"></div>
+      <span class="retro-sep-label">PLAYOFFS</span>
+      <div class="retro-sep-line-r"></div>
+    </div>
+
+    <% qf_matches = @playoff_matches.select { |m| m["Phase"]&.match?(/quarter/i) } %>
+    <% sf_matches = @playoff_matches.select { |m| m["Phase"]&.match?(/semi/i) } %>
+    <% f_match    = @playoff_matches.find   { |m| m["Phase"]&.match?(/^finals?$/i) } %>
+
+    <div class="overflow-x-auto pb-2">
+      <div style="display:flex;align-items:stretch;gap:0;min-width:680px">
+
+        <!-- ── Quarterfinals ── -->
+        <div style="flex:1;min-width:180px">
+          <p style="font-size:10px;font-weight:bold;color:var(--retro-teal);letter-spacing:0.15em;margin-bottom:12px;text-align:center;font-family:Verdana,sans-serif">QUARTAS DE FINAL</p>
+          <div style="display:flex;flex-direction:column;gap:10px;height:calc(100% - 28px);justify-content:space-around">
+
+            <% qf1 = qf_matches.first; s3 = @standings[2]; s6 = @standings[5] %>
+            <div style="border:1px solid rgba(5,150,170,0.3);background:var(--retro-card);padding:10px;position:relative">
+              <div class="retro-corners"></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+                <span style="font-size:9px;color:var(--retro-teal);font-family:Verdana,sans-serif;letter-spacing:0.1em">BO3</span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+                  <% if qf1&.dig("DateTime_UTC").present? %><%= format_datetime_brt(qf1["DateTime_UTC"]) %><% else %>13/03<% end %>
+                </span>
+              </div>
+              <% [[s3, "#3"], [s6, "#6"]].each_with_index do |(seed, label), i| %>
+                <% winner_team = qf1&.dig("Winner"); seed_team = seed&.dig("Team") %>
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 0;<%= i == 1 ? 'border-top:1px solid rgba(200,155,60,0.1);margin-top:4px' : '' %>;<%= winner_team.present? && winner_team != seed_team ? 'opacity:0.35' : '' %>">
+                  <span style="font-size:10px;font-weight:bold;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;width:16px;text-align:center"><%= label %></span>
+                  <% if seed_team.present? %>
+                    <%= team_logo(seed_team, size: 18) %>
+                    <span style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(seed_team) %></span>
+                    <% if winner_team == seed_team %>
+                      <span style="font-size:11px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= [qf1["Team1Score"].to_i, qf1["Team2Score"].to_i].max %> - <%= [qf1["Team1Score"].to_i, qf1["Team2Score"].to_i].min %></span>
+                    <% end %>
+                  <% else %>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic">A definir</span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <% qf2 = qf_matches[1]; s4 = @standings[3]; s5 = @standings[4] %>
+            <div style="border:1px solid rgba(5,150,170,0.3);background:var(--retro-card);padding:10px;position:relative">
+              <div class="retro-corners"></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+                <span style="font-size:9px;color:var(--retro-teal);font-family:Verdana,sans-serif;letter-spacing:0.1em">BO3</span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+                  <% if qf2&.dig("DateTime_UTC").present? %><%= format_datetime_brt(qf2["DateTime_UTC"]) %><% else %>13/03<% end %>
+                </span>
+              </div>
+              <% [[s4, "#4"], [s5, "#5"]].each_with_index do |(seed, label), i| %>
+                <% winner_team = qf2&.dig("Winner"); seed_team = seed&.dig("Team") %>
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 0;<%= i == 1 ? 'border-top:1px solid rgba(200,155,60,0.1);margin-top:4px' : '' %>;<%= winner_team.present? && winner_team != seed_team ? 'opacity:0.35' : '' %>">
+                  <span style="font-size:10px;font-weight:bold;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;width:16px;text-align:center"><%= label %></span>
+                  <% if seed_team.present? %>
+                    <%= team_logo(seed_team, size: 18) %>
+                    <span style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(seed_team) %></span>
+                  <% else %>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic">A definir</span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- bracket connector -->
+        <div style="display:flex;flex-direction:column;justify-content:space-around;width:28px;flex-shrink:0">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:flex-end">
+            <div style="width:1px;flex:1;background:rgba(200,155,60,0.2);margin-right:0"></div>
+            <div style="width:14px;height:1px;background:rgba(200,155,60,0.2)"></div>
+            <div style="width:1px;flex:1;background:rgba(200,155,60,0.2);margin-right:0"></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:flex-end">
+            <div style="width:1px;flex:1;background:rgba(200,155,60,0.2)"></div>
+            <div style="width:14px;height:1px;background:rgba(200,155,60,0.2)"></div>
+            <div style="width:1px;flex:1;background:rgba(200,155,60,0.2)"></div>
+          </div>
+        </div>
+
+        <!-- ── Semifinals ── -->
+        <div style="flex:1;min-width:180px">
+          <p style="font-size:10px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.15em;margin-bottom:12px;text-align:center;font-family:Verdana,sans-serif">SEMIFINAIS</p>
+          <div style="display:flex;flex-direction:column;gap:10px;height:calc(100% - 28px);justify-content:space-around">
+
+            <% sf1 = sf_matches.first; s1 = @standings[0] %>
+            <div style="border:1px solid rgba(200,155,60,0.3);background:var(--retro-card);padding:10px;position:relative">
+              <div class="retro-corners"></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+                <span style="font-size:9px;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.1em">BO3</span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+                  <% if sf1&.dig("DateTime_UTC").present? %><%= format_datetime_brt(sf1["DateTime_UTC"]) %><% else %>14/03<% end %>
+                </span>
+              </div>
+              <% sf1_winner = sf1&.dig("Winner") %>
+              <% sf1_t2 = sf1 && sf1["Team1"].present? && sf1["Team1"] != s1&.dig("Team") ? sf1["Team1"] : (sf1&.dig("Team2").present? && sf1["Team2"] != s1&.dig("Team") ? sf1["Team2"] : nil) %>
+              <% [[s1&.dig("Team"), "#1", true], [sf1_t2, "QF", false]].each_with_index do |(team, label, is_seed), i| %>
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 0;<%= i == 1 ? 'border-top:1px solid rgba(200,155,60,0.1);margin-top:4px' : '' %>;<%= sf1_winner.present? && team.present? && sf1_winner != team ? 'opacity:0.35' : '' %>">
+                  <span style="font-size:10px;font-weight:bold;color:<%= is_seed ? 'var(--retro-gold)' : 'rgba(255,255,255,0.3)' %>;font-family:Verdana,sans-serif;width:16px;text-align:center"><%= label %></span>
+                  <% if team.present? %>
+                    <%= team_logo(team, size: 18) %>
+                    <span style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;flex:1"><%= team_abbr(team) %></span>
+                  <% else %>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic">Vencedor QF</span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <% sf2 = sf_matches[1]; s2 = @standings[1] %>
+            <div style="border:1px solid rgba(200,155,60,0.3);background:var(--retro-card);padding:10px;position:relative">
+              <div class="retro-corners"></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+                <span style="font-size:9px;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.1em">BO3</span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+                  <% if sf2&.dig("DateTime_UTC").present? %><%= format_datetime_brt(sf2["DateTime_UTC"]) %><% else %>14/03<% end %>
+                </span>
+              </div>
+              <% sf2_winner = sf2&.dig("Winner") %>
+              <% [[s2&.dig("Team"), "#2", true], [nil, "QF", false]].each_with_index do |(team, label, is_seed), i| %>
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 0;<%= i == 1 ? 'border-top:1px solid rgba(200,155,60,0.1);margin-top:4px' : '' %>;<%= sf2_winner.present? && team.present? && sf2_winner != team ? 'opacity:0.35' : '' %>">
+                  <span style="font-size:10px;font-weight:bold;color:<%= is_seed ? 'var(--retro-gold)' : 'rgba(255,255,255,0.3)' %>;font-family:Verdana,sans-serif;width:16px;text-align:center"><%= label %></span>
+                  <% if team.present? %>
+                    <%= team_logo(team, size: 18) %>
+                    <span style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif;flex:1"><%= team_abbr(team) %></span>
+                  <% else %>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic">Vencedor QF</span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- bracket connector -->
+        <div style="display:flex;flex-direction:column;justify-content:center;width:28px;flex-shrink:0">
+          <div style="display:flex;flex-direction:column;align-items:flex-end;height:120px">
+            <div style="width:1px;flex:1;background:rgba(200,155,60,0.2)"></div>
+            <div style="width:14px;height:1px;background:rgba(200,155,60,0.2)"></div>
+            <div style="width:1px;flex:1;background:rgba(200,155,60,0.2)"></div>
+          </div>
+        </div>
+
+        <!-- ── Final ── -->
+        <div style="flex:1;min-width:180px;display:flex;align-items:center">
+          <div style="width:100%">
+            <p style="font-size:10px;font-weight:bold;color:#ecc94b;letter-spacing:0.15em;margin-bottom:12px;text-align:center;font-family:Verdana,sans-serif">FINAL</p>
+            <% f_winner = f_match&.dig("Winner") %>
+            <div style="border:1px solid rgba(236,201,75,0.4);background:var(--retro-card);padding:12px;position:relative">
+              <div class="retro-corners"></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                <span style="font-size:9px;color:#ecc94b;font-family:Verdana,sans-serif;letter-spacing:0.1em">BO5</span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+                  <% if f_match&.dig("DateTime_UTC").present? %><%= format_datetime_brt(f_match["DateTime_UTC"]) %><% else %>15/03<% end %>
+                </span>
+              </div>
+              <% if f_winner.present? %>
+                <div style="text-align:center;padding:10px 0">
+                  <%= team_logo(f_winner, size: 48, css_class: "mx-auto") %>
+                  <p style="font-size:14px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif;margin-top:8px"><%= f_winner %></p>
+                  <p style="font-size:10px;color:#ecc94b;font-family:Verdana,sans-serif;letter-spacing:0.08em;margin-top:2px">CAMPEÃO</p>
+                </div>
+              <% else %>
+                <% [["SF1"], ["SF2"]].each_with_index do |(label), i| %>
+                  <div style="display:flex;align-items:center;gap:6px;padding:4px 0;<%= i == 1 ? 'border-top:1px solid rgba(200,155,60,0.1);margin-top:4px' : '' %>">
+                    <span style="font-size:11px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;width:16px;text-align:center">?</span>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic">Vencedor <%= label %></span>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MATCH SCHEDULE ═══ -->
+  <section>
+    <div class="retro-sep" style="margin-bottom:16px">
+      <div class="retro-sep-line"></div>
+      <span class="retro-sep-label">CALENDÁRIO</span>
+      <div class="retro-sep-line-r"></div>
+    </div>
+
+    <!-- Group Stage days -->
+    <% @group_by_day.each do |day_num, day_matches| %>
+      <% first_dt = day_matches.first&.dig("DateTime_UTC") %>
+      <% all_played = day_matches.all? { |m| m["Winner"].present? } %>
+      <% any_live = !all_played && day_matches.any? { |m| (dt = begin; Time.parse(m["DateTime_UTC"]).utc; rescue; nil; end) && dt < Time.current.utc && m["Winner"].blank? } %>
+
+      <div style="margin-bottom:28px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;letter-spacing:0.05em">DIA <%= day_num %></span>
+          <% if first_dt %>
+            <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif">
+              <%= begin; Time.parse(first_dt).in_time_zone("America/Sao_Paulo").strftime("%a %d/%m/%Y"); rescue; ""; end %>
+            </span>
+          <% end %>
+          <% if all_played %>
+            <span class="retro-status" style="color:var(--color-kl-win);border-color:var(--color-kl-win);font-size:9px">CONCLUÍDO</span>
+          <% elsif any_live %>
+            <span class="retro-status" style="color:#fc8181;border-color:#fc8181;font-size:9px;display:flex;align-items:center;gap:4px">
+              <span style="width:4px;height:4px;background:#fc8181;border-radius:50%;animation:live-pulse 2s ease-in-out infinite;display:inline-block"></span>AO VIVO
+            </span>
+          <% end %>
+        </div>
+
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <% day_matches.each do |match| %>
+            <% t1 = match["Team1"]; t2 = match["Team2"] %>
+            <% match_winner = match["Winner"]; match_played = match_winner.present? %>
+            <% t1s = match["Team1Score"].to_i; t2s = match["Team2Score"].to_i %>
+            <% match_dt = match["DateTime_UTC"] %>
+
+            <div style="border:1px solid <%= match_played ? 'rgba(200,155,60,0.15)' : 'rgba(5,150,170,0.15)' %>;background:var(--retro-card);padding:12px 14px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <span style="font-size:10px;color:<%= match_played ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.35)' %>;font-family:Verdana,sans-serif;font-weight:<%= match_played ? 'bold' : 'normal' %>">
+                  <%= match_played ? "Encerrado" : format_datetime_brt(match_dt) + " BRT" %>
+                </span>
+                <span style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Bo1</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;display:flex;align-items:center;gap:6px;min-width:0;opacity:<%= match_played && match_winner != t1 ? '0.4' : '1' %>">
+                  <%= team_logo(t1, size: 24) %>
+                  <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(t1) %></span>
+                  <% if match_winner == t1 %>
+                    <span style="margin-left:auto;font-size:11px;color:var(--color-kl-win);font-weight:bold;font-family:Verdana,sans-serif;flex-shrink:0">V</span>
+                  <% end %>
+                </div>
+                <div style="flex-shrink:0;text-align:center;min-width:48px">
+                  <% if match_played %>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:4px">
+                      <span style="font-size:20px;font-weight:900;font-family:Verdana,sans-serif;color:<%= match_winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t1s %></span>
+                      <span style="color:rgba(255,255,255,0.15);font-size:14px">:</span>
+                      <span style="font-size:20px;font-weight:900;font-family:Verdana,sans-serif;color:<%= match_winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t2s %></span>
+                    </div>
+                  <% else %>
+                    <span style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">VS</span>
+                  <% end %>
+                </div>
+                <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;opacity:<%= match_played && match_winner != t2 ? '0.4' : '1' %>">
+                  <% if match_winner == t2 %>
+                    <span style="margin-right:auto;font-size:11px;color:var(--color-kl-win);font-weight:bold;font-family:Verdana,sans-serif;flex-shrink:0">V</span>
+                  <% end %>
+                  <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right"><%= team_abbr(t2) %></span>
+                  <%= team_logo(t2, size: 24) %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Playoff matches schedule -->
+    <% @playoff_by_phase.each do |phase, phase_matches| %>
+      <div style="margin-bottom:28px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-size:12px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.05em"><%= phase_label(phase).upcase %></span>
+          <% first_dt = phase_matches.first&.dig("DateTime_UTC") %>
+          <% if first_dt %>
+            <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif">
+              <%= begin; Time.parse(first_dt).in_time_zone("America/Sao_Paulo").strftime("%a %d/%m/%Y"); rescue; ""; end %>
+            </span>
+          <% end %>
+        </div>
+
+        <div class="grid gap-3 sm:grid-cols-2">
+          <% phase_matches.each do |match| %>
+            <% t1 = match["Team1"]; t2 = match["Team2"] %>
+            <% match_winner = match["Winner"]; match_played = match_winner.present? %>
+            <% t1s = match["Team1Score"].to_i; t2s = match["Team2Score"].to_i %>
+            <% match_dt = match["DateTime_UTC"]; best_of = match["BestOf"].to_i %>
+
+            <div style="border:1px solid rgba(200,155,60,0.2);background:var(--retro-card);padding:12px 14px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <span style="font-size:10px;color:<%= match_played ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.35)' %>;font-family:Verdana,sans-serif;font-weight:<%= match_played ? 'bold' : 'normal' %>">
+                  <%= match_played ? "Encerrado" : (match_dt.present? ? format_datetime_brt(match_dt) + " BRT" : "A anunciar") %>
+                </span>
+                <span style="font-size:9px;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.05em">Bo<%= best_of > 0 ? best_of : 3 %></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;display:flex;align-items:center;gap:6px;min-width:0;opacity:<%= match_played && match_winner.present? && match_winner != t1 ? '0.4' : '1' %>">
+                  <% if t1.present? %>
+                    <%= team_logo(t1, size: 24) %>
+                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(t1) %></span>
+                  <% else %>
+                    <span style="width:24px;height:24px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">?</span>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic">TBD</span>
+                  <% end %>
+                </div>
+                <div style="flex-shrink:0;text-align:center;min-width:48px">
+                  <% if match_played %>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:4px">
+                      <span style="font-size:20px;font-weight:900;font-family:Verdana,sans-serif;color:<%= match_winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t1s %></span>
+                      <span style="color:rgba(255,255,255,0.15);font-size:14px">:</span>
+                      <span style="font-size:20px;font-weight:900;font-family:Verdana,sans-serif;color:<%= match_winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t2s %></span>
+                    </div>
+                  <% else %>
+                    <span style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">VS</span>
+                  <% end %>
+                </div>
+                <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;opacity:<%= match_played && match_winner.present? && match_winner != t2 ? '0.4' : '1' %>">
+                  <% if t2.present? %>
+                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right"><%= team_abbr(t2) %></span>
+                    <%= team_logo(t2, size: 24) %>
+                  <% else %>
+                    <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;font-style:italic;text-align:right">TBD</span>
+                    <span style="width:24px;height:24px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">?</span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>

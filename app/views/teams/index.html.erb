@@ -1,0 +1,69 @@
+<div class="max-w-6xl mx-auto px-4 py-10">
+  <div style="margin-bottom:24px">
+    <div class="retro-section-label">// Kings Lendas Cup 2026</div>
+    <h1 class="retro-title-lg">Times</h1>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% TEAMS_DATA.select { |_, v| v.key?(:captain) }.each do |name, data| %>
+      <% standing = @standings.find { |s| s["Team"] == name } %>
+      <% wins = standing&.dig("Wins").to_i; losses = standing&.dig("Losses").to_i %>
+      <%= link_to team_path(data[:slug]),
+            style: "display:block;border:1px solid var(--retro-gold-dim);background:var(--retro-card);padding:20px;text-decoration:none;position:relative;transition:border-color 0.15s",
+            onmouseover: "this.style.borderColor='var(--retro-gold)'",
+            onmouseout:  "this.style.borderColor='var(--retro-gold-dim)'" do %>
+        <div style="height:2px;background:linear-gradient(to right,<%= data[:color] %>,transparent);margin-bottom:14px"></div>
+        <div class="retro-corners"></div>
+
+        <!-- Team header -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <%= team_logo(name, size: 56) %>
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="font-size:18px;font-weight:bold;color:rgba(255,255,255,0.9);font-family:Verdana,sans-serif"><%= data[:abbr] %></span>
+              <span class="retro-status" style="font-size:9px;color:rgba(255,255,255,0.4);border-color:rgba(255,255,255,0.15)"><%= data[:parody_of] %></span>
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);font-family:Verdana,sans-serif;margin-top:2px"><%= name %></div>
+            <div style="font-size:10px;font-family:Verdana,sans-serif;margin-top:3px">
+              Cap: <span style="color:var(--retro-gold)"><%= data[:captain] %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Record -->
+        <% if wins + losses > 0 %>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <div style="flex:1;text-align:center;padding:8px 4px;border:1px solid rgba(0,211,100,0.2);background:rgba(0,211,100,0.06)">
+              <div style="font-size:20px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= wins %></div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em">VITÓRIAS</div>
+            </div>
+            <div style="flex:1;text-align:center;padding:8px 4px;border:1px solid rgba(255,68,68,0.2);background:rgba(255,68,68,0.06)">
+              <div style="font-size:20px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= losses %></div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em">DERROTAS</div>
+            </div>
+            <div style="flex:1;text-align:center;padding:8px 4px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03)">
+              <div style="font-size:20px;font-weight:bold;color:rgba(255,255,255,0.8);font-family:Verdana,sans-serif"><%= (wins.to_f / (wins + losses) * 100).round %>%</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em">WIN%</div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Roster preview -->
+        <div style="border-top:1px solid rgba(200,155,60,0.12);padding-top:10px">
+          <% data[:roster]&.reject { |m| m[:role] == "coach" }&.first(5)&.each do |member| %>
+            <div style="display:flex;align-items:center;gap:8px;padding:3px 0">
+              <span style="font-size:9px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif;text-transform:uppercase;width:40px;text-align:right"><%= member[:role] %></span>
+              <div style="width:4px;height:4px;border-radius:50%;background:<%= data[:color] %>;flex-shrink:0"></div>
+              <span style="font-size:12px;color:rgba(255,255,255,0.7);font-family:Verdana,sans-serif"><%= member[:player] %></span>
+              <% if member[:captain] %><span style="color:var(--retro-gold);font-size:11px">★</span><% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <div style="margin-top:12px;display:flex;justify-content:flex-end">
+          <span style="font-size:10px;color:var(--retro-teal);letter-spacing:0.08em;font-family:Verdana,sans-serif">VER PERFIL COMPLETO →</span>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

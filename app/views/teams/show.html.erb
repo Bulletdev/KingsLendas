@@ -1,0 +1,213 @@
+<div class="max-w-5xl mx-auto px-4 py-10">
+  <%= link_to "← Todos os times", teams_path, style: "font-size:12px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:20px;display:inline-block" %>
+
+  <!-- Team Header -->
+  <div style="border:1px solid var(--retro-gold);background:var(--retro-card);position:relative;overflow:hidden;margin-bottom:24px">
+    <div class="retro-corners"></div>
+    <div class="retro-corners-b"></div>
+    <!-- gold top bar -->
+    <div style="height:2px;background:linear-gradient(to right,var(--retro-gold),transparent)"></div>
+
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6">
+      <%= team_logo(@team_name, size: 96, css_class: "flex-shrink-0 shadow-lg") %>
+
+      <div class="text-center sm:text-left">
+        <div class="retro-section-label">// <%= @team_info[:parody_of]&.upcase %></div>
+        <h1 style="font-size:30px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.04em;margin:0">
+          <%= @team_name %>
+        </h1>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px">
+          <span class="retro-status" style="color:var(--retro-gold);border-color:var(--retro-gold-dim)"><%= @team_info[:abbr] %></span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
+            Capitão: <span style="color:var(--retro-gold);font-weight:bold"><%= @team_info[:captain] %></span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Record -->
+      <div class="sm:ml-auto flex gap-3">
+        <div class="retro-stat-box">
+          <div class="retro-stat-accent" style="background:linear-gradient(to right,var(--color-kl-win),transparent)"></div>
+          <div class="retro-stat-label">Vitórias</div>
+          <div class="retro-stat-value" style="color:var(--color-kl-win)"><%= @record[:wins] %></div>
+        </div>
+        <div class="retro-stat-box">
+          <div class="retro-stat-accent" style="background:linear-gradient(to right,var(--color-kl-loss),transparent)"></div>
+          <div class="retro-stat-label">Derrotas</div>
+          <div class="retro-stat-value" style="color:var(--color-kl-loss)"><%= @record[:losses] %></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer strip -->
+    <div style="height:18px;background:linear-gradient(to right,var(--retro-blue),var(--retro-bg));border-top:1px solid var(--retro-gold-dim);display:flex;align-items:center;justify-content:center">
+      <span class="retro-panel-footer-label">TEAM PROFILE ◆ KINGS LENDAS CUP</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Roster -->
+    <div class="lg:col-span-1 space-y-4">
+
+      <%= retro_panel(title: "Roster", category: "// EQUIPE", footer: @team_name) do %>
+        <%
+          players = (@team_info[:roster] || []).reject { |m| m[:role] == "coach" }
+          coaches = (@team_info[:roster] || []).select { |m| m[:role] == "coach" }
+        %>
+        <div style="padding:4px 0">
+          <% players.each do |member| %>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 8px 10px 0;border-bottom:1px solid rgba(200,155,60,0.1)">
+              <%= player_photo(member[:player], @team_name, size: 38, css_class: "border flex-shrink-0") %>
+              <div style="flex:1;min-width:0">
+                <%= link_to player_path(player_slug(member[:player])),
+                      style: "font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
+                      onmouseover: "this.style.color='var(--retro-gold)'",
+                      onmouseout:  "this.style.color='rgba(255,255,255,0.85)'" do %>
+                  <%= member[:player] %>
+                  <% if member[:captain] %><span style="color:var(--retro-gold);margin-left:4px">★</span><% end %>
+                <% end %>
+              </div>
+              <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+                <%= lane_icon(member[:role], size: 16) %>
+                <span style="font-size:10px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.05em"><%= role_label(member[:role]).upcase %></span>
+              </div>
+            </div>
+          <% end %>
+
+          <% if coaches.any? %>
+            <div style="padding-top:8px">
+              <div class="retro-sep" style="margin-bottom:6px">
+                <div class="retro-sep-line"></div>
+                <span class="retro-sep-label">Coach</span>
+                <div class="retro-sep-line-r"></div>
+              </div>
+              <% coaches.each do |member| %>
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 8px 8px 0">
+                  <%= player_photo(member[:player], @team_name, size: 36, css_class: "border flex-shrink-0 opacity-80") %>
+                  <span style="font-size:13px;color:rgba(255,255,255,0.6);font-family:Verdana,sans-serif"><%= member[:player] %></span>
+                  <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+                    <%= lane_icon("coach", size: 14) %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Fav picks -->
+      <% if @fav_picks.any? %>
+        <%= retro_panel(title: "Picks Favoritos", category: "// DRAFT", footer: @team_name) do %>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;padding:8px 0">
+            <% @fav_picks.each do |champ, count| %>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+                <%= champion_icon(champ, size: 38) %>
+                <span style="font-size:10px;color:var(--retro-gold-dim);font-family:Verdana,sans-serif"><%= count %>x</span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <!-- Fav bans -->
+      <% if @fav_bans.any? %>
+        <%= retro_panel(title: "Bans Favoritos", category: "// DRAFT", footer: @team_name) do %>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;padding:8px 0">
+            <% @fav_bans.each do |champ, count| %>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+                <%= champion_icon(champ, size: 34, css_class: "opacity-50 grayscale") %>
+                <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= count %>x</span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Stats + Histórico -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <% if @player_stats.any? %>
+        <%= retro_panel(title: "Stats dos Jogadores", category: "// PERFORMANCE", footer: @team_name) do %>
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr style="border-bottom:1px solid var(--retro-gold-dim)">
+                <th class="retro-table-head" style="text-align:left">Jogador</th>
+                <th class="retro-table-head" style="text-align:center">Jogos</th>
+                <th class="retro-table-head" style="text-align:center">KDA</th>
+                <th class="retro-table-head hidden sm:table-cell" style="text-align:center">K/D/A</th>
+                <th class="retro-table-head hidden md:table-cell" style="text-align:center">CS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @player_stats.each do |p| %>
+                <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.1)">
+                  <td style="padding:10px 12px 10px 0">
+                    <%= link_to player_path(player_slug(p["player"])),
+                          style: "display:flex;align-items:center;gap:6px",
+                          onmouseover: "this.querySelector('span').style.color='var(--retro-gold)'",
+                          onmouseout:  "this.querySelector('span').style.color='rgba(255,255,255,0.85)'" do %>
+                      <span style="font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;transition:color 0.15s"><%= p["player"] %></span>
+                      <% if TEAMS_DATA[@team_name]&.dig(:captain) == p["player"] %>
+                        <span style="color:var(--retro-gold);font-size:11px">★</span>
+                      <% end %>
+                      <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;text-transform:uppercase"><%= role_label(p["role"]) %></span>
+                    <% end %>
+                  </td>
+                  <td style="padding:10px 8px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= p["games"] %></td>
+                  <td style="padding:10px 8px;text-align:center">
+                    <span style="font-size:14px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= kda_color(p['kda']) %>"><%= p["kda"] %></span>
+                  </td>
+                  <td class="hidden sm:table-cell" style="padding:10px 8px;text-align:center;font-size:12px;font-family:Verdana,sans-serif">
+                    <span style="color:var(--color-kl-win)"><%= p["avg_kills"] %></span>
+                    <span style="color:rgba(255,255,255,0.25)">/</span>
+                    <span style="color:var(--color-kl-loss)"><%= p["avg_deaths"] %></span>
+                    <span style="color:rgba(255,255,255,0.25)">/</span>
+                    <span style="color:var(--retro-teal)"><%= p["avg_assists"] %></span>
+                  </td>
+                  <td class="hidden md:table-cell" style="padding:10px 8px;text-align:center;font-size:12px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= p["avg_cs"] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+
+      <!-- Match history -->
+      <%= retro_panel(title: "Histórico de Partidas", category: "// MATCHES", footer: @team_name) do %>
+        <%
+          played = @team_matches.select { |m| m["Winner"].present? }
+        %>
+        <% if played.any? %>
+          <div style="padding:4px 0">
+            <% played.reverse.each do |match| %>
+              <%
+                won = match["Winner"] == @team_name
+                opp = match["Team1"] == @team_name ? match["Team2"] : match["Team1"]
+              %>
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 8px 10px 0;border-bottom:1px solid rgba(200,155,60,0.1)">
+                <span class="retro-status" style="color:<%= won ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;border-color:<%= won ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;background:<%= won ? 'rgba(0,211,100,0.08)' : 'rgba(255,68,68,0.08)' %>;flex-shrink:0">
+                  <%= won ? 'V' : 'D' %>
+                </span>
+                <div style="display:flex;align-items:center;gap:8px;flex:1">
+                  <%= team_logo(opp, size: 26) %>
+                  <span style="font-size:13px;color:rgba(255,255,255,0.75);font-family:Verdana,sans-serif"><%= opp %></span>
+                </div>
+                <div style="text-align:right;flex-shrink:0">
+                  <div style="font-size:14px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif">
+                    <%= match["Team1Score"] %>–<%= match["Team2Score"] %>
+                  </div>
+                  <div style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= format_datetime_brt(match["DateTime_UTC"]) %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div style="padding:32px 20px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+            Nenhuma partida jogada ainda
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
