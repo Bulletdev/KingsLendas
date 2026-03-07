@@ -7,7 +7,7 @@ class CupController < ApplicationController
       description: "Visão geral da Kings Lendas Cup — classificação, partidas e estatísticas."
     )
     @standings = load_standings
-    @recent_matches = @schedule.select { |m| m["Winner"].present? }.last(5)
+    @recent_matches = @schedule.select { |m| m["Winner"].present? }.first(5)
     @next_match = find_next_match
   end
 
@@ -20,7 +20,9 @@ class CupController < ApplicationController
   def matches
     set_meta_tags(title: "Partidas — Kings Lendas Cup")
     @games_by_unique = @games.index_by { |g| g["UniqueGame"] }
-    @matches_grouped  = @schedule.group_by { |m| m["Phase"] || "Grupos" }
+    played   = @schedule.select { |m| m["Winner"].present? }
+    upcoming = @schedule.select { |m| m["Winner"].blank? }.sort_by { |m| m["DateTime_UTC"].to_s }
+    @matches_grouped = (played + upcoming).group_by { |m| m["Phase"] || "Grupos" }
   end
 
   def draft
@@ -102,7 +104,7 @@ class CupController < ApplicationController
     played = schedule.select { |m| m["Winner"].present? }
     teams = TEAMS_DATA.keys.first(6)
     teams.each_with_object({}) do |team, hash|
-      team_matches = played.select { |m| m["Team1"] == team || m["Team2"] == team }.last(5)
+      team_matches = played.select { |m| m["Team1"] == team || m["Team2"] == team }.first(5)
       hash[team] = team_matches.map { |m| m["Winner"] == team ? "W" : "L" }
     end
   end

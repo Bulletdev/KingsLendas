@@ -4,7 +4,7 @@ class LpMatch < ApplicationRecord
   scope :upcoming,     -> { where(winner: [ nil, "" ]) }
   scope :group_stage,  -> { where("phase IS NULL OR phase = '' OR (phase NOT LIKE '%quarter%' AND phase NOT LIKE '%semi%' AND phase NOT LIKE '%final%')") }
   scope :playoffs,     -> { where("phase LIKE '%quarter%' OR phase LIKE '%semi%' OR phase LIKE '%final%'") }
-  scope :ordered,      -> { order(:datetime_utc) }
+  scope :ordered,      -> { order(datetime_utc: :desc) }
 
   def as_leaguepedia_hash
     {
