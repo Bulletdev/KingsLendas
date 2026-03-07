@@ -3,10 +3,9 @@ class TeamsController < ApplicationController
 
   def index
     set_meta_tags(title: "Times — Kings Lendas Cup")
-    @standings = CacheService.fetch("standings:cup", :standings) { leaguepedia.standings }
     @teams = TEAMS_DATA.select { |_, v| v.key?(:captain) }
-    @schedule = CacheService.fetch("schedule:cup", :schedule) { leaguepedia.schedule }
-    @records = build_records(@schedule)
+    schedule = db_schedule
+    @records = build_records(schedule)
   end
 
   def show
@@ -19,18 +18,16 @@ class TeamsController < ApplicationController
 
     set_meta_tags(title: "#{@team_name} — Kings Lendas Cup")
 
-    @schedule = CacheService.fetch("schedule:cup", :schedule) { leaguepedia.schedule }
+    @schedule     = db_schedule
     @team_matches = @schedule.select { |m| m["Team1"] == @team_name || m["Team2"] == @team_name }
     @record = {
       wins:   @team_matches.count { |m| m["Winner"] == @team_name },
       losses: @team_matches.count { |m| m["Winner"].present? && m["Winner"] != @team_name }
     }
 
-    raw_players = CacheService.fetch("players:cup", :player_stats) { leaguepedia.scoreboard_players }
-    @player_stats = aggregate_team_players(raw_players.select { |p| p["Team"] == @team_name })
+    @player_stats = aggregate_team_players(db_players.select { |p| p["Team"] == @team_name })
 
-    @games = CacheService.fetch("games:cup", :match_details) { leaguepedia.scoreboard_games }
-    @team_games = @games.select { |g| g["Team1"] == @team_name || g["Team2"] == @team_name }
+    @team_games = db_games.select { |g| g["Team1"] == @team_name || g["Team2"] == @team_name }
     @fav_picks, @fav_bans = favorite_picks_bans(@team_games, @team_name)
   end
 
