@@ -68,12 +68,17 @@ class CupController < ApplicationController
     @h2h          = build_h2h(@schedule)
     @streak_map   = build_streak_map(@schedule)
 
-    @group_matches   = @schedule.reject { |m| playoff_phase?(m["Phase"]) }
-    @playoff_matches = @schedule.select { |m| playoff_phase?(m["Phase"]) }
+    tbd = ->(m) { m["Team1"].to_s.strip.downcase == "tbd" || m["Team2"].to_s.strip.downcase == "tbd" }
 
-    @group_by_day = @group_matches
-      .group_by { |m| m["MatchDay"]&.to_i || 1 }
+    @group_matches   = @schedule.reject { |m| playoff_phase?(m["Phase"]) || tbd.(m) }
+    @playoff_matches = @schedule.select { |m| playoff_phase?(m["Phase"]) || tbd.(m) }
+
+    # Group by calendar date (YYYY-MM-DD) and assign sequential day numbers
+    grouped_by_date = @group_matches
+      .group_by { |m| m["DateTime_UTC"].to_s[0, 10] }
       .sort.to_h
+    day_index = grouped_by_date.keys.each_with_index.to_h
+    @group_by_day = grouped_by_date.transform_keys { |date| day_index[date] + 1 }
 
     @playoff_by_phase = @playoff_matches
       .group_by { |m| m["Phase"] }
