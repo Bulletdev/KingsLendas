@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: kings_lendas_dev
+    environment:
+      RAILS_ENV: development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      BOOTSNAP_CACHE_DIR: /bootsnap_cache
+    ports:
+      - "3003:3001"
+    volumes:
+      - .:/rails
+      - bootsnap_cache:/bootsnap_cache
+
+volumes:
+  bootsnap_cache:
