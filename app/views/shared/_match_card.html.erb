@@ -19,14 +19,14 @@
        <% if show_expand && match_games.any? %>data-action="click->match-accordion#toggle"<% end %>>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
       <% if match["Phase"].present? %>
-        <span class="retro-status" style="color:var(--retro-teal);border-color:var(--retro-teal)">
+        <span class="retro-status" style="color:var(--retro-teal);border-color:var(--retro-teal);font-size:9px">
           <%= phase_label(match["Phase"]) %>
         </span>
       <% end %>
-      <span style="font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Bo<%= best_of > 0 ? best_of : 1 %></span>
-      <span style="margin-left:auto;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= format_datetime_brt(dt) %> BRT</span>
+      <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Bo<%= best_of > 0 ? best_of : 1 %></span>
+      <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= format_datetime_brt(dt) %> BRT</span>
       <% if show_expand && match_games.any? %>
-        <span style="color:rgba(255,255,255,0.35);font-size:14px" data-match-accordion-target="icon">▼</span>
+        <span style="color:rgba(255,255,255,0.35);font-size:12px" data-match-accordion-target="icon">▼</span>
       <% end %>
     </div>
 
@@ -35,11 +35,11 @@
 
       <!-- Team 1 -->
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:<%= played && winner != t1 ? '0.35' : '1' %>">
-        <%= team_logo(t1, size: 52) %>
-        <span style="font-size:14px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t1) %></span>
+        <%= team_logo(t1, size: 48) %>
+        <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t1) %></span>
         <% captain1 = TEAMS_DATA[t1]&.dig(:captain) %>
         <% if captain1 %>
-          <span style="font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain1 %></span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain1 %></span>
         <% end %>
       </div>
 
@@ -47,15 +47,15 @@
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:72px">
         <% if played %>
           <div style="display:flex;align-items:center;gap:10px">
-            <span style="font-size:34px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t1_score %></span>
-            <span style="color:rgba(255,255,255,0.15);font-weight:bold;font-size:20px">:</span>
-            <span style="font-size:34px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t2_score %></span>
+            <span style="font-size:30px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t1_score %></span>
+            <span style="color:rgba(255,255,255,0.15);font-weight:bold;font-size:18px">:</span>
+            <span style="font-size:30px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t2_score %></span>
           </div>
-          <span style="font-size:11px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.12em;font-family:Verdana,sans-serif">ENCERRADO</span>
+          <span style="font-size:9px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.12em;font-family:Verdana,sans-serif">ENCERRADO</span>
         <% else %>
-          <div style="font-size:28px;font-weight:900;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">VS</div>
+          <div style="font-size:24px;font-weight:900;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">VS</div>
           <% if dt.present? %>
-            <span style="font-size:11px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"
+            <span style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"
                   data-controller="countdown"
                   data-countdown-target-value="<%= dt %>">Em breve</span>
           <% end %>
@@ -64,11 +64,11 @@
 
       <!-- Team 2 -->
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:<%= played && winner != t2 ? '0.35' : '1' %>">
-        <%= team_logo(t2, size: 52) %>
-        <span style="font-size:14px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t2) %></span>
+        <%= team_logo(t2, size: 48) %>
+        <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t2) %></span>
         <% captain2 = TEAMS_DATA[t2]&.dig(:captain) %>
         <% if captain2 %>
-          <span style="font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain2 %></span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain2 %></span>
         <% end %>
       </div>
     </div>
@@ -80,9 +80,9 @@
       <% match_games.each_with_index do |game, idx| %>
         <div style="padding:12px 16px;<%= idx > 0 ? 'border-top:1px solid rgba(200,155,60,0.08)' : '' %>">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-            <span style="font-size:12px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em">GAME <%= idx + 1 %></span>
-            <span style="font-size:12px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">◆ <%= format_game_duration(game["Gamelength"]) %></span>
-            <span style="margin-left:auto;font-size:14px;font-family:Verdana,sans-serif">
+            <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em">GAME <%= idx + 1 %></span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">◆ <%= format_game_duration(game["Gamelength"]) %></span>
+            <span style="margin-left:auto;font-size:13px;font-family:Verdana,sans-serif">
               <span style="color:<%= game['Winner'] == t1 ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;font-weight:bold"><%= game['Team1Kills'] %></span>
               <span style="color:rgba(255,255,255,0.2)">/</span>
               <span style="color:<%= game['Winner'] == t2 ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;font-weight:bold"><%= game['Team2Kills'] %></span>
@@ -92,18 +92,18 @@
           <!-- Picks row -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div>
-              <p style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Picks <%= team_abbr(t1) %></p>
+              <p style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Picks <%= team_abbr(t1) %></p>
               <div style="display:flex;gap:3px;flex-wrap:wrap">
                 <% game["Team1Picks"].to_s.split(",").map(&:strip).each do |champ| %>
-                  <%= champion_icon(champ, size: 36) %>
+                  <%= champion_icon(champ, size: 32) %>
                 <% end %>
               </div>
             </div>
             <div>
-              <p style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Picks <%= team_abbr(t2) %></p>
+              <p style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Picks <%= team_abbr(t2) %></p>
               <div style="display:flex;gap:3px;flex-wrap:wrap">
                 <% game["Team2Picks"].to_s.split(",").map(&:strip).each do |champ| %>
-                  <%= champion_icon(champ, size: 36) %>
+                  <%= champion_icon(champ, size: 32) %>
                 <% end %>
               </div>
             </div>
@@ -112,11 +112,11 @@
           <!-- Bans row -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
             <div>
-              <p style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Bans</p>
+              <p style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Bans</p>
               <div style="display:flex;gap:3px;flex-wrap:wrap">
                 <% game["Team1Bans"].to_s.split(",").map(&:strip).each do |champ| %>
                   <div style="position:relative">
-                    <%= champion_icon(champ, size: 30, css_class: "opacity-60 grayscale") %>
+                    <%= champion_icon(champ, size: 28, css_class: "opacity-60 grayscale") %>
                     <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
                       <div style="width:100%;height:1px;background:#ef4444;transform:rotate(45deg);position:absolute"></div>
                     </div>
@@ -125,11 +125,11 @@
               </div>
             </div>
             <div>
-              <p style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Bans</p>
+              <p style="font-size:9px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Bans</p>
               <div style="display:flex;gap:3px;flex-wrap:wrap">
                 <% game["Team2Bans"].to_s.split(",").map(&:strip).each do |champ| %>
                   <div style="position:relative">
-                    <%= champion_icon(champ, size: 30, css_class: "opacity-60 grayscale") %>
+                    <%= champion_icon(champ, size: 28, css_class: "opacity-60 grayscale") %>
                     <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
                       <div style="width:100%;height:1px;background:#ef4444;transform:rotate(45deg);position:absolute"></div>
                     </div>
@@ -143,7 +143,7 @@
           <div style="margin-top:10px;text-align:center">
             <%= turbo_frame_tag "scoreboard_#{game['UniqueGame']}" do %>
               <a href="#" data-lazy-src="<%= api_game_scoreboard_path(game['UniqueGame']) %>"
-                 style="font-size:12px;color:var(--retro-teal);font-family:Verdana,sans-serif;text-decoration:none;letter-spacing:0.08em">
+                 style="font-size:10px;color:var(--retro-teal);font-family:Verdana,sans-serif;text-decoration:none;letter-spacing:0.08em">
                 VER SCOREBOARD DETALHADO →
               </a>
             <% end %>

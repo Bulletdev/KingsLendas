@@ -35,7 +35,7 @@
    BASE — body overlay, headings, scrollbar (= prostaff)
    ============================================================ */
 @layer base {
-  html { overflow-x: hidden; width: 100%; scroll-behavior: smooth; font-size: 112%; }
+  html { overflow-x: hidden; width: 100%; scroll-behavior: smooth; }
 
   body {
     font-family: var(--font-inter);
@@ -223,7 +223,7 @@
   }
 
   .retro-panel-footer-label {
-    font-size: 11px;
+    font-size: 9px;
     color: var(--retro-gold-dim);
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -298,7 +298,7 @@
     flex-shrink: 0;
   }
   .retro-sep-label {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--retro-gold-dim);
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -307,7 +307,7 @@
 
   /* ── RetroBadge — rótulo de categoria ── */
   .retro-badge {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--retro-teal);
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -317,7 +317,7 @@
 
   /* ── Título retro dourado ── */
   .retro-title {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
     color: var(--retro-gold);
     letter-spacing: 0.04em;
@@ -327,7 +327,7 @@
   }
 
   .retro-title-lg {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: bold;
     color: var(--retro-gold);
     letter-spacing: 0.04em;
@@ -349,7 +349,7 @@
     background: linear-gradient(to right, var(--retro-gold), transparent);
   }
   .retro-stat-label {
-    font-size: 11px;
+    font-size: 9px;
     color: var(--retro-gold-dim);
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -357,14 +357,14 @@
     margin-bottom: 4px;
   }
   .retro-stat-value {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: bold;
     color: var(--retro-gold);
     line-height: 1;
     font-family: var(--retro-font);
   }
   .retro-stat-sub {
-    font-size: 13px;
+    font-size: 11px;
     color: rgba(255,255,255,0.4);
     margin-top: 5px;
     font-family: var(--retro-font);
@@ -372,7 +372,7 @@
 
   /* ── Table rows retro ── */
   .retro-table-head {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--retro-gold-dim);
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -391,7 +391,7 @@
 
   /* ── Section label com // prefix ── */
   .retro-section-label {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--retro-gold-dim);
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -401,7 +401,7 @@
 
   /* ── Status badge retro ── */
   .retro-status {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
     font-family: var(--retro-font);
     letter-spacing: 0.12em;
