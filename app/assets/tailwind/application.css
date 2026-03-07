@@ -1,0 +1,634 @@
+@import "tailwindcss";
+
+/* Explicit source paths so Tailwind 4 scans ERB/Ruby templates */
+@source "../../views/**/*.erb";
+@source "../../views/**/*.html";
+@source "../../helpers/**/*.rb";
+@source "../../javascript/**/*.js";
+@source "../../controllers/**/*.rb";
+
+/* Safelist: opacity variants used inside Ruby string interpolation (not auto-detected by Tailwind scanner) */
+@source inline("bg-kl-gold/10 bg-kl-gold/20 bg-kl-gold/60 bg-kl-teal/10 bg-kl-teal/20 bg-kl-teal/60 bg-kl-win/10 bg-kl-win/20 bg-kl-loss/10 bg-kl-loss/20 bg-kl-card/30 bg-kl-card/50 bg-kl-card/80 bg-kl-border/40 bg-white/3 bg-white/5 bg-white/7 bg-white/10 border-kl-gold/20 border-kl-gold/30 border-kl-gold/50 border-kl-teal/30 border-kl-win/20 border-kl-win/30 border-kl-loss/20 border-kl-loss/30 border-kl-border/50 text-kl-teal/70 text-kl-teal/80 hover:bg-white/5 hover:bg-white/7 hover:bg-white/10");
+
+/* ============================================================
+   Kings Lendas Design System — portado do prostaff-analytics-hub
+   Tailwind CSS v4 (@theme + @layer)
+   ============================================================ */
+
+@theme {
+  --color-kl-gold:       #C89B3C;
+  --color-kl-gold-light: #F0E6D2;
+  --color-kl-gold-dark:  #A07830;
+  --color-kl-blue:       #0C223F;
+  --color-kl-teal:       #0596AA;
+  --color-kl-bg:         #0A0E1A;
+  --color-kl-card:       #0F1823;
+  --color-kl-muted:      #1A2235;
+  --color-kl-border:     #252D3D;
+  --color-kl-win:        #00D364;
+  --color-kl-loss:       #FF4444;
+  --color-kl-warning:    #F59E0B;
+  --font-inter: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ============================================================
+   BASE — body overlay, headings, scrollbar (= prostaff)
+   ============================================================ */
+@layer base {
+  html { overflow-x: hidden; width: 100%; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-inter);
+    font-weight: 500;
+    color: #ffffff;
+    background-color: var(--color-kl-bg);
+    overflow-x: hidden;
+    line-height: 1.75;
+    background-image: url('/backgrounds/kings-lendas-bg.webp');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  /* Dark overlay — exatamente como o prostaff */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 14, 26, 0.65);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  body > * { position: relative; z-index: 1; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-inter);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  p { font-weight: 500; line-height: 1.75; }
+  img { content-visibility: auto; }
+  img[loading="lazy"] { min-height: 1px; }
+  * { box-sizing: border-box; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar            { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track      { background: var(--color-kl-bg); }
+  ::-webkit-scrollbar-thumb      { background: var(--color-kl-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover{ background: var(--color-kl-gold); }
+}
+
+/* ============================================================
+   RETRO DESIGN SYSTEM — portado do prostaff-analytics-hub/RetroPanel
+   ============================================================ */
+@layer components {
+
+  /* ── Tokens de cor Retro ── */
+  :root {
+    --retro-gold:       #C89B3C;
+    --retro-gold-dim:   rgba(200,155,60,0.5);
+    --retro-gold-faint: rgba(200,155,60,0.12);
+    --retro-blue:       #0C223F;
+    --retro-blue-dark:  #0A1929;
+    --retro-bg:         rgba(10,14,26,0.92);
+    --retro-card:       rgba(15,24,35,0.92);
+    --retro-teal:       #0596AA;
+    --retro-font:       Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  /* ── Padrões de fundo Retro ── */
+  .retro-scanline {
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 3px,
+      rgba(200,155,60,0.04) 3px, rgba(200,155,60,0.04) 4px
+    );
+  }
+  .retro-diagonal {
+    background-image: repeating-linear-gradient(
+      45deg, transparent, transparent 6px,
+      rgba(200,155,60,0.03) 6px, rgba(200,155,60,0.03) 7px
+    );
+  }
+  .retro-grid {
+    background-image:
+      linear-gradient(rgba(200,155,60,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,155,60,0.06) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* ── RetroPanel — estrutura principal ── */
+  .retro-panel {
+    font-family: var(--retro-font);
+    position: relative;
+    width: 100%;
+  }
+
+  .retro-panel-header {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--retro-gold);
+    border-bottom: none;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--retro-blue) 0%, var(--retro-blue-dark) 100%);
+    min-height: 48px;
+  }
+
+  /* padrão diagonal no header */
+  .retro-panel-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg, transparent, transparent 6px,
+      rgba(200,155,60,0.04) 6px, rgba(200,155,60,0.04) 7px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* left slot do header (ícone/número) */
+  .retro-panel-header-slot {
+    flex-shrink: 0;
+    width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--retro-gold);
+    background: linear-gradient(135deg, var(--retro-blue) 0%, var(--retro-blue-dark) 100%);
+    position: relative;
+    z-index: 1;
+  }
+
+  .retro-panel-header-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* barra vertical esquerda dourada no header sem slot */
+  .retro-panel-header-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--retro-gold), transparent 80%);
+    z-index: 2;
+  }
+
+  /* linha separadora gold embaixo do header */
+  .retro-panel-divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--retro-gold), rgba(200,155,60,0.12) 60%, transparent);
+  }
+
+  /* corpo do painel */
+  .retro-panel-body {
+    background: var(--retro-card);
+    border-left: 1px solid var(--retro-gold);
+    border-right: 1px solid var(--retro-gold);
+    position: relative;
+  }
+
+  /* barra lateral esquerda dourada no body */
+  .retro-panel-body::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--retro-gold), rgba(200,155,60,0.12) 60%, transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .retro-panel-body-inner {
+    padding-left: 12px;
+  }
+
+  /* footer strip */
+  .retro-panel-footer {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    background: linear-gradient(to right, var(--retro-blue), var(--retro-bg));
+    border: 1px solid var(--retro-gold);
+    border-top: 1px solid var(--retro-gold-dim);
+  }
+
+  .retro-panel-footer-label {
+    font-size: 9px;
+    color: var(--retro-gold-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+  }
+
+  /* ── RetroCorners — cantos HUD ── */
+  .retro-corners {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .retro-corners::before,
+  .retro-corners::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+  }
+  .retro-corners::before {
+    top: 0; left: 0;
+    border-top: 2px solid var(--retro-gold);
+    border-left: 2px solid var(--retro-gold);
+  }
+  .retro-corners::after {
+    top: 0; right: 0;
+    border-top: 2px solid var(--retro-gold);
+    border-right: 2px solid var(--retro-gold);
+  }
+  /* bottom corners via extra element .retro-corners-b */
+  .retro-corners-b {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .retro-corners-b::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 10px; height: 10px;
+    border-bottom: 2px solid var(--retro-gold);
+    border-left: 2px solid var(--retro-gold);
+  }
+  .retro-corners-b::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 10px; height: 10px;
+    border-bottom: 2px solid var(--retro-gold);
+    border-right: 2px solid var(--retro-gold);
+  }
+
+  /* ── RetroSeparator — linha + diamante ── */
+  .retro-sep {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 8px 0;
+  }
+  .retro-sep-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, var(--retro-gold));
+  }
+  .retro-sep-line-r {
+    flex: 1; height: 1px;
+    background: linear-gradient(to left, transparent, var(--retro-gold));
+  }
+  .retro-diamond {
+    width: 5px; height: 5px;
+    background: var(--retro-gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+  .retro-sep-label {
+    font-size: 10px;
+    color: var(--retro-gold-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+  }
+
+  /* ── RetroBadge — rótulo de categoria ── */
+  .retro-badge {
+    font-size: 10px;
+    color: var(--retro-teal);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+    font-weight: bold;
+  }
+
+  /* ── Título retro dourado ── */
+  .retro-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--retro-gold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+    text-shadow: 0 1px 6px rgba(200,155,60,0.5);
+  }
+
+  .retro-title-lg {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--retro-gold);
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 10px rgba(200,155,60,0.5);
+    font-family: var(--retro-font);
+  }
+
+  /* ── Stat box retro ── */
+  .retro-stat-box {
+    background: var(--retro-card);
+    border: 1px solid var(--retro-gold-dim);
+    position: relative;
+    overflow: hidden;
+    padding: 12px 16px 10px;
+  }
+  .retro-stat-box-accent {
+    height: 2px;
+    margin-bottom: 8px;
+    background: linear-gradient(to right, var(--retro-gold), transparent);
+  }
+  .retro-stat-label {
+    font-size: 9px;
+    color: var(--retro-gold-dim);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+    margin-bottom: 4px;
+  }
+  .retro-stat-value {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--retro-gold);
+    line-height: 1;
+    font-family: var(--retro-font);
+  }
+  .retro-stat-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 5px;
+    font-family: var(--retro-font);
+  }
+
+  /* ── Table rows retro ── */
+  .retro-table-head {
+    font-size: 10px;
+    color: var(--retro-gold-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+    border-color: var(--retro-gold-dim) !important;
+    padding: 8px 12px;
+  }
+
+  .retro-table-row {
+    border-color: rgba(200,155,60,0.25) !important;
+    transition: background 0.15s ease;
+  }
+  .retro-table-row:hover {
+    background: rgba(200,155,60,0.04);
+  }
+
+  /* ── Section label com // prefix ── */
+  .retro-section-label {
+    font-size: 10px;
+    color: var(--retro-gold-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: var(--retro-font);
+    margin-bottom: 3px;
+  }
+
+  /* ── Status badge retro ── */
+  .retro-status {
+    font-size: 10px;
+    font-weight: bold;
+    font-family: var(--retro-font);
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  /* Glass card — mantido para compatibilidade */
+  .card-glass {
+    background-color: color-mix(in srgb, var(--color-kl-card) 80%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid color-mix(in srgb, var(--color-kl-border) 50%, transparent);
+  }
+
+  /* Hover lift — GPU-accelerated (= prostaff) */
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  .hover-lift:hover {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: 0 25px 50px -12px rgba(8,14,26,0.6);
+  }
+
+  /* Hover scale */
+  .hover-scale {
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  .hover-scale:hover { transform: scale3d(1.05, 1.05, 1); }
+
+  /* Hover tilt */
+  .hover-tilt {
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  .hover-tilt:hover { transform: rotate3d(0,0,1,1deg) scale3d(1.05,1.05,1); }
+
+  /* Card reveal (translate + gold glow) */
+  .card-reveal {
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), box-shadow 0.5s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+  }
+  .card-reveal:hover {
+    transform: translate3d(0, -8px, 0);
+    box-shadow: 0 20px 60px color-mix(in srgb, var(--color-kl-gold) 30%, transparent);
+  }
+
+  /* Tilt card 3D */
+  .tilt-card {
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  .tilt-card:hover { transform: rotateX(5deg) rotateY(10deg) scale3d(1.02,1.02,1); }
+
+  /* Hover glow */
+  .hover-glow { transition: box-shadow 0.3s cubic-bezier(0.4,0,0.2,1); }
+  .hover-glow:hover { box-shadow: 0 0 30px color-mix(in srgb, var(--color-kl-gold) 30%, transparent); }
+
+  /* Gold gradient text */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #C89B3C 0%, #F0E6D2 50%, #C89B3C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* LoL Gold / Blue gradients (= prostaff) */
+  .lol-gold-gradient { background: linear-gradient(135deg, #C89B3C 0%, #F0E6D2 50%, #C89B3C 100%); }
+  .lol-blue-gradient { background: linear-gradient(135deg, #0C223F 0%, #0596AA 100%); }
+
+  /* Animated gradient bg */
+  .animated-gradient {
+    background: linear-gradient(-45deg, var(--color-kl-gold), var(--color-kl-teal), var(--color-kl-blue), var(--color-kl-gold));
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease-in-out infinite;
+  }
+
+  /* Win / Loss badges */
+  .win-badge  { background-color: var(--color-kl-win);  color: #000; font-weight: 700; }
+  .loss-badge { background-color: var(--color-kl-loss); color: #fff; font-weight: 700; }
+
+  /* Live indicator / badge */
+  .live-indicator { animation: live-pulse 2s ease-in-out infinite; }
+  .live-badge     { background-color: #FF4444; color: white; font-weight: 700; animation: live-pulse 2s ease-in-out infinite; }
+
+  /* Skeleton loader */
+  .skeleton { background-color: var(--color-kl-muted); border-radius: 4px; animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+  /* Section glow background */
+  .section-glow { position: relative; }
+  .section-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 300px;
+    background: color-mix(in srgb, var(--color-kl-gold) 7%, transparent);
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Animate on scroll */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    will-change: opacity, transform;
+  }
+  .animate-on-scroll.in-view { opacity: 1; transform: translate3d(0, 0, 0); }
+
+  /* Glow pulse */
+  .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+  .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+  .animate-scale-in   { animation: scale-in  0.6s ease-out forwards; }
+  .float-animation    { animation: float 6s ease-in-out infinite; }
+  .pulse-button       { animation: animate-pulse-glow 2s ease-in-out infinite 3s; }
+
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* GPU force on animated elements (igual prostaff) */
+  [class*="animate-"],
+  [class*="transition-"],
+  [class*="hover-"] {
+    transform: translateZ(0);
+    will-change: auto;
+    backface-visibility: hidden;
+  }
+}
+
+/* ============================================================
+   UTILITIES — aliases de cor, shadow, font
+   ============================================================ */
+@layer utilities {
+  .text-kl-gold        { color: var(--color-kl-gold); }
+  .text-kl-gold-light  { color: var(--color-kl-gold-light); }
+  .text-kl-teal        { color: var(--color-kl-teal); }
+  .text-kl-win         { color: var(--color-kl-win); }
+  .text-kl-loss        { color: var(--color-kl-loss); }
+  .text-kl-bg          { color: var(--color-kl-bg); }
+
+  .bg-kl-bg            { background-color: var(--color-kl-bg); }
+  .bg-kl-card          { background-color: var(--color-kl-card); }
+  .bg-kl-muted         { background-color: var(--color-kl-muted); }
+  .bg-kl-gold          { background-color: var(--color-kl-gold); }
+  .bg-kl-teal          { background-color: var(--color-kl-teal); }
+  .bg-kl-win           { background-color: var(--color-kl-win); }
+  .bg-kl-loss          { background-color: var(--color-kl-loss); }
+
+  .border-kl-border    { border-color: var(--color-kl-border); }
+  .border-kl-gold      { border-color: var(--color-kl-gold); }
+  .border-kl-teal      { border-color: var(--color-kl-teal); }
+  .border-kl-win       { border-color: var(--color-kl-win); }
+  .border-kl-loss      { border-color: var(--color-kl-loss); }
+
+  .divide-kl-border > * + * { border-color: var(--color-kl-border); }
+
+  .font-inter          { font-family: var(--font-inter); }
+
+  .shadow-gold-glow    { box-shadow: 0 0 30px color-mix(in srgb, var(--color-kl-gold) 30%, transparent); }
+  .shadow-teal-glow    { box-shadow: 0 0 30px color-mix(in srgb, var(--color-kl-teal) 20%, transparent); }
+}
+
+/* ============================================================
+   KEYFRAMES (portados do prostaff)
+   ============================================================ */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.1); }
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--color-kl-gold) 30%, transparent); }
+  50%       { box-shadow: 0 0 40px color-mix(in srgb, var(--color-kl-gold) 60%, transparent), 0 0 60px color-mix(in srgb, var(--color-kl-gold) 40%, transparent); }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-20px); }
+}
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes animate-pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--color-kl-gold) 40%, transparent); }
+  50%       { box-shadow: 0 0 40px color-mix(in srgb, var(--color-kl-gold) 80%, transparent); }
+}
+
+/* ============================================================
+   RESPONSIVE / ACESSIBILIDADE
+   ============================================================ */
+@media (max-width: 768px) {
+  .hover-lift:hover, .hover-scale:hover, .hover-tilt:hover, .tilt-card:hover {
+    transform: none !important;
+  }
+  [class*="hover-tilt"], [class*="floating"], [class*="magnetic"] {
+    animation: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
