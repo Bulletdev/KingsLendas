@@ -1,43 +1,62 @@
 <div class="max-w-4xl mx-auto px-4 py-10">
-  <div class="mb-8">
-    <p class="text-kl-teal text-sm font-medium uppercase tracking-wider mb-1">IDL Kings Lendas</p>
-    <h1 class="text-3xl font-black text-white">Temporadas</h1>
+  <div style="margin-bottom:24px">
+    <div class="retro-section-label">// IDL Kings Lendas</div>
+    <h1 class="retro-title-lg">Temporadas</h1>
   </div>
 
-  <div class="grid gap-4">
+  <div style="display:flex;flex-direction:column;gap:10px">
     <% @seasons.each do |season| %>
       <% next if season[:slug] == "copa" %>
-      <%= link_to season_path(season[:slug]), class: "card-glass rounded-2xl p-6 hover-lift flex items-center gap-5 group" do %>
-        <div class="w-16 h-16 rounded-full bg-kl-gold/10 border border-kl-gold/30 flex items-center justify-center flex-shrink-0">
-          <span class="text-kl-gold font-black text-lg"><%= season[:slug].split("-").last&.upcase || "S" %></span>
+      <%
+        roman = { 1 => "I", 2 => "II", 3 => "III", 4 => "IV", 5 => "V" }
+        season_num = season[:slug].split("-").last.to_i
+        roman_num  = roman[season_num] || season[:slug].upcase
+      %>
+      <%= link_to season_path(season[:slug]), style: "text-decoration:none;display:block" do %>
+        <div style="border:1px solid var(--retro-gold-dim);background:var(--retro-card);padding:16px 20px;position:relative;display:flex;align-items:center;gap:16px;transition:border-color 0.15s,background 0.15s"
+             onmouseover="this.style.borderColor='var(--retro-gold)';this.style.background='rgba(200,155,60,0.05)'"
+             onmouseout="this.style.borderColor='var(--retro-gold-dim)';this.style.background='var(--retro-card)'">
+          <div class="retro-corners"></div>
+          <!-- Season roman numeral badge -->
+          <div style="width:56px;height:56px;border:1px solid var(--retro-gold);background:linear-gradient(135deg,var(--retro-blue),var(--retro-blue-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative">
+            <div class="retro-corners"></div>
+            <span style="font-size:20px;font-weight:bold;color:var(--retro-gold);font-family:var(--retro-font);text-shadow:0 0 8px rgba(200,155,60,0.6)"><%= roman_num %></span>
+          </div>
+          <div style="flex:1">
+            <p style="font-size:9px;color:var(--retro-teal);letter-spacing:0.18em;font-family:var(--retro-font);text-transform:uppercase;margin-bottom:3px">IDL Kings Lendas</p>
+            <h2 style="font-size:15px;font-weight:bold;color:var(--retro-gold);font-family:var(--retro-font);letter-spacing:0.04em"><%= season[:label] %></h2>
+            <p style="font-size:10px;color:rgba(255,255,255,0.3);font-family:var(--retro-font);margin-top:2px"><%= season[:name] %></p>
+            <% if season[:champion] %>
+              <p style="font-size:10px;color:rgba(255,255,255,0.45);font-family:var(--retro-font);margin-top:3px">◆ Campeão: <span style="color:rgba(200,155,60,0.85)"><%= season[:champion] %></span></p>
+            <% end %>
+          </div>
+          <span style="color:var(--retro-gold-dim);font-family:var(--retro-font);font-size:16px">→</span>
         </div>
-        <div class="flex-1">
-          <h2 class="text-xl font-bold text-white group-hover:text-kl-gold transition-colors"><%= season[:label] %></h2>
-          <p class="text-sm text-gray-500 mt-0.5"><%= season[:name] %></p>
-          <% if season[:champion] %>
-            <p class="text-sm text-kl-gold mt-1">
-              <i class="ri-trophy-fill text-xs"></i> Campeão: <span class="font-bold"><%= season[:champion] %></span>
-            </p>
-          <% end %>
-        </div>
-        <i class="ri-arrow-right-line text-gray-500 group-hover:text-kl-gold transition-colors text-xl"></i>
       <% end %>
     <% end %>
 
-    <!-- Copa link -->
-    <%= link_to cup_path, class: "card-glass rounded-2xl p-6 hover-lift flex items-center gap-5 group border border-kl-gold/20" do %>
-      <div class="w-16 h-16 rounded-full bg-kl-gold/20 border border-kl-gold/50 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(200,155,60,0.3)]">
-        <span class="text-kl-gold font-black text-lg">CUP</span>
-      </div>
-      <div class="flex-1">
-        <div class="flex items-center gap-2">
-          <h2 class="text-xl font-bold text-kl-gold">Kings Lendas Cup 2026</h2>
-          <span class="text-xs px-2 py-0.5 bg-kl-teal/20 text-kl-teal border border-kl-teal/30 rounded-full">EM ANDAMENTO</span>
+    <!-- Copa -->
+    <%= link_to cup_path, style: "text-decoration:none;display:block" do %>
+      <div style="border:1px solid var(--retro-gold);background:var(--retro-card);padding:16px 20px;position:relative;display:flex;align-items:center;gap:16px;transition:box-shadow 0.15s"
+           onmouseover="this.style.boxShadow='0 0 24px rgba(200,155,60,0.2)'"
+           onmouseout="this.style.boxShadow='none'">
+        <div class="retro-corners"></div>
+        <!-- Cup logo -->
+        <div style="width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <%= image_tag "/Kings_Lendas_Cup.webp", alt: "Kings Lendas Cup", width: 56, height: 56,
+                style: "width:56px;height:56px;object-fit:contain" %>
         </div>
-        <p class="text-sm text-gray-500 mt-0.5">Off-season • 6 times • 06–15/Mar/2026</p>
-        <p class="text-sm text-kl-gold mt-1">Premiação: R$ 50.000</p>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+            <p style="font-size:9px;color:var(--retro-teal);letter-spacing:0.18em;font-family:var(--retro-font);text-transform:uppercase">IDL Kings Lendas</p>
+            <span class="retro-status" style="color:var(--retro-teal);border-color:var(--retro-teal);font-size:8px">EM ANDAMENTO</span>
+          </div>
+          <h2 style="font-size:15px;font-weight:bold;color:var(--retro-gold);font-family:var(--retro-font);letter-spacing:0.04em">Kings Lendas Cup 2026</h2>
+          <p style="font-size:10px;color:rgba(255,255,255,0.3);font-family:var(--retro-font);margin-top:2px">Off-season • 6 times • 06–15/Mar/2026</p>
+          <p style="font-size:10px;color:rgba(200,155,60,0.7);font-family:var(--retro-font);margin-top:2px">◆ Premiação: R$ 50.000</p>
+        </div>
+        <span style="color:var(--retro-gold);font-family:var(--retro-font);font-size:16px">→</span>
       </div>
-      <i class="ri-arrow-right-line text-kl-gold text-xl"></i>
     <% end %>
   </div>
 </div>
