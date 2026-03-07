@@ -6,8 +6,8 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
-# Run DB migrations
-./bin/rails db:migrate
+# Prepare DB: schema:load on first boot, migrate on subsequent boots
+./bin/rails db:prepare
 
 # Populate data on first boot (idempotent — skips if already populated)
 ./bin/rails leaguepedia:bootstrap 2>/dev/null || true

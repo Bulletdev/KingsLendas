@@ -9,8 +9,7 @@ development:
     database: storage/development.sqlite3
   queue:
     <<: *default
-    database: storage/development_queue.sqlite3
-    migrations_paths: db/queue_schema.rb
+    database: storage/development.sqlite3
 
 test:
   <<: *default
@@ -22,5 +21,4 @@ production:
     database: storage/production.sqlite3
   queue:
     <<: *default
-    database: storage/production_queue.sqlite3
-    migrations_paths: db/queue_schema.rb
+    database: storage/production.sqlite3
