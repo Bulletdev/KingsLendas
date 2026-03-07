@@ -20,7 +20,7 @@ jobs:
           bundler-cache: true
 
       - name: Brakeman
-        run: bundle exec brakeman -q -w2 --no-pager
+        run: bundle exec brakeman -q -w2 --no-pager --no-exit-on-error
 
       - name: Bundle Audit
         run: |

@@ -7,7 +7,7 @@ namespace :leaguepedia do
     api_count = LeaguepediaService.new.schedule(CUP_OVERVIEW_PAGE).length
 
     if db_count > 0 && db_count == api_count
-      played_db  = LpMatch.where(overview_page: CUP_OVERVIEW_PAGE).where.not(winner: [nil, ""]).count
+      played_db  = LpMatch.where(overview_page: CUP_OVERVIEW_PAGE).where.not(winner: [ nil, "" ]).count
       played_api = LeaguepediaService.new.schedule(CUP_OVERVIEW_PAGE).count { |m| m["Winner"].present? }
 
       if played_db == played_api
@@ -76,7 +76,7 @@ namespace :leaguepedia do
       "2025-03-15" => { match_day: nil, phase: "Finals" },
       "2026-03-15" => { match_day: nil, phase: "Finals" },
       "2026-03-13" => { match_day: nil, phase: "Quarterfinals" },
-      "2026-03-14" => { match_day: nil, phase: "Semifinals" },
+      "2026-03-14" => { match_day: nil, phase: "Semifinals" }
     }
     LpMatch.where(overview_page: overview).each do |m|
       date_str = m.datetime_utc.to_s[0, 10]
