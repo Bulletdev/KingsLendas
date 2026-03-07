@@ -1,26 +1,26 @@
 import { Controller } from "@hotwired/stimulus"
 
-export default class extends Controller {
-  static classes = ["active"]
+function setInactive(btn) {
+  btn.style.borderColor = "rgba(255,255,255,0.15)"
+  btn.style.background  = "transparent"
+  btn.style.color       = "rgba(255,255,255,0.45)"
+}
 
+function setActive(btn) {
+  btn.style.borderColor = "var(--retro-gold)"
+  btn.style.background  = "rgba(200,155,60,0.15)"
+  btn.style.color       = "var(--retro-gold)"
+}
+
+export default class extends Controller {
   filter(event) {
     const group = event.currentTarget.dataset.tabFilterGroupParam
 
-    // Toggle button styles
-    this.element.querySelectorAll("button").forEach(btn => {
-      btn.classList.remove("bg-kl-gold", "text-kl-bg")
-      btn.classList.add("bg-white/5", "text-gray-300")
-    })
-    event.currentTarget.classList.add("bg-kl-gold", "text-kl-bg")
-    event.currentTarget.classList.remove("bg-white/5", "text-gray-300")
+    this.element.querySelectorAll("button").forEach(setInactive)
+    setActive(event.currentTarget)
 
-    // Show/hide groups
     document.querySelectorAll("[data-tab-group]").forEach(el => {
-      if (group === "all" || el.dataset.tabGroup === group) {
-        el.style.display = ""
-      } else {
-        el.style.display = "none"
-      }
+      el.style.display = (group === "all" || el.dataset.tabGroup === group) ? "" : "none"
     })
   }
 }
