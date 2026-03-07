@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/copa/campeoes",       to: "cup#champions",  as: :cup_champions
   get "/copa/jogadores",      to: "cup#players",    as: :cup_players
   get "/copa/resultados",     to: "cup#results",    as: :cup_results
+  get "/copa/game/:id",       to: "cup#game_scoreboard", as: :cup_game_scoreboard
 
   # Times
   get "/times",               to: "teams#index",    as: :teams

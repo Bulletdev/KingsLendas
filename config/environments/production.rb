@@ -62,10 +62,14 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Redis cache for production
-  config.cache_store = :redis_cache_store, {
-    url: ENV.fetch("REDIS_URL", "redis://localhost:6379/2"),
-    expires_in: 30.minutes,
-    namespace: "kl"
-  }
+  # Cache store: use Redis if REDIS_URL is set, otherwise memory store
+  if ENV["REDIS_URL"].present?
+    config.cache_store = :redis_cache_store, {
+      url: ENV["REDIS_URL"],
+      expires_in: 30.minutes,
+      namespace: "kl"
+    }
+  else
+    config.cache_store = :memory_store, { size: 67_108_864 } # 64 MB
+  end
 end
