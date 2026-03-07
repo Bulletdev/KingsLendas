@@ -8,7 +8,7 @@
       <% [["Picks","picks"],["Bans","bans"],["Win%","winpct"]].each do |label, key| %>
         <% active = params[:sort].blank? ? key == "picks" : params[:sort] == key %>
         <%= link_to label, cup_draft_path(sort: key),
-              style: "font-size:10px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;text-decoration:none;border:1px solid #{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.15)'};background:#{active ? 'rgba(200,155,60,0.15)' : 'transparent'};color:#{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.45)'}" %>
+              style: "font-size:16px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;text-decoration:none;border:1px solid #{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.15)'};background:#{active ? 'rgba(200,155,60,0.15)' : 'transparent'};color:#{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.45)'}" %>
       <% end %>
     </div>
   </div>
@@ -16,12 +16,12 @@
   <!-- Team filter -->
   <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px" data-controller="draft-filter">
     <button data-action="click->draft-filter#filter" data-team=""
-            style="font-size:10px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;border:1px solid var(--retro-gold);background:rgba(200,155,60,0.15);color:var(--retro-gold);cursor:pointer">
+            style="font-size:16px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;border:1px solid var(--retro-gold);background:rgba(200,155,60,0.15);color:var(--retro-gold);cursor:pointer">
       Todos os Times
     </button>
     <% @teams.each do |team| %>
       <button data-action="click->draft-filter#filter" data-team="<%= team %>"
-              style="font-size:10px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.45);cursor:pointer;display:flex;align-items:center;gap:6px"
+              style="font-size:16px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.45);cursor:pointer;display:flex;align-items:center;gap:6px"
               onmouseover="this.style.borderColor='var(--retro-gold-dim)';this.style.color='var(--retro-gold)'"
               onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.45)'">
         <%= team_logo(team, size: 16) %>
@@ -41,15 +41,15 @@
           <% picks = champ["Picks"].to_i; bans = champ["Bans"].to_i; wins = champ["Wins"].to_i %>
           <div style="border:1px solid var(--retro-gold-dim);background:var(--retro-card);padding:12px 8px;text-align:center;position:relative">
             <div class="retro-corners"></div>
-            <div style="position:absolute;top:4px;left:6px;font-size:11px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif">#<%= idx + 1 %></div>
+            <div style="position:absolute;top:4px;left:6px;font-size:17px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif">#<%= idx + 1 %></div>
             <%= champion_icon(champ["Champion"], size: 52, css_class: "mx-auto") %>
-            <p style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= champ["Champion"] %></p>
+            <p style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= champ["Champion"] %></p>
             <div style="display:flex;justify-content:center;gap:8px;margin-top:4px">
-              <span style="font-size:10px;color:var(--retro-teal);font-family:Verdana,sans-serif"><%= picks %>P</span>
+              <span style="font-size:16px;color:var(--retro-teal);font-family:Verdana,sans-serif"><%= picks %>P</span>
               <span style="color:rgba(255,255,255,0.2)">◆</span>
-              <span style="font-size:10px;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= bans %>B</span>
+              <span style="font-size:16px;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= bans %>B</span>
             </div>
-            <p style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;margin-top:3px">
+            <p style="font-size:16px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;margin-top:3px">
               <%= picks > 0 ? "#{(wins.to_f / picks * 100).round}% win" : "—" %>
             </p>
           </div>
@@ -82,23 +82,23 @@
                 <td style="padding:10px 12px 10px 0">
                   <div style="display:flex;align-items:center;gap:10px">
                     <%= champion_icon(champ["Champion"], size: 36) %>
-                    <span style="font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= champ["Champion"] %></span>
+                    <span style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= champ["Champion"] %></span>
                   </div>
                 </td>
                 <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:14px;font-weight:bold;color:var(--retro-teal);font-family:Verdana,sans-serif"><%= picks %></span>
+                  <span style="font-size:17px;font-weight:bold;color:var(--retro-teal);font-family:Verdana,sans-serif"><%= picks %></span>
                 </td>
                 <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:14px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= bans %></span>
+                  <span style="font-size:17px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= bans %></span>
                 </td>
-                <td style="padding:10px 8px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= games %></td>
-                <td style="padding:10px 8px;text-align:center;font-size:13px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= wins %></td>
+                <td style="padding:10px 8px;text-align:center;font-size:16px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= games %></td>
+                <td style="padding:10px 8px;text-align:center;font-size:16px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= wins %></td>
                 <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:13px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= win_pct >= 60 ? 'var(--color-kl-win)' : (win_pct >= 40 ? 'rgba(255,255,255,0.7)' : 'var(--color-kl-loss)') %>">
+                  <span style="font-size:16px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= win_pct >= 60 ? 'var(--color-kl-win)' : (win_pct >= 40 ? 'rgba(255,255,255,0.7)' : 'var(--color-kl-loss)') %>">
                     <%= picks > 0 ? "#{win_pct}%" : "—" %>
                   </span>
                 </td>
-                <td class="hidden md:table-cell" style="padding:10px 8px;text-align:center;font-size:13px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
+                <td class="hidden md:table-cell" style="padding:10px 8px;text-align:center;font-size:16px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
                   <%= presence %>%
                 </td>
               </tr>
@@ -110,7 +110,7 @@
   <% else %>
     <div style="border:1px solid var(--retro-gold-dim);padding:64px 20px;text-align:center;position:relative">
       <div class="retro-corners"></div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Dados de picks &amp; bans não disponíveis ainda</div>
+      <div style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Dados de picks &amp; bans não disponíveis ainda</div>
     </div>
   <% end %>
 </div>

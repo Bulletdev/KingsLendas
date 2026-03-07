@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_07_000001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_07_000002) do
   create_table "lp_champion_stats", force: :cascade do |t|
     t.string "tournament", null: false
     t.string "champion", null: false
@@ -42,6 +42,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_07_000001) do
     t.string "patch"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "team1_towers"
+    t.integer "team2_towers"
+    t.integer "team1_inhibitors"
+    t.integer "team2_inhibitors"
+    t.integer "team1_dragons"
+    t.integer "team2_dragons"
+    t.integer "team1_barons"
+    t.integer "team2_barons"
+    t.integer "team1_rift_heralds"
+    t.integer "team2_rift_heralds"
+    t.integer "team1_void_grubs"
+    t.integer "team2_void_grubs"
+    t.string "win_type"
     t.index ["tournament"], name: "index_lp_games_on_tournament"
     t.index ["unique_game"], name: "index_lp_games_on_unique_game", unique: true
   end

@@ -46,10 +46,18 @@ class LeaguepediaSyncService
     raw = @api.scoreboard_games(@tournament)
     return 0 if raw.empty?
 
-    existing = LpGame.where(tournament: @tournament).pluck(:unique_game).to_set
+    # Fetch objectives in a separate query to avoid MWException
+    objectives = {}
+    begin
+      sleep 1
+      objectives = @api.scoreboard_objectives(@tournament)
+    rescue => e
+      Rails.logger.warn("[LeaguepediaSyncService] objectives fetch failed: #{e.message}")
+    end
 
     rows = raw.filter_map do |g|
       next if g["UniqueGame"].blank?
+      obj = objectives[g["UniqueGame"]] || {}
       {
         unique_game:  g["UniqueGame"],
         tournament:   @tournament,
@@ -62,13 +70,26 @@ class LeaguepediaSyncService
         team2_picks:  g["Team2Picks"].to_s,
         team1_bans:   g["Team1Bans"].to_s,
         team2_bans:   g["Team2Bans"].to_s,
-        team1_kills:  g["Team1Kills"].to_i,
-        team2_kills:  g["Team2Kills"].to_i,
-        team1_gold:   g["Team1Gold"].to_i,
-        team2_gold:   g["Team2Gold"].to_i,
-        patch:        g["Patch"].to_s,
-        created_at:   Time.current,
-        updated_at:   Time.current
+        team1_kills:        g["Team1Kills"].to_i,
+        team2_kills:        g["Team2Kills"].to_i,
+        team1_gold:         g["Team1Gold"].to_i,
+        team2_gold:         g["Team2Gold"].to_i,
+        patch:              g["Patch"].to_s,
+        win_type:           g["WinType"].to_s,
+        team1_towers:       obj["Team1Towers"].presence&.to_i,
+        team2_towers:       obj["Team2Towers"].presence&.to_i,
+        team1_inhibitors:   obj["Team1Inhibitors"].presence&.to_i,
+        team2_inhibitors:   obj["Team2Inhibitors"].presence&.to_i,
+        team1_dragons:      obj["Team1Dragons"].presence&.to_i,
+        team2_dragons:      obj["Team2Dragons"].presence&.to_i,
+        team1_barons:       obj["Team1Barons"].presence&.to_i,
+        team2_barons:       obj["Team2Barons"].presence&.to_i,
+        team1_rift_heralds: obj["Team1RiftHeralds"].presence&.to_i,
+        team2_rift_heralds: obj["Team2RiftHeralds"].presence&.to_i,
+        team1_void_grubs:   obj["Team1VoidGrubs"].presence&.to_i,
+        team2_void_grubs:   obj["Team2VoidGrubs"].presence&.to_i,
+        created_at:         Time.current,
+        updated_at:         Time.current
       }
     end
 

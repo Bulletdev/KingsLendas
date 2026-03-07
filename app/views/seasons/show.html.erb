@@ -1,12 +1,12 @@
 <div class="max-w-5xl mx-auto px-4 py-10">
   <%= link_to "← Temporadas", seasons_path,
-        style: "font-size:11px;color:var(--retro-gold-dim);font-family:var(--retro-font);text-decoration:none;letter-spacing:0.08em;display:inline-block;margin-bottom:20px" %>
+        style: "font-size:17px;color:var(--retro-gold-dim);font-family:var(--retro-font);text-decoration:none;letter-spacing:0.08em;display:inline-block;margin-bottom:20px" %>
 
   <div style="margin-bottom:24px">
     <div class="retro-section-label">// IDL Kings Lendas</div>
     <h1 class="retro-title-lg"><%= @season_data[:label] %></h1>
     <% if @season_data[:champion] %>
-      <p style="font-size:13px;color:var(--retro-gold);font-family:var(--retro-font);margin-top:8px">◆ Campeão: <strong><%= @season_data[:champion] %></strong></p>
+      <p style="font-size:16px;color:var(--retro-gold);font-family:var(--retro-font);margin-top:8px">◆ Campeão: <strong><%= @season_data[:champion] %></strong></p>
     <% end %>
   </div>
 
@@ -28,32 +28,32 @@
             <% @standings.each_with_index do |row, idx| %>
               <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)">
                 <td style="padding:10px 8px;text-align:center;white-space:nowrap">
-                  <span style="font-size:12px;font-weight:bold;color:<%= idx.zero? ? 'var(--retro-gold)' : 'rgba(255,255,255,0.4)' %>;font-family:var(--retro-font)"><%= idx + 1 %></span>
-                  <% if idx.zero? %><span style="font-size:10px;margin-left:2px">🏆</span><% end %>
+                  <span style="font-size:17px;font-weight:bold;color:<%= idx.zero? ? 'var(--retro-gold)' : 'rgba(255,255,255,0.4)' %>;font-family:var(--retro-font)"><%= idx + 1 %></span>
+                  <% if idx.zero? %><span style="font-size:16px;margin-left:2px">🏆</span><% end %>
                 </td>
                 <td style="padding:10px 8px 10px 0">
                   <div style="display:flex;align-items:center;gap:8px">
                     <%= team_logo(row["Team"], size: 26) %>
-                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font)"><%= row["Team"] %></span>
+                    <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font)"><%= row["Team"] %></span>
                   </div>
                 </td>
                 <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:13px;font-weight:bold;color:var(--color-kl-win);font-family:var(--retro-font)"><%= row["Wins"] %></span>
+                  <span style="font-size:16px;font-weight:bold;color:var(--color-kl-win);font-family:var(--retro-font)"><%= row["Wins"] %></span>
                 </td>
                 <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:13px;font-weight:bold;color:var(--color-kl-loss);font-family:var(--retro-font)"><%= row["Losses"] %></span>
+                  <span style="font-size:16px;font-weight:bold;color:var(--color-kl-loss);font-family:var(--retro-font)"><%= row["Losses"] %></span>
                 </td>
                 <td style="padding:10px 8px;text-align:center">
                   <% w = row["Wins"].to_i; l = row["Losses"].to_i; t = w + l %>
                   <% pct = t.zero? ? 0 : (w.to_f / t * 100).round %>
-                  <span style="font-size:12px;font-weight:bold;font-family:var(--retro-font);color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>"><%= pct %>%</span>
+                  <span style="font-size:17px;font-weight:bold;font-family:var(--retro-font);color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>"><%= pct %>%</span>
                 </td>
               </tr>
             <% end %>
           </tbody>
         </table>
       <% else %>
-        <p style="padding:28px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:var(--retro-font)">Dados não disponíveis</p>
+        <p style="padding:28px;text-align:center;font-size:17px;color:rgba(255,255,255,0.3);font-family:var(--retro-font)">Dados não disponíveis</p>
       <% end %>
     <% end %>
   </div>
@@ -80,24 +80,24 @@
             <% @players.each do |p| %>
               <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)">
                 <td style="padding:9px 8px 9px 0">
-                  <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font)"><%= p["player"] %></span>
+                  <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font)"><%= p["player"] %></span>
                 </td>
                 <td style="padding:9px 8px">
                   <div style="display:flex;align-items:center;gap:5px">
                     <%= team_logo(p["team"], size: 18) %>
-                    <span style="font-size:11px;color:rgba(255,255,255,0.4);font-family:var(--retro-font)"><%= team_abbr(p["team"]) %></span>
+                    <span style="font-size:17px;color:rgba(255,255,255,0.4);font-family:var(--retro-font)"><%= team_abbr(p["team"]) %></span>
                   </div>
                 </td>
                 <td style="padding:9px 8px;text-align:center">
-                  <span style="font-size:12px;color:rgba(255,255,255,0.5);font-family:var(--retro-font)"><%= p["games"] %></span>
+                  <span style="font-size:17px;color:rgba(255,255,255,0.5);font-family:var(--retro-font)"><%= p["games"] %></span>
                 </td>
                 <td style="padding:9px 8px;text-align:center">
-                  <span style="font-size:13px;font-weight:bold;font-family:var(--retro-font);color:<%= p["kda"] >= 5 ? '#ecc94b' : (p["kda"] >= 3 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.7)') %>"><%= p["kda"] %></span>
+                  <span style="font-size:16px;font-weight:bold;font-family:var(--retro-font);color:<%= p["kda"] >= 5 ? '#ecc94b' : (p["kda"] >= 3 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.7)') %>"><%= p["kda"] %></span>
                 </td>
-                <td style="padding:9px 8px;text-align:center"><span style="font-size:12px;color:var(--color-kl-win);font-family:var(--retro-font)"><%= p["kills"] %></span></td>
-                <td style="padding:9px 8px;text-align:center"><span style="font-size:12px;color:var(--color-kl-loss);font-family:var(--retro-font)"><%= p["deaths"] %></span></td>
-                <td style="padding:9px 8px;text-align:center"><span style="font-size:12px;color:rgba(255,255,255,0.6);font-family:var(--retro-font)"><%= p["assists"] %></span></td>
-                <td style="padding:9px 8px;text-align:center"><span style="font-size:12px;color:rgba(255,255,255,0.5);font-family:var(--retro-font)"><%= p["avg_cs"] %></span></td>
+                <td style="padding:9px 8px;text-align:center"><span style="font-size:17px;color:var(--color-kl-win);font-family:var(--retro-font)"><%= p["kills"] %></span></td>
+                <td style="padding:9px 8px;text-align:center"><span style="font-size:17px;color:var(--color-kl-loss);font-family:var(--retro-font)"><%= p["deaths"] %></span></td>
+                <td style="padding:9px 8px;text-align:center"><span style="font-size:17px;color:rgba(255,255,255,0.6);font-family:var(--retro-font)"><%= p["assists"] %></span></td>
+                <td style="padding:9px 8px;text-align:center"><span style="font-size:17px;color:rgba(255,255,255,0.5);font-family:var(--retro-font)"><%= p["avg_cs"] %></span></td>
                 <td style="padding:9px 8px">
                   <div style="display:flex;gap:2px">
                     <% p["champions"].each do |champ| %>
@@ -134,29 +134,29 @@
                 <div style="border:1px solid <%= played ? 'rgba(200,155,60,0.15)' : 'rgba(5,150,170,0.12)' %>;background:rgba(15,24,35,0.6);padding:10px 14px;display:flex;align-items:center;gap:10px">
                   <div style="flex:1;display:flex;align-items:center;gap:6px;min-width:0;opacity:<%= played && winner != t1 ? '0.4' : '1' %>">
                     <%= team_logo(t1, size: 22) %>
-                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(t1) %></span>
+                    <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(t1) %></span>
                   </div>
 
                   <div style="flex-shrink:0;text-align:center;min-width:56px">
                     <% if played %>
                       <div style="display:flex;align-items:center;justify-content:center;gap:4px">
                         <span style="font-size:18px;font-weight:900;font-family:var(--retro-font);color:<%= winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.2)' %>"><%= t1s %></span>
-                        <span style="color:rgba(255,255,255,0.15);font-size:13px">:</span>
+                        <span style="color:rgba(255,255,255,0.15);font-size:16px">:</span>
                         <span style="font-size:18px;font-weight:900;font-family:var(--retro-font);color:<%= winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.2)' %>"><%= t2s %></span>
                       </div>
-                      <div style="font-size:9px;color:var(--retro-gold-dim);font-family:var(--retro-font);letter-spacing:0.08em;margin-top:1px">Bo<%= match["BestOf"].to_i > 0 ? match["BestOf"] : 1 %></div>
+                      <div style="font-size:17px;color:var(--retro-gold-dim);font-family:var(--retro-font);letter-spacing:0.08em;margin-top:1px">Bo<%= match["BestOf"].to_i > 0 ? match["BestOf"] : 1 %></div>
                     <% else %>
-                      <span style="font-size:14px;font-weight:bold;color:rgba(255,255,255,0.15);font-family:var(--retro-font)">VS</span>
+                      <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.15);font-family:var(--retro-font)">VS</span>
                     <% end %>
                   </div>
 
                   <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;opacity:<%= played && winner != t2 ? '0.4' : '1' %>">
-                    <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right"><%= team_abbr(t2) %></span>
+                    <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right"><%= team_abbr(t2) %></span>
                     <%= team_logo(t2, size: 22) %>
                   </div>
 
                   <div style="flex-shrink:0;min-width:54px;text-align:right">
-                    <span style="font-size:10px;color:rgba(255,255,255,0.25);font-family:var(--retro-font)"><%= format_datetime_brt(match["DateTime_UTC"]) %></span>
+                    <span style="font-size:16px;color:rgba(255,255,255,0.25);font-family:var(--retro-font)"><%= format_datetime_brt(match["DateTime_UTC"]) %></span>
                   </div>
                 </div>
               <% end %>
@@ -174,8 +174,8 @@
         <% @champion_stats.each do |champ| %>
           <div style="text-align:center;width:58px">
             <%= champion_icon(champ["Champion"], size: 44, css_class: "mx-auto") %>
-            <p style="font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= champ["Champion"] %></p>
-            <p style="font-size:10px;color:var(--retro-teal);font-family:var(--retro-font)"><%= champ["Picks"] %>P</p>
+            <p style="font-size:17px;color:rgba(255,255,255,0.4);margin-top:4px;font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= champ["Champion"] %></p>
+            <p style="font-size:16px;color:var(--retro-teal);font-family:var(--retro-font)"><%= champ["Picks"] %>P</p>
           </div>
         <% end %>
       </div>

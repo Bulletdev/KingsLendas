@@ -51,18 +51,32 @@ class LeaguepediaService
     raw.map { |m| resolve_match_winner(m) }
   end
 
-  # Scoreboard Games — use minimal safe fields
+  # Scoreboard Games — split into two queries to avoid MWException
   def scoreboard_games(tournament = CUP_TOURNAMENT)
     raw = cargo_query(
       tables: "ScoreboardGames",
       fields: "UniqueGame,Tournament,Team1,Team2,Winner,Gamelength,DateTime_UTC," \
               "Team1Picks,Team2Picks,Team1Bans,Team2Bans," \
-              "Team1Gold,Team2Gold,Team1Kills,Team2Kills,Patch",
+              "Team1Gold,Team2Gold,Team1Kills,Team2Kills,Patch,WinType",
       where:  "Tournament=\"#{tournament}\"",
       order_by: "DateTime_UTC ASC",
       limit: 500
     )
     raw.map { |g| resolve_game_winner(g) }
+  end
+
+  # Objectives query — separate to avoid MWException from too many fields
+  def scoreboard_objectives(tournament = CUP_TOURNAMENT)
+    raw = cargo_query(
+      tables: "ScoreboardGames",
+      fields: "UniqueGame," \
+              "Team1Towers,Team2Towers,Team1Inhibitors,Team2Inhibitors," \
+              "Team1Dragons,Team2Dragons,Team1Barons,Team2Barons," \
+              "Team1RiftHeralds,Team2RiftHeralds,Team1VoidGrubs,Team2VoidGrubs",
+      where:  "Tournament=\"#{tournament}\"",
+      limit: 500
+    )
+    raw.index_by { |g| g["UniqueGame"] }
   end
 
   # Scoreboard Players

@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto px-4 py-10">
-  <%= link_to "← Todos os times", teams_path, style: "font-size:12px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:20px;display:inline-block" %>
+  <%= link_to "← Todos os times", teams_path, style: "font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:20px;display:inline-block" %>
 
   <!-- Team Header -->
   <div style="border:1px solid var(--retro-gold);background:var(--retro-card);position:relative;overflow:hidden;margin-bottom:24px">
@@ -13,12 +13,12 @@
 
       <div class="text-center sm:text-left">
         <div class="retro-section-label">// <%= @team_info[:parody_of]&.upcase %></div>
-        <h1 style="font-size:30px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.04em;margin:0">
+        <h1 style="font-size:36px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif;letter-spacing:0.04em;margin:0">
           <%= @team_name %>
         </h1>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px">
           <span class="retro-status" style="color:var(--retro-gold);border-color:var(--retro-gold-dim)"><%= @team_info[:abbr] %></span>
-          <span style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
+          <span style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
             Capitão: <span style="color:var(--retro-gold);font-weight:bold"><%= @team_info[:captain] %></span>
           </span>
         </div>
@@ -60,7 +60,7 @@
               <%= player_photo(member[:player], @team_name, size: 38, css_class: "border flex-shrink-0") %>
               <div style="flex:1;min-width:0">
                 <%= link_to player_path(player_slug(member[:player])),
-                      style: "font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
+                      style: "font-size:16px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
                       onmouseover: "this.style.color='var(--retro-gold)'",
                       onmouseout:  "this.style.color='rgba(255,255,255,0.85)'" do %>
                   <%= member[:player] %>
@@ -69,7 +69,7 @@
               </div>
               <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
                 <%= lane_icon(member[:role], size: 16) %>
-                <span style="font-size:10px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.05em"><%= role_label(member[:role]).upcase %></span>
+                <span style="font-size:16px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.05em"><%= role_label(member[:role]).upcase %></span>
               </div>
             </div>
           <% end %>
@@ -84,7 +84,7 @@
               <% coaches.each do |member| %>
                 <div style="display:flex;align-items:center;gap:10px;padding:8px 8px 8px 0">
                   <%= player_photo(member[:player], @team_name, size: 36, css_class: "border flex-shrink-0 opacity-80") %>
-                  <span style="font-size:13px;color:rgba(255,255,255,0.6);font-family:Verdana,sans-serif"><%= member[:player] %></span>
+                  <span style="font-size:16px;color:rgba(255,255,255,0.6);font-family:Verdana,sans-serif"><%= member[:player] %></span>
                   <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
                     <%= lane_icon("coach", size: 14) %>
                   </div>
@@ -102,7 +102,7 @@
             <% @fav_picks.each do |champ, count| %>
               <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
                 <%= champion_icon(champ, size: 38) %>
-                <span style="font-size:10px;color:var(--retro-gold-dim);font-family:Verdana,sans-serif"><%= count %>x</span>
+                <span style="font-size:16px;color:var(--retro-gold-dim);font-family:Verdana,sans-serif"><%= count %>x</span>
               </div>
             <% end %>
           </div>
@@ -116,7 +116,7 @@
             <% @fav_bans.each do |champ, count| %>
               <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
                 <%= champion_icon(champ, size: 34, css_class: "opacity-50 grayscale") %>
-                <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= count %>x</span>
+                <span style="font-size:16px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"><%= count %>x</span>
               </div>
             <% end %>
           </div>
@@ -147,25 +147,25 @@
                           style: "display:flex;align-items:center;gap:6px",
                           onmouseover: "this.querySelector('span').style.color='var(--retro-gold)'",
                           onmouseout:  "this.querySelector('span').style.color='rgba(255,255,255,0.85)'" do %>
-                      <span style="font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;transition:color 0.15s"><%= p["player"] %></span>
+                      <span style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;transition:color 0.15s"><%= p["player"] %></span>
                       <% if TEAMS_DATA[@team_name]&.dig(:captain) == p["player"] %>
-                        <span style="color:var(--retro-gold);font-size:11px">★</span>
+                        <span style="color:var(--retro-gold);font-size:17px">★</span>
                       <% end %>
-                      <span style="font-size:10px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;text-transform:uppercase"><%= role_label(p["role"]) %></span>
+                      <span style="font-size:16px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;text-transform:uppercase"><%= role_label(p["role"]) %></span>
                     <% end %>
                   </td>
-                  <td style="padding:10px 8px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= p["games"] %></td>
+                  <td style="padding:10px 8px;text-align:center;font-size:16px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= p["games"] %></td>
                   <td style="padding:10px 8px;text-align:center">
-                    <span style="font-size:14px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= kda_color(p['kda']) %>"><%= p["kda"] %></span>
+                    <span style="font-size:17px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= kda_color(p['kda']) %>"><%= p["kda"] %></span>
                   </td>
-                  <td class="hidden sm:table-cell" style="padding:10px 8px;text-align:center;font-size:12px;font-family:Verdana,sans-serif">
+                  <td class="hidden sm:table-cell" style="padding:10px 8px;text-align:center;font-size:17px;font-family:Verdana,sans-serif">
                     <span style="color:var(--color-kl-win)"><%= p["avg_kills"] %></span>
                     <span style="color:rgba(255,255,255,0.25)">/</span>
                     <span style="color:var(--color-kl-loss)"><%= p["avg_deaths"] %></span>
                     <span style="color:rgba(255,255,255,0.25)">/</span>
                     <span style="color:var(--retro-teal)"><%= p["avg_assists"] %></span>
                   </td>
-                  <td class="hidden md:table-cell" style="padding:10px 8px;text-align:center;font-size:12px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= p["avg_cs"] %></td>
+                  <td class="hidden md:table-cell" style="padding:10px 8px;text-align:center;font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= p["avg_cs"] %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -192,7 +192,7 @@
             <% end %>
           </div>
         <% else %>
-          <div style="border:1px solid var(--retro-gold-dim);padding:32px 20px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+          <div style="border:1px solid var(--retro-gold-dim);padding:32px 20px;text-align:center;font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
             Nenhuma partida jogada ainda
           </div>
         <% end %>

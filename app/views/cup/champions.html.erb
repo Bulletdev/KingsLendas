@@ -8,7 +8,7 @@
       <% [["Picks","picks"],["Bans","bans"],["Win%","winpct"],["Jogos","games"]].each do |label, key| %>
         <% active = @sort_by == key %>
         <%= link_to label, cup_champions_path(sort: key),
-              style: "font-size:10px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;text-decoration:none;border:1px solid #{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.15)'};background:#{active ? 'rgba(200,155,60,0.15)' : 'transparent'};color:#{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.45)'}" %>
+              style: "font-size:16px;letter-spacing:0.1em;padding:6px 12px;font-family:Verdana,sans-serif;text-transform:uppercase;text-decoration:none;border:1px solid #{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.15)'};background:#{active ? 'rgba(200,155,60,0.15)' : 'transparent'};color:#{active ? 'var(--retro-gold)' : 'rgba(255,255,255,0.45)'}" %>
       <% end %>
     </div>
   </div>
@@ -22,16 +22,16 @@
           <div style="position:relative;display:inline-block;margin-bottom:6px">
             <%= champion_icon(champ["Champion"], size: 52, css_class: "mx-auto") %>
             <% if bans > 0 %>
-              <span style="position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:#ef4444;color:#fff;font-size:11px;font-weight:bold;display:flex;align-items:center;justify-content:center;font-family:Verdana,sans-serif">
+              <span style="position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:#ef4444;color:#fff;font-size:17px;font-weight:bold;display:flex;align-items:center;justify-content:center;font-family:Verdana,sans-serif">
                 <%= bans %>
               </span>
             <% end %>
           </div>
-          <p style="font-size:11px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= champ["Champion"] %></p>
-          <p style="font-size:10px;color:var(--retro-teal);font-family:Verdana,sans-serif;margin-top:2px"><%= picks %>P <%= bans %>B</p>
+          <p style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= champ["Champion"] %></p>
+          <p style="font-size:16px;color:var(--retro-teal);font-family:Verdana,sans-serif;margin-top:2px"><%= picks %>P <%= bans %>B</p>
           <% if picks > 0 %>
             <% wr = (wins.to_f / picks * 100).round %>
-            <p style="font-size:10px;font-family:Verdana,sans-serif;color:<%= wr >= 60 ? 'var(--color-kl-win)' : (wr >= 40 ? 'rgba(255,255,255,0.5)' : 'var(--color-kl-loss)') %>">
+            <p style="font-size:16px;font-family:Verdana,sans-serif;color:<%= wr >= 60 ? 'var(--color-kl-win)' : (wr >= 40 ? 'rgba(255,255,255,0.5)' : 'var(--color-kl-loss)') %>">
               <%= wr %>%
             </p>
           <% end %>
@@ -41,8 +41,8 @@
   <% else %>
     <div style="border:1px solid var(--retro-gold-dim);padding:64px 20px;text-align:center;position:relative">
       <div class="retro-corners"></div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Sem dados de campeões ainda</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;margin-top:6px">Os dados aparecerão após as primeiras partidas</div>
+      <div style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">Sem dados de campeões ainda</div>
+      <div style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;margin-top:6px">Os dados aparecerão após as primeiras partidas</div>
     </div>
   <% end %>
 </div>

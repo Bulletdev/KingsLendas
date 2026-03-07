@@ -8,7 +8,7 @@
     <div class="flex justify-center mb-6">
       <%= image_tag "/Kings_Lendas_Cup.webp", alt: "Kings Lendas Cup",
             class: "w-24 h-24 sm:w-36 sm:h-36 object-contain drop-shadow-[0_0_40px_rgba(200,155,60,0.6)] float-animation",
-            onerror: "this.onerror=null;this.outerHTML='<div style=\"width:96px;height:96px;background:linear-gradient(135deg,#C89B3C,#A07830);display:flex;align-items:center;justify-content:center;\"><span style=\"color:#0A0E1A;font-weight:900;font-size:30px;font-family:Verdana\">KL</span></div>'" %>
+            onerror: "this.onerror=null;this.outerHTML='<div style=\"width:96px;height:96px;background:linear-gradient(135deg,#C89B3C,#A07830);display:flex;align-items:center;justify-content:center;\"><span style=\"color:#0A0E1A;font-weight:900;font-size:36px;font-family:Verdana\">KL</span></div>'" %>
     </div>
 
     <div class="retro-section-label mb-1">// TORNEIO OFICIAL</div>
@@ -17,17 +17,17 @@
     <div class="flex flex-wrap justify-center gap-3 mb-10">
       <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
          class="flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-500 text-white font-bold transition-all hover:scale-105 shadow-lg"
-         style="font-family:Verdana,sans-serif;font-size:13px;letter-spacing:0.05em">
+         style="font-family:Verdana,sans-serif;font-size:16px;letter-spacing:0.05em">
         <i class="ri-broadcast-line text-lg"></i> KICK
       </a>
       <a href="https://twitch.tv/baiano" target="_blank" rel="noopener"
          class="flex items-center gap-2 px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-bold transition-all hover:scale-105 shadow-lg"
-         style="font-family:Verdana,sans-serif;font-size:13px;letter-spacing:0.05em">
+         style="font-family:Verdana,sans-serif;font-size:16px;letter-spacing:0.05em">
         <i class="ri-twitch-line text-lg"></i> TWITCH
       </a>
       <a href="https://youtube.com/@BaianoTV1/live" target="_blank" rel="noopener"
          class="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold transition-all hover:scale-105 shadow-lg"
-         style="font-family:Verdana,sans-serif;font-size:13px;letter-spacing:0.05em">
+         style="font-family:Verdana,sans-serif;font-size:16px;letter-spacing:0.05em">
         <i class="ri-youtube-line text-lg"></i> YOUTUBE
       </a>
     </div>
@@ -44,16 +44,16 @@
           <div class="flex flex-col items-center gap-1">
             <% if nm_t1_known %>
               <%= team_logo(nm_t1, size: 44) %>
-              <span style="font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= team_abbr(nm_t1) %></span>
+              <span style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= team_abbr(nm_t1) %></span>
             <% else %>
               <div style="width:44px;height:44px;border:1px solid var(--retro-gold-dim);display:flex;align-items:center;justify-content:center">
-                <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">?</span>
+                <span style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">?</span>
               </div>
-              <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">A definir</span>
+              <span style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">A definir</span>
             <% end %>
           </div>
           <div class="flex flex-col items-center gap-1">
-            <span style="font-size:22px;font-weight:bold;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">VS</span>
+            <span style="font-size:26px;font-weight:bold;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">VS</span>
             <% if @next_match["DateTime_UTC"].present? %>
               <span class="retro-title"
                     data-controller="countdown"
@@ -65,17 +65,17 @@
           <div class="flex flex-col items-center gap-1">
             <% if nm_t2_known %>
               <%= team_logo(nm_t2, size: 44) %>
-              <span style="font-size:13px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= team_abbr(nm_t2) %></span>
+              <span style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= team_abbr(nm_t2) %></span>
             <% else %>
               <div style="width:44px;height:44px;border:1px solid var(--retro-gold-dim);display:flex;align-items:center;justify-content:center">
-                <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">?</span>
+                <span style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">?</span>
               </div>
-              <span style="font-size:11px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">A definir</span>
+              <span style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">A definir</span>
             <% end %>
           </div>
         </div>
         <% if @next_match["Phase"].present? %>
-          <p style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;font-family:Verdana,sans-serif;letter-spacing:0.08em"><%= phase_label(@next_match["Phase"]).upcase %></p>
+          <p style="font-size:17px;color:rgba(255,255,255,0.3);text-align:center;font-family:Verdana,sans-serif;letter-spacing:0.08em"><%= phase_label(@next_match["Phase"]).upcase %></p>
         <% end %>
       </div>
     <% end %>
@@ -90,7 +90,7 @@
     <div class="w-full max-w-4xl space-y-6">
 
       <%= retro_panel(title: "Classificação", category: "// COPA 2026",
-            subtitle: link_to("Ver completo →", cup_standings_path, style: "color:var(--retro-teal);font-size:11px;font-family:Verdana,sans-serif").html_safe,
+            subtitle: link_to("Ver completo →", cup_standings_path, style: "color:var(--retro-teal);font-size:17px;font-family:Verdana,sans-serif").html_safe,
             footer: "Kings Lendas Cup") do %>
         <% if @standings.any? %>
           <table style="width:100%;border-collapse:collapse">
@@ -108,7 +108,7 @@
                 <% place = row["Place"].to_i %>
                 <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.15)">
                   <td style="padding:10px 6px 10px 0">
-                    <span style="font-size:13px;font-family:Verdana,sans-serif;font-weight:bold;color:<%= idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.4)') %>">
+                    <span style="font-size:16px;font-family:Verdana,sans-serif;font-weight:bold;color:<%= idx < 2 ? 'var(--retro-gold)' : (idx < 4 ? 'var(--retro-teal)' : 'rgba(255,255,255,0.4)') %>">
                       <%= place.positive? ? place : idx + 1 %>
                     </span>
                     <% if idx < 2 %>
@@ -120,12 +120,12 @@
                   <td style="padding:10px 12px 10px 0">
                     <div class="flex items-center gap-2">
                       <%= team_logo(row["Team"], size: 26) %>
-                      <span style="font-size:13px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= row["Team"] %></span>
+                      <span style="font-size:16px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= row["Team"] %></span>
                     </div>
                   </td>
-                  <td style="padding:10px 8px;text-align:center;font-size:14px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= row["Wins"] %></td>
-                  <td style="padding:10px 8px;text-align:center;font-size:14px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= row["Losses"] %></td>
-                  <td class="hidden sm:table-cell" style="padding:10px 8px;text-align:center;font-size:13px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif">
+                  <td style="padding:10px 8px;text-align:center;font-size:17px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= row["Wins"] %></td>
+                  <td style="padding:10px 8px;text-align:center;font-size:17px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= row["Losses"] %></td>
+                  <td class="hidden sm:table-cell" style="padding:10px 8px;text-align:center;font-size:16px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif">
                     <%= winpct(row["Wins"].to_i, row["Wins"].to_i + row["Losses"].to_i) %>
                   </td>
                 </tr>
@@ -138,7 +138,7 @@
             <span class="retro-sep-label">Legenda</span>
             <div class="retro-sep-line-r"></div>
           </div>
-          <div class="flex flex-wrap gap-4 pb-2" style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
+          <div class="flex flex-wrap gap-4 pb-2" style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif">
             <div class="flex items-center gap-2">
               <span style="display:inline-block;width:5px;height:5px;background:var(--retro-gold);transform:rotate(45deg)"></span> Semifinal direto
             </div>
@@ -147,7 +147,7 @@
             </div>
           </div>
         <% else %>
-          <div style="padding:32px 20px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
+          <div style="padding:32px 20px;text-align:center;font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">
             Carregando classificação...
           </div>
         <% end %>
@@ -161,7 +161,7 @@
               <div class="retro-section-label">// RESULTADOS</div>
               <span class="retro-title">Últimos Resultados</span>
             </div>
-            <%= link_to "Ver todas →", cup_matches_path, style: "font-size:11px;color:var(--retro-teal);font-family:Verdana,sans-serif" %>
+            <%= link_to "Ver todas →", cup_matches_path, style: "font-size:17px;color:var(--retro-teal);font-family:Verdana,sans-serif" %>
           </div>
           <div class="space-y-2">
             <% @recent_matches.each do |match| %>
@@ -183,30 +183,30 @@
               <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 8px 10px 0;border-bottom:1px solid rgba(200,155,60,0.12)">
                 <div>
                   <div class="retro-stat-label">Mais Kills</div>
-                  <div style="font-size:13px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;font-weight:bold"><%= @top_stats[:kills][:player] %></div>
-                  <div style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= @top_stats[:kills][:team] %></div>
+                  <div style="font-size:16px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;font-weight:bold"><%= @top_stats[:kills][:player] %></div>
+                  <div style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= @top_stats[:kills][:team] %></div>
                 </div>
-                <span style="font-size:28px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= @top_stats[:kills][:value] %></span>
+                <span style="font-size:32px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= @top_stats[:kills][:value] %></span>
               </div>
             <% end %>
             <% if @top_stats[:kda] %>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 8px 10px 0;border-bottom:1px solid rgba(200,155,60,0.12)">
                 <div>
                   <div class="retro-stat-label">Melhor KDA</div>
-                  <div style="font-size:13px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;font-weight:bold"><%= @top_stats[:kda][:player] %></div>
-                  <div style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= @top_stats[:kda][:team] %></div>
+                  <div style="font-size:16px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;font-weight:bold"><%= @top_stats[:kda][:player] %></div>
+                  <div style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= @top_stats[:kda][:team] %></div>
                 </div>
-                <span style="font-size:28px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= @top_stats[:kda][:value] %></span>
+                <span style="font-size:32px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= @top_stats[:kda][:value] %></span>
               </div>
             <% end %>
             <% if @top_stats[:assists] %>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 8px 10px 0">
                 <div>
                   <div class="retro-stat-label">Mais Assistências</div>
-                  <div style="font-size:13px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;font-weight:bold"><%= @top_stats[:assists][:player] %></div>
-                  <div style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= @top_stats[:assists][:team] %></div>
+                  <div style="font-size:16px;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;font-weight:bold"><%= @top_stats[:assists][:player] %></div>
+                  <div style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif"><%= @top_stats[:assists][:team] %></div>
                 </div>
-                <span style="font-size:28px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= @top_stats[:assists][:value] %></span>
+                <span style="font-size:32px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= @top_stats[:assists][:value] %></span>
               </div>
             <% end %>
           </div>

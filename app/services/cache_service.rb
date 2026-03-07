@@ -3,7 +3,7 @@ class CacheService
   class << self
     def fetch(key, ttl_key = :match_details, &block)
       expires = CACHE_TTLS.fetch(ttl_key, 30.minutes)
-      Rails.cache.fetch("kl:#{key}", expires_in: expires, &block)
+      Rails.cache.fetch("kl:#{key}", expires_in: expires, skip_nil: true, &block)
     rescue => e
       Rails.logger.error("[CacheService] Cache error for '#{key}': #{e.message}")
       block.call

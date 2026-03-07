@@ -28,13 +28,13 @@
         style: "display:block#{ ';cursor:pointer;list-style:none' if show_expand }" do %>
     <!-- Panel header -->
     <div style="padding:5px 12px;border-bottom:1px solid var(--retro-gold-dim);display:flex;align-items:center;justify-content:space-between;background:rgba(200,155,60,0.04)">
-      <span style="font-size:9px;letter-spacing:0.12em;color:var(--retro-gold-dim);font-family:Verdana,sans-serif;text-transform:uppercase">
+      <span style="font-size:17px;letter-spacing:0.12em;color:var(--retro-gold-dim);font-family:Verdana,sans-serif;text-transform:uppercase">
         // <%= played ? "RESULTADO" : "PARTIDA" %><% if match["Phase"].present? %> ◆ <%= phase_label(match["Phase"]).upcase %><% end %>
       </span>
       <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:9px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">Bo<%= best_of > 0 ? best_of : 1 %></span>
+        <span style="font-size:17px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">Bo<%= best_of > 0 ? best_of : 1 %></span>
         <% if show_expand %>
-          <span style="color:var(--retro-gold-dim);font-size:11px">▼</span>
+          <span style="color:var(--retro-gold-dim);font-size:17px">▼</span>
         <% end %>
       </div>
     </div>
@@ -42,7 +42,7 @@
     <!-- Match body -->
     <div style="padding:14px 16px">
       <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:10px">
-        <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= format_datetime_brt(dt) %> BRT</span>
+        <span style="font-size:16px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= format_datetime_brt(dt) %> BRT</span>
       </div>
 
       <!-- Teams row -->
@@ -51,10 +51,10 @@
         <!-- Team 1 -->
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:<%= played && winner != t1 ? '0.35' : '1' %>">
           <%= team_logo(t1, size: 48) %>
-          <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t1) %></span>
+          <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t1) %></span>
           <% captain1 = TEAMS_DATA[t1]&.dig(:captain) %>
           <% if captain1 %>
-            <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain1 %></span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain1 %></span>
           <% end %>
         </div>
 
@@ -62,15 +62,15 @@
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:72px">
           <% if played %>
             <div style="display:flex;align-items:center;gap:10px">
-              <span style="font-size:30px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t1_score %></span>
+              <span style="font-size:36px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t1_score %></span>
               <span style="color:rgba(255,255,255,0.15);font-weight:bold;font-size:18px">:</span>
-              <span style="font-size:30px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t2_score %></span>
+              <span style="font-size:36px;font-weight:900;font-family:Verdana,sans-serif;color:<%= winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.25)' %>"><%= t2_score %></span>
             </div>
-            <span style="font-size:9px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.12em;font-family:Verdana,sans-serif">ENCERRADO</span>
+            <span style="font-size:17px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.12em;font-family:Verdana,sans-serif">ENCERRADO</span>
           <% else %>
             <div style="font-size:24px;font-weight:900;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">VS</div>
             <% if dt.present? %>
-              <span style="font-size:9px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"
+              <span style="font-size:17px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif"
                     data-controller="countdown"
                     data-countdown-target-value="<%= dt %>">Em breve</span>
             <% end %>
@@ -80,10 +80,10 @@
         <!-- Team 2 -->
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:<%= played && winner != t2 ? '0.35' : '1' %>">
           <%= team_logo(t2, size: 48) %>
-          <span style="font-size:12px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t2) %></span>
+          <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif;text-align:center"><%= team_abbr(t2) %></span>
           <% captain2 = TEAMS_DATA[t2]&.dig(:captain) %>
           <% if captain2 %>
-            <span style="font-size:10px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain2 %></span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= captain2 %></span>
           <% end %>
         </div>
       </div>
@@ -97,18 +97,18 @@
         <% match_games.each_with_index do |game, idx| %>
           <% if idx > 0 %>
             <div style="padding:6px 14px;background:rgba(0,0,0,0.2);border-top:1px solid rgba(200,155,60,0.15);border-bottom:1px solid rgba(200,155,60,0.15)">
-              <span style="font-size:9px;letter-spacing:0.12em;color:var(--retro-gold-dim);font-family:Verdana,sans-serif">// GAME <%= idx + 1 %></span>
+              <span style="font-size:17px;letter-spacing:0.12em;color:var(--retro-gold-dim);font-family:Verdana,sans-serif">// GAME <%= idx + 1 %></span>
             </div>
           <% end %>
-          <%= turbo_frame_tag "scoreboard_#{game['UniqueGame']}",
-                data: { lazy_src: "/copa/game/#{game['UniqueGame']}" } do %>
-            <div style="padding:24px;text-align:center;font-size:11px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">
+          <%= turbo_frame_tag "scoreboard_#{game['UniqueGame'].parameterize}",
+                data: { lazy_src: "/copa/game/#{ERB::Util.url_encode(game['UniqueGame'])}" } do %>
+            <div style="padding:24px;text-align:center;font-size:17px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">
               Carregando scoreboard...
             </div>
           <% end %>
         <% end %>
       <% else %>
-        <div style="padding:24px 20px;text-align:center;font-size:11px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">
+        <div style="padding:24px 20px;text-align:center;font-size:17px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif">
           Dados detalhados não disponíveis para esta partida
         </div>
       <% end %>
@@ -117,9 +117,9 @@
 
   <!-- Footer strip -->
   <div style="height:16px;background:linear-gradient(to right,var(--retro-blue),var(--retro-bg));border-top:1px solid var(--retro-gold-dim);display:flex;align-items:center;padding:0 10px;justify-content:space-between">
-    <span style="font-size:8px;letter-spacing:0.1em;color:rgba(200,155,60,0.4);font-family:Verdana,sans-serif">KINGS LENDAS CUP 2026</span>
+    <span style="font-size:17px;letter-spacing:0.1em;color:rgba(200,155,60,0.4);font-family:Verdana,sans-serif">KINGS LENDAS CUP 2026</span>
     <% if played %>
-      <span style="font-size:8px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">
+      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">
         <span style="color:var(--color-kl-win)"><%= team_abbr(winner) %></span> VENCEU
       </span>
     <% end %>

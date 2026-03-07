@@ -47,9 +47,9 @@ class ApplicationController < ActionController::Base
       else
         data = leaguepedia.scoreboard_games(tournament)
         LeaguepediaSyncService.new(tournament: tournament).sync_games if data.any?
-        data
+        data.presence
       end
-    end
+    end || []
   end
 
   def db_players(tournament = CUP_TOURNAMENT)
@@ -60,9 +60,9 @@ class ApplicationController < ActionController::Base
       else
         data = leaguepedia.scoreboard_players(tournament)
         LeaguepediaSyncService.new(tournament: tournament).sync_players if data.any?
-        data
+        data.presence
       end
-    end
+    end || []
   end
 
   def db_champions(tournament = CUP_TOURNAMENT)

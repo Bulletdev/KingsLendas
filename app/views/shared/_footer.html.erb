@@ -8,13 +8,13 @@
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
             <%= image_tag "/Kings_Lendas_Cup.webp", alt: "KL", width: 34, height: 34,
                   style: "object-fit:contain",
-                  onerror: "this.onerror=null;this.outerHTML='<div style=\"width:34px;height:34px;background:var(--retro-gold);display:flex;align-items:center;justify-content:center;\"><span style=\"color:#0A0E1A;font-weight:900;font-size:12px\">KL</span></div>'" %>
+                  onerror: "this.onerror=null;this.outerHTML='<div style=\"width:34px;height:34px;background:var(--retro-gold);display:flex;align-items:center;justify-content:center;\"><span style=\"color:#0A0E1A;font-weight:900;font-size:17px\">KL</span></div>'" %>
             <div>
-              <div style="font-size:13px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.06em">KINGS LENDAS</div>
-              <div style="font-size:9px;color:var(--retro-gold-dim);letter-spacing:0.18em">CUP 2026 ◆ BY BAIANO</div>
+              <div style="font-size:16px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.06em">KINGS LENDAS</div>
+              <div style="font-size:17px;color:var(--retro-gold-dim);letter-spacing:0.18em">CUP 2026 ◆ BY BAIANO</div>
             </div>
           </div>
-          <p style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.8;max-width:220px">
+          <p style="font-size:17px;color:rgba(255,255,255,0.35);line-height:1.8;max-width:220px">
             Torneio comunitário de League of Legends organizado pela Ilha das Lendas. Pros, streamers e amadores unindo forças pelo trono.
           </p>
         </div>
@@ -23,7 +23,7 @@
           <div class="retro-section-label" style="margin-bottom:10px">// Copa 2026</div>
           <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px">
             <% [["Classificação",cup_standings_path],["Partidas",cup_matches_path],["Picks & Bans",cup_draft_path],["Jogadores",cup_players_path],["Times",teams_path]].each do |label, path| %>
-              <li><%= link_to label, path, style: "font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-decoration:none;text-transform:uppercase", onmouseover: "this.style.color='var(--retro-gold)'", onmouseout: "this.style.color='rgba(255,255,255,0.4)'" %></li>
+              <li><%= link_to label, path, style: "font-size:17px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-decoration:none;text-transform:uppercase", onmouseover: "this.style.color='var(--retro-gold)'", onmouseout: "this.style.color='rgba(255,255,255,0.4)'" %></li>
             <% end %>
           </ul>
         </div>
@@ -33,9 +33,9 @@
           <div style="display:flex;flex-direction:column;gap:8px">
             <% [["ri-broadcast-line","Kick — BaianoTV","https://kick.com/BaianoTV","#2ecc71"],["ri-twitch-line","Twitch — baiano","https://twitch.tv/baiano","#9b59b6"],["ri-youtube-line","YouTube — BaianoTV1","https://youtube.com/@BaianoTV1/live","#e74c3c"],["ri-instagram-line","Instagram — IDL","https://instagram.com/ilhadaslendas","#e91e8c"],["ri-twitter-x-line","Twitter/X — IDL","https://x.com/ilhadaslendas","rgba(255,255,255,0.6)"]].each do |icon, label, href, color| %>
               <a href="<%= href %>" target="_blank" rel="noopener"
-                 style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.05em;text-decoration:none"
+                 style="display:flex;align-items:center;gap:8px;font-size:17px;color:rgba(255,255,255,0.4);letter-spacing:0.05em;text-decoration:none"
                  onmouseover="this.style.color='<%= color %>'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
-                <i class="<%= icon %>" style="font-size:15px"></i><%= label %>
+                <i class="<%= icon %>" style="font-size:18px"></i><%= label %>
               </a>
             <% end %>
           </div>
@@ -46,16 +46,16 @@
       <div style="padding:12px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
         <div style="display:flex;align-items:center;gap:8px">
           <div class="retro-diamond"></div>
-          <span style="font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.1em">Dados via Leaguepedia ◆ Imagens © Riot Games</span>
+          <span style="font-size:17px;color:rgba(255,255,255,0.2);letter-spacing:0.1em">Dados via Leaguepedia ◆ Imagens © Riot Games</span>
         </div>
         <a href="https://prostaff.gg" target="_blank" rel="noopener"
            style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.45;transition:opacity 0.2s"
            onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.45'">
-          <span style="font-size:8px;color:rgba(255,255,255,0.5);letter-spacing:0.12em;text-transform:uppercase">Powered by</span>
+          <span style="font-size:17px;color:rgba(255,255,255,0.5);letter-spacing:0.12em;text-transform:uppercase">Powered by</span>
           <%= image_tag "/ProStaff/PROSTAFFLOGO.png", alt: "ProStaff", height: 20, style: "height:20px;width:auto;object-fit:contain" %>
           <%= image_tag "/ProStaff/prostaffgg.png", alt: "ProStaff.gg", height: 14, style: "height:14px;width:auto;object-fit:contain" %>
         </a>
-        <span style="font-size:9px;color:var(--retro-gold-dim);letter-spacing:0.12em">© 2026 KINGS LENDAS ◆ IDL</span>
+        <span style="font-size:17px;color:var(--retro-gold-dim);letter-spacing:0.12em">© 2026 KINGS LENDAS ◆ IDL</span>
         <div class="retro-diamond"></div>
       </div>
     </div>
