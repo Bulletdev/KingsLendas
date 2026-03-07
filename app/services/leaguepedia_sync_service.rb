@@ -1,0 +1,138 @@
+class LeaguepediaSyncService
+  def initialize(overview_page: CUP_OVERVIEW_PAGE, tournament: CUP_TOURNAMENT)
+    @overview_page = overview_page
+    @tournament    = tournament
+    @api           = LeaguepediaService.new
+  end
+
+  def sync_all
+    results = {}
+    results[:matches]  = sync_matches
+    results[:games]    = sync_games
+    results[:players]  = sync_players
+    results[:champions]= sync_champions
+    Rails.cache.clear
+    results
+  end
+
+  def sync_matches
+    raw = @api.schedule(@overview_page)
+    return 0 if raw.empty?
+
+    LpMatch.where(overview_page: @overview_page).delete_all
+
+    rows = raw.map do |m|
+      {
+        overview_page: @overview_page,
+        team1:         m["Team1"].to_s,
+        team2:         m["Team2"].to_s,
+        datetime_utc:  m["DateTime_UTC"].to_s,
+        best_of:       m["BestOf"].to_i,
+        winner:        m["Winner"].to_s,
+        team1_score:   m["Team1Score"].to_i,
+        team2_score:   m["Team2Score"].to_i,
+        match_day:     m["MatchDay"].to_i,
+        phase:         m["Phase"].to_s,
+        created_at:    Time.current,
+        updated_at:    Time.current
+      }
+    end
+
+    LpMatch.insert_all!(rows)
+    rows.length
+  end
+
+  def sync_games
+    raw = @api.scoreboard_games(@tournament)
+    return 0 if raw.empty?
+
+    existing = LpGame.where(tournament: @tournament).pluck(:unique_game).to_set
+
+    rows = raw.filter_map do |g|
+      next if g["UniqueGame"].blank?
+      {
+        unique_game:  g["UniqueGame"],
+        tournament:   @tournament,
+        team1:        g["Team1"].to_s,
+        team2:        g["Team2"].to_s,
+        winner:       g["Winner"].to_s,
+        gamelength:   g["Gamelength"].to_s,
+        datetime_utc: g["DateTime_UTC"].to_s,
+        team1_picks:  g["Team1Picks"].to_s,
+        team2_picks:  g["Team2Picks"].to_s,
+        team1_bans:   g["Team1Bans"].to_s,
+        team2_bans:   g["Team2Bans"].to_s,
+        team1_kills:  g["Team1Kills"].to_i,
+        team2_kills:  g["Team2Kills"].to_i,
+        team1_gold:   g["Team1Gold"].to_i,
+        team2_gold:   g["Team2Gold"].to_i,
+        patch:        g["Patch"].to_s,
+        created_at:   Time.current,
+        updated_at:   Time.current
+      }
+    end
+
+    LpGame.upsert_all(rows, unique_by: :unique_game) if rows.any?
+    rows.length
+  end
+
+  def sync_players
+    raw = @api.scoreboard_players(@tournament)
+    return 0 if raw.empty?
+
+    rows = raw.filter_map do |p|
+      next if p["UniqueGame"].blank? || p["Link"].blank?
+      {
+        unique_game:        p["UniqueGame"],
+        tournament:         @tournament,
+        player_link:        p["Link"].to_s,
+        champion:           p["Champion"].to_s,
+        kills:              p["Kills"].to_i,
+        deaths:             p["Deaths"].to_i,
+        assists:            p["Assists"].to_i,
+        cs:                 p["CS"].to_i,
+        gold:               p["Gold"].to_i,
+        damage_to_champions: p["DamageToChampions"].to_i,
+        team:               p["Team"].to_s,
+        role:               p["Role"].to_s,
+        side:               p["Side"].to_s,
+        created_at:         Time.current,
+        updated_at:         Time.current
+      }
+    end
+
+    LpPlayer.where(tournament: @tournament).delete_all
+    LpPlayer.insert_all!(rows) if rows.any?
+
+    # Rebuild FTS index
+    ActiveRecord::Base.connection.execute("DELETE FROM lp_players_fts")
+    ActiveRecord::Base.connection.execute(
+      "INSERT INTO lp_players_fts(rowid, player_link, team) SELECT id, player_link, team FROM lp_players"
+    )
+
+    rows.length
+  end
+
+  def sync_champions
+    raw = @api.champion_stats(@tournament)
+    return 0 if raw.empty?
+
+    LpChampionStat.where(tournament: @tournament).delete_all
+
+    rows = raw.map do |c|
+      {
+        tournament: @tournament,
+        champion:   c["Champion"].to_s,
+        picks:      c["Picks"].to_i,
+        bans:       c["Bans"].to_i,
+        wins:       c["Wins"].to_i,
+        games:      c["Games"].to_i,
+        created_at: Time.current,
+        updated_at: Time.current
+      }
+    end
+
+    LpChampionStat.insert_all!(rows) if rows.any?
+    rows.length
+  end
+end
