@@ -83,20 +83,20 @@
 /* ============================================================
    RETRO DESIGN SYSTEM — portado do prostaff-analytics-hub/RetroPanel
    ============================================================ */
-@layer components {
+/* ── Tokens de cor Retro — fora de qualquer layer para garantir disponibilidade global ── */
+:root {
+  --retro-gold:       #C89B3C;
+  --retro-gold-dim:   rgba(200,155,60,0.5);
+  --retro-gold-faint: rgba(200,155,60,0.12);
+  --retro-blue:       #0C223F;
+  --retro-blue-dark:  #0A1929;
+  --retro-bg:         rgba(10,14,26,0.92);
+  --retro-card:       rgba(15,24,35,0.92);
+  --retro-teal:       #0596AA;
+  --retro-font:       Verdana, Geneva, Tahoma, sans-serif;
+}
 
-  /* ── Tokens de cor Retro ── */
-  :root {
-    --retro-gold:       #C89B3C;
-    --retro-gold-dim:   rgba(200,155,60,0.5);
-    --retro-gold-faint: rgba(200,155,60,0.12);
-    --retro-blue:       #0C223F;
-    --retro-blue-dark:  #0A1929;
-    --retro-bg:         rgba(10,14,26,0.92);
-    --retro-card:       rgba(15,24,35,0.92);
-    --retro-teal:       #0596AA;
-    --retro-font:       Verdana, Geneva, Tahoma, sans-serif;
-  }
+@layer components {
 
   /* ── Padrões de fundo Retro ── */
   .retro-scanline {

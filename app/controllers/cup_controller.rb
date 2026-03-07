@@ -27,6 +27,9 @@ class CupController < ApplicationController
     set_meta_tags(title: "Picks & Bans — Kings Lendas Cup")
     @champion_stats = db_champions.sort_by { |c| -(c["Picks"].to_i + c["Bans"].to_i) }
     @teams = TEAMS_DATA.keys.first(6)
+    @champ_teams = db_players
+      .group_by { |p| p["Champion"] }
+      .transform_values { |records| records.map { |r| r["Team"] }.uniq.join(",") }
   end
 
   def champions

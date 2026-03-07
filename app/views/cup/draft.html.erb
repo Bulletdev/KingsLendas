@@ -78,7 +78,7 @@
               <% total_games = @champion_stats.map { |c| c["Games"].to_i }.max.to_f %>
               <% presence = total_games > 0 ? ((picks + bans).to_f / (total_games + 1) * 100).clamp(0, 100).round : 0 %>
               <% win_pct = picks > 0 ? (wins.to_f / picks * 100).round : 0 %>
-              <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)" data-champion-row="<%= champ['Champion'] %>">
+              <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)" data-champion-row="<%= champ['Champion'] %>" data-teams="<%= @champ_teams[champ['Champion']] || '' %>">
                 <td style="padding:10px 12px 10px 0">
                   <div style="display:flex;align-items:center;gap:10px">
                     <%= champion_icon(champ["Champion"], size: 36) %>
