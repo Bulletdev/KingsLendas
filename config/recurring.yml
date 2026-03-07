@@ -1,0 +1,15 @@
+default: &default
+  leaguepedia_sync:
+    class: LeaguepediaSyncJob
+    queue: default
+    schedule: every hour at minute 5
+
+  clear_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+    schedule: every hour at minute 55
+
+development:
+  <<: *default
+
+production:
+  <<: *default

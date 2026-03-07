@@ -53,4 +53,6 @@ Rails.application.configure do
     Bullet.alert         = false
     Bullet.add_footer    = true
   end
+
+  config.active_job.queue_adapter = :solid_queue
 end

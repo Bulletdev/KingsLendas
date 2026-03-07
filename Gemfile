@@ -49,6 +49,7 @@ group :development do
 end
 
 gem "sqlite3", ">= 2.1"
+gem "solid_queue", "~> 1.1"
 
 gem "faraday", "~> 2.14"
 gem "faraday-retry", "~> 2.4"

@@ -14,5 +14,18 @@ services:
       - .:/rails
       - bootsnap_cache:/bootsnap_cache
 
+  worker:
+    image: kings_lendas_dev
+    command: bin/jobs
+    environment:
+      RAILS_ENV: development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      BOOTSNAP_CACHE_DIR: /bootsnap_cache
+    volumes:
+      - .:/rails
+      - bootsnap_cache:/bootsnap_cache
+    depends_on:
+      - web
+
 volumes:
   bootsnap_cache:
