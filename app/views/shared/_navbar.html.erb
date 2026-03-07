@@ -6,14 +6,10 @@
     <div class="flex items-center justify-between" style="height:56px">
 
       <!-- Logo -->
-      <%= link_to root_path, style: "display:flex;align-items:center;gap:10px;text-decoration:none" do %>
-        <%= image_tag "/Kings_Lendas_Cup.webp", alt: "Kings Lendas Cup", width: 32, height: 32,
+      <%= link_to root_path, style: "display:flex;align-items:center;text-decoration:none" do %>
+        <%= image_tag "/Kings_Lendas_Cup.webp", alt: "Kings Lendas Cup", width: 44, height: 44,
               style: "object-fit:contain;filter:drop-shadow(0 0 8px rgba(200,155,60,0.5))",
-              onerror: "this.onerror=null;this.outerHTML='<div style=\"width:32px;height:32px;background:var(--retro-gold);display:flex;align-items:center;justify-content:center;\"><span style=\"color:#0A0E1A;font-weight:900;font-size:17px;font-family:Verdana\">KL</span></div>'" %>
-        <div>
-          <div style="font-size:17px;font-weight:bold;color:var(--retro-gold);letter-spacing:0.06em;line-height:1.2;text-shadow:0 0 12px rgba(200,155,60,0.5)">KINGS LENDAS</div>
-          <div style="font-size:17px;color:var(--retro-gold-dim);letter-spacing:0.2em">CUP 2026 ◆ BY BAIANO</div>
-        </div>
+              onerror: "this.onerror=null;this.outerHTML='<div style=\"width:44px;height:44px;background:var(--retro-gold);display:flex;align-items:center;justify-content:center;\"><span style=\"color:#0A0E1A;font-weight:900;font-size:18px;font-family:Verdana\">KL</span></div>'" %>
       <% end %>
 
       <!-- Nav links desktop -->
@@ -32,7 +28,7 @@
         <% nav_links.each do |label, path| %>
           <% active = current_page?(path) %>
           <%= link_to label, path,
-                style: "font-size:17px;letter-spacing:0.1em;padding:6px 10px;text-transform:uppercase;font-family:Verdana,sans-serif;text-decoration:none;transition:all 0.15s;#{active ? 'color:var(--retro-gold);border-bottom:2px solid var(--retro-gold);' : 'color:rgba(255,255,255,0.5);border-bottom:2px solid transparent;'}",
+                style: "font-size:14px;letter-spacing:0.06em;padding:6px 8px;text-transform:uppercase;font-family:Verdana,sans-serif;text-decoration:none;transition:all 0.15s;#{active ? 'color:var(--retro-gold);border-bottom:2px solid var(--retro-gold);' : 'color:rgba(255,255,255,0.5);border-bottom:2px solid transparent;'}",
                 onmouseover: active ? "" : "this.style.color='rgba(255,255,255,0.85)';this.style.borderBottomColor='var(--retro-gold-dim)'",
                 onmouseout:  active ? "" : "this.style.color='rgba(255,255,255,0.5)';this.style.borderBottomColor='transparent'" %>
         <% end %>
@@ -42,8 +38,8 @@
       <div class="flex items-center gap-3">
         <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
            class="hidden sm:flex items-center gap-2"
-           style="font-size:16px;font-weight:bold;letter-spacing:0.12em;color:#fff;background:#e53e3e;padding:5px 12px;border:1px solid #fc8181;font-family:Verdana,sans-serif;text-decoration:none">
-          <span style="width:5px;height:5px;border-radius:50%;background:#fff;animation:live-pulse 2s ease-in-out infinite;display:inline-block"></span>
+           style="font-size:13px;font-weight:bold;letter-spacing:0.1em;color:#fff;background:#c53030;padding:3px 8px;border:1px solid rgba(252,129,129,0.5);font-family:Verdana,sans-serif;text-decoration:none">
+          <span style="width:4px;height:4px;border-radius:50%;background:#fff;animation:live-pulse 2s ease-in-out infinite;display:inline-block"></span>
           AO VIVO
         </a>
         <button data-controller="mobile-nav" data-action="click->mobile-nav#toggle"

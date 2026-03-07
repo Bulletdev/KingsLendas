@@ -13,7 +13,7 @@
 
 <% tag = show_expand ? "details" : "div" %>
 <%= content_tag tag,
-      style: "border:1px solid var(--retro-gold-dim);background:var(--retro-card);position:relative;overflow:hidden",
+      style: "border:1px solid var(--retro-gold-dim);background:var(--retro-card);position:relative",
       **(show_expand ? {
         "data-match-details": true,
         ontoggle: "if(this.open){document.querySelectorAll('details[data-match-details]').forEach(function(d){if(d!==this)d.open=false},this);this.querySelectorAll('turbo-frame[data-lazy-src]').forEach(function(f){if(!f.src)f.src=f.dataset.lazySrc})}"

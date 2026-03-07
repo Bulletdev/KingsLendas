@@ -37,51 +37,51 @@
 <% else %>
 
 <%# ── HEADER: teams + score + duration ─────────────────────────────── %>
-<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 16px;background:rgba(0,0,0,0.25);border-bottom:1px solid rgba(200,155,60,0.2)">
-  <div style="display:flex;align-items:center;gap:8px">
-    <%= team_logo(@t1, size: 32) %>
+<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:20px 28px;background:rgba(0,0,0,0.25);border-bottom:1px solid rgba(200,155,60,0.2)">
+  <div style="display:flex;align-items:center;gap:12px">
+    <%= team_logo(@t1, size: 44) %>
     <div>
-      <div style="font-size:16px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t1_win ? '#4ade80' : 'rgba(255,255,255,0.55)' %>;letter-spacing:0.04em"><%= team_abbr(@t1) %></div>
-      <% if t1_side.present? %><div style="font-size:17px;font-family:Verdana,sans-serif;letter-spacing:0.1em;color:<%= t1_side.downcase == 'blue' ? '#60a5fa' : '#f87171' %>"><%= t1_side.upcase %></div><% end %>
-      <% if t1_win %><div style="font-size:17px;color:#4ade80;font-family:Verdana,sans-serif;letter-spacing:0.12em">VITÓRIA</div><% end %>
+      <div style="font-size:20px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t1_win ? '#4ade80' : 'rgba(255,255,255,0.55)' %>;letter-spacing:0.04em"><%= team_abbr(@t1) %></div>
+      <% if t1_side.present? %><div style="font-size:15px;font-family:Verdana,sans-serif;letter-spacing:0.1em;color:<%= t1_side.downcase == 'blue' ? '#60a5fa' : '#f87171' %>"><%= t1_side.upcase %></div><% end %>
+      <% if t1_win %><div style="font-size:15px;color:#4ade80;font-family:Verdana,sans-serif;letter-spacing:0.12em">VITÓRIA</div><% end %>
     </div>
   </div>
 
-  <div style="text-align:center;padding:0 16px">
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px">
-      <span style="font-size:32px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t1_win ? '#4ade80' : 'rgba(255,255,255,0.3)' %>"><%= @game["Team1Kills"] %></span>
-      <%= image_tag "/match-icons/kill.png", width: 16, height: 16, style: "width:16px;height:16px;opacity:0.25;object-fit:contain" %>
-      <span style="font-size:32px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t2_win ? '#4ade80' : 'rgba(255,255,255,0.3)' %>"><%= @game["Team2Kills"] %></span>
+  <div style="text-align:center;padding:0 24px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:14px">
+      <span style="font-size:42px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t1_win ? '#4ade80' : 'rgba(255,255,255,0.3)' %>"><%= @game["Team1Kills"] %></span>
+      <%= image_tag "/match-icons/kill.png", width: 20, height: 20, style: "width:20px;height:20px;opacity:0.25;object-fit:contain" %>
+      <span style="font-size:42px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t2_win ? '#4ade80' : 'rgba(255,255,255,0.3)' %>"><%= @game["Team2Kills"] %></span>
     </div>
-    <div style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-top:2px">
+    <div style="font-size:17px;color:rgba(255,255,255,0.4);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-top:4px">
       <%= format_game_duration(@game["Gamelength"]) %>
       <% if @game["WinType"].present? && @game["WinType"] != "" %>
         <span style="color:rgba(255,200,60,0.5);margin-left:4px">· <%= @game["WinType"] %></span>
       <% end %>
       <% if @game["Patch"].present? %>
-        <div style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.08em;margin-top:2px">Patch <%= @game["Patch"] %></div>
+        <div style="font-size:15px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.08em;margin-top:4px">Patch <%= @game["Patch"] %></div>
       <% end %>
     </div>
   </div>
 
-  <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px">
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px">
     <div style="text-align:right">
-      <div style="font-size:16px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t2_win ? '#4ade80' : 'rgba(255,255,255,0.55)' %>;letter-spacing:0.04em"><%= team_abbr(@t2) %></div>
-      <% if t2_side.present? %><div style="font-size:17px;font-family:Verdana,sans-serif;letter-spacing:0.1em;color:<%= t2_side.downcase == 'blue' ? '#60a5fa' : '#f87171' %>"><%= t2_side.upcase %></div><% end %>
-      <% if t2_win %><div style="font-size:17px;color:#4ade80;font-family:Verdana,sans-serif;letter-spacing:0.12em">VITÓRIA</div><% end %>
+      <div style="font-size:20px;font-weight:900;font-family:Verdana,sans-serif;color:<%= t2_win ? '#4ade80' : 'rgba(255,255,255,0.55)' %>;letter-spacing:0.04em"><%= team_abbr(@t2) %></div>
+      <% if t2_side.present? %><div style="font-size:15px;font-family:Verdana,sans-serif;letter-spacing:0.1em;color:<%= t2_side.downcase == 'blue' ? '#60a5fa' : '#f87171' %>"><%= t2_side.upcase %></div><% end %>
+      <% if t2_win %><div style="font-size:15px;color:#4ade80;font-family:Verdana,sans-serif;letter-spacing:0.12em">VITÓRIA</div><% end %>
     </div>
-    <%= team_logo(@t2, size: 32) %>
+    <%= team_logo(@t2, size: 44) %>
   </div>
 </div>
 
 <%# ── GOLD BAR ────────────────────────────────────────────────────── %>
-<div style="padding:10px 16px;background:rgba(0,0,0,0.15);border-bottom:1px solid rgba(200,155,60,0.12)">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-    <span style="font-size:16px;font-weight:bold;color:<%= t1_win ? '#C89B3C' : 'rgba(255,255,255,0.45)' %>;font-family:Verdana,sans-serif"><%= number_to_human(t1g, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
-    <span style="display:flex;align-items:center;gap:3px;font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;letter-spacing:0.1em"><%= image_tag "/match-icons/Gold_colored.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.7;object-fit:contain" %> GOLD</span>
-    <span style="font-size:16px;font-weight:bold;color:<%= t2_win ? '#C89B3C' : 'rgba(255,255,255,0.45)' %>;font-family:Verdana,sans-serif"><%= number_to_human(t2g, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
+<div style="padding:14px 28px;background:rgba(0,0,0,0.15);border-bottom:1px solid rgba(200,155,60,0.12)">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:18px;font-weight:bold;color:<%= t1_win ? '#C89B3C' : 'rgba(255,255,255,0.45)' %>;font-family:Verdana,sans-serif"><%= number_to_human(t1g, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
+    <span style="display:flex;align-items:center;gap:5px;font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;letter-spacing:0.1em"><%= image_tag "/match-icons/Gold_colored.png", width: 16, height: 16, style: "width:16px;height:16px;opacity:0.7;object-fit:contain" %> GOLD</span>
+    <span style="font-size:18px;font-weight:bold;color:<%= t2_win ? '#C89B3C' : 'rgba(255,255,255,0.45)' %>;font-family:Verdana,sans-serif"><%= number_to_human(t2g, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
   </div>
-  <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;display:flex">
+  <div style="height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;display:flex">
     <div style="width:<%= t1_gold_pct %>%;background:<%= t1_win ? '#C89B3C' : 'rgba(200,155,60,0.5)' %>;border-radius:3px 0 0 3px;transition:width 0.3s"></div>
     <div style="flex:1;background:<%= t2_win ? '#C89B3C' : 'rgba(200,155,60,0.5)' %>;border-radius:0 3px 3px 0"></div>
   </div>
@@ -105,17 +105,17 @@
   }
 %>
 <% if objectives_with_data.any? %>
-<div style="padding:8px 16px;background:rgba(0,0,0,0.1);border-bottom:1px solid rgba(200,155,60,0.12)">
-  <div style="display:flex;justify-content:space-around;gap:4px;flex-wrap:wrap">
+<div style="padding:14px 28px;background:rgba(0,0,0,0.1);border-bottom:1px solid rgba(200,155,60,0.12)">
+  <div style="display:flex;justify-content:space-around;gap:8px;flex-wrap:wrap">
     <% objectives_with_data.each do |obj| %>
       <% v1 = @game["Team1#{obj[:key]}"].to_i %>
       <% v2 = @game["Team2#{obj[:key]}"].to_i %>
-      <div style="text-align:center;min-width:52px;flex:1">
-        <div style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;letter-spacing:0.06em;margin-bottom:4px"><%= obj[:label].upcase %></div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:6px">
-          <span style="font-size:18px;font-weight:900;font-family:Verdana,sans-serif;min-width:16px;text-align:right;color:<%= v1 > v2 ? '#4ade80' : (v1 == v2 ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.35)') %>"><%= v1 %></span>
-          <%= image_tag obj[:icon], width: 20, height: 20, style: "width:20px;height:20px;object-fit:contain;opacity:0.85" %>
-          <span style="font-size:18px;font-weight:900;font-family:Verdana,sans-serif;min-width:16px;text-align:left;color:<%= v2 > v1 ? '#4ade80' : (v1 == v2 ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.35)') %>"><%= v2 %></span>
+      <div style="text-align:center;min-width:72px;flex:1">
+        <div style="font-size:13px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;letter-spacing:0.06em;margin-bottom:6px"><%= obj[:label].upcase %></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px">
+          <span style="font-size:22px;font-weight:900;font-family:Verdana,sans-serif;min-width:20px;text-align:right;color:<%= v1 > v2 ? '#4ade80' : (v1 == v2 ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.35)') %>"><%= v1 %></span>
+          <%= image_tag obj[:icon], width: 26, height: 26, style: "width:26px;height:26px;object-fit:contain;opacity:0.85" %>
+          <span style="font-size:22px;font-weight:900;font-family:Verdana,sans-serif;min-width:20px;text-align:left;color:<%= v2 > v1 ? '#4ade80' : (v1 == v2 ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.35)') %>"><%= v2 %></span>
         </div>
       </div>
     <% end %>
@@ -124,15 +124,15 @@
 <% end %>
 
 <%# ── DANO TOTAL (barra comparativa) ─────────────────────────────── %>
-<div style="padding:8px 16px;background:rgba(0,0,0,0.08);border-bottom:1px solid rgba(200,155,60,0.12)">
+<div style="padding:14px 28px;background:rgba(0,0,0,0.08);border-bottom:1px solid rgba(200,155,60,0.12)">
   <% total_dmg = t1_total_dmg + t2_total_dmg %>
   <% t1_dmg_pct = total_dmg > 0 ? (t1_total_dmg.to_f / total_dmg * 100).round(1) : 50.0 %>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-    <span style="font-size:16px;font-weight:bold;color:rgba(255,100,100,0.8);font-family:Verdana,sans-serif"><%= number_to_human(t1_total_dmg, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:18px;font-weight:bold;color:rgba(255,100,100,0.8);font-family:Verdana,sans-serif"><%= number_to_human(t1_total_dmg, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
     <span style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;letter-spacing:0.1em">DANO CAUSADO</span>
-    <span style="font-size:16px;font-weight:bold;color:rgba(255,100,100,0.8);font-family:Verdana,sans-serif"><%= number_to_human(t2_total_dmg, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
+    <span style="font-size:18px;font-weight:bold;color:rgba(255,100,100,0.8);font-family:Verdana,sans-serif"><%= number_to_human(t2_total_dmg, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></span>
   </div>
-  <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;display:flex">
+  <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;display:flex">
     <div style="width:<%= t1_dmg_pct %>%;background:rgba(239,68,68,0.6);border-radius:2px 0 0 2px"></div>
     <div style="flex:1;background:rgba(239,68,68,0.6);border-radius:0 2px 2px 0"></div>
   </div>
@@ -141,26 +141,26 @@
 <%# ── PLAYER TABLE ─────────────────────────────────────────────────── %>
 <%# Column headers %>
 <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(200,155,60,0.15)">
-  <div style="padding:5px 12px;border-right:1px solid rgba(200,155,60,0.1)">
-    <div style="display:grid;grid-template-columns:14px 30px 1fr 54px 32px 40px 40px 60px;gap:3px;align-items:center">
+  <div style="padding:8px 16px;border-right:1px solid rgba(200,155,60,0.1)">
+    <div style="display:grid;grid-template-columns:18px 36px 1fr 70px 40px 52px 52px 72px;gap:6px;align-items:center">
       <span></span>
       <span></span>
-      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.08em">JOGADOR</span>
-      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:center">K/D/A</span>
-      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Minion.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.4;object-fit:contain" %></span>
-      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Gold_colored.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.5;object-fit:contain" %></span>
-      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/kill.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.4;object-fit:contain" %></span>
-      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:right">BARRA</span>
+      <span style="font-size:13px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.08em">JOGADOR</span>
+      <span style="font-size:13px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:center">K/D/A</span>
+      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Minion.png", width: 14, height: 14, style: "width:14px;height:14px;opacity:0.4;object-fit:contain" %></span>
+      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Gold_colored.png", width: 14, height: 14, style: "width:14px;height:14px;opacity:0.5;object-fit:contain" %></span>
+      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/kill.png", width: 14, height: 14, style: "width:14px;height:14px;opacity:0.4;object-fit:contain" %></span>
+      <span style="font-size:13px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:right">DANO</span>
     </div>
   </div>
-  <div style="padding:5px 12px">
-    <div style="display:grid;grid-template-columns:60px 40px 40px 32px 54px 1fr 30px 14px;gap:3px;align-items:center">
-      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">BARRA</span>
-      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/kill.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.4;object-fit:contain" %></span>
-      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Gold_colored.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.5;object-fit:contain" %></span>
-      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Minion.png", width: 12, height: 12, style: "width:12px;height:12px;opacity:0.4;object-fit:contain" %></span>
-      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:center">K/D/A</span>
-      <span style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:right">JOGADOR</span>
+  <div style="padding:8px 16px">
+    <div style="display:grid;grid-template-columns:72px 52px 52px 40px 70px 1fr 36px 18px;gap:6px;align-items:center">
+      <span style="font-size:13px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif">DANO</span>
+      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/kill.png", width: 14, height: 14, style: "width:14px;height:14px;opacity:0.4;object-fit:contain" %></span>
+      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Gold_colored.png", width: 14, height: 14, style: "width:14px;height:14px;opacity:0.5;object-fit:contain" %></span>
+      <span style="display:flex;justify-content:center"><%= image_tag "/match-icons/Minion.png", width: 14, height: 14, style: "width:14px;height:14px;opacity:0.4;object-fit:contain" %></span>
+      <span style="font-size:13px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:center">K/D/A</span>
+      <span style="font-size:13px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;text-align:right">JOGADOR</span>
       <span></span>
       <span></span>
     </div>
@@ -173,57 +173,57 @@
   <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(200,155,60,0.06)">
 
     <%# Team 1 player %>
-    <div style="padding:6px 12px;border-right:1px solid rgba(200,155,60,0.1)<%= '; background:rgba(74,222,128,0.03)' if t1_win %>">
+    <div style="padding:8px 16px;border-right:1px solid rgba(200,155,60,0.1)<%= '; background:rgba(74,222,128,0.03)' if t1_win %>">
       <% if p1 %>
         <% k1=p1["Kills"].to_i; d1=p1["Deaths"].to_i; a1=p1["Assists"].to_i %>
         <% dmg1 = p1["DamageToChampions"].to_i %>
         <% dpct1 = (dmg1.to_f / max_dmg * 100).round %>
-        <div style="display:grid;grid-template-columns:14px 30px 1fr 54px 32px 40px 40px 60px;gap:3px;align-items:center">
-          <%= lane_icon(p1["Role"], size: 14) %>
-          <%= champion_icon(p1["Champion"], size: 28) %>
+        <div style="display:grid;grid-template-columns:18px 36px 1fr 70px 40px 52px 52px 72px;gap:6px;align-items:center">
+          <%= lane_icon(p1["Role"], size: 16) %>
+          <%= champion_icon(p1["Champion"], size: 34) %>
           <div style="min-width:0">
             <div style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.88);font-family:Verdana,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= p1["Link"] %></div>
-            <div style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= p1["Champion"] %></div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= p1["Champion"] %></div>
           </div>
           <div style="text-align:center">
-            <span style="font-size:16px;font-family:Verdana,sans-serif;white-space:nowrap">
+            <span style="font-size:15px;font-family:Verdana,sans-serif;white-space:nowrap">
               <span style="color:#4ade80"><%= k1 %></span><span style="color:rgba(255,255,255,0.2)">/</span><span style="color:#f87171"><%= d1 %></span><span style="color:rgba(255,255,255,0.2)">/</span><span style="color:#60a5fa"><%= a1 %></span>
             </span>
           </div>
           <div style="text-align:center;font-size:16px;color:rgba(255,255,255,0.5);font-family:Verdana,sans-serif"><%= p1["CS"] %></div>
-          <div style="text-align:center;font-size:17px;color:#C89B3C;font-family:Verdana,sans-serif"><%= number_to_human(p1["Gold"].to_i, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
-          <div style="text-align:center;font-size:17px;color:rgba(255,120,120,0.8);font-family:Verdana,sans-serif"><%= number_to_human(dmg1, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
+          <div style="text-align:center;font-size:16px;color:#C89B3C;font-family:Verdana,sans-serif"><%= number_to_human(p1["Gold"].to_i, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
+          <div style="text-align:center;font-size:16px;color:rgba(255,120,120,0.8);font-family:Verdana,sans-serif"><%= number_to_human(dmg1, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
           <div style="display:flex;align-items:center;justify-content:flex-end">
-            <div style="width:<%= dpct1 %>%;max-width:58px;height:5px;background:rgba(239,68,68,0.55);border-radius:2px 0 0 2px;min-width:2px"></div>
+            <div style="width:<%= dpct1 %>%;max-width:70px;height:6px;background:rgba(239,68,68,0.55);border-radius:3px 0 0 3px;min-width:2px"></div>
           </div>
         </div>
       <% end %>
     </div>
 
     <%# Team 2 player (mirrored) %>
-    <div style="padding:6px 12px<%= '; background:rgba(74,222,128,0.03)' if t2_win %>">
+    <div style="padding:8px 16px<%= '; background:rgba(74,222,128,0.03)' if t2_win %>">
       <% if p2 %>
         <% k2=p2["Kills"].to_i; d2=p2["Deaths"].to_i; a2=p2["Assists"].to_i %>
         <% dmg2 = p2["DamageToChampions"].to_i %>
         <% dpct2 = (dmg2.to_f / max_dmg * 100).round %>
-        <div style="display:grid;grid-template-columns:60px 40px 40px 32px 54px 1fr 30px 14px;gap:3px;align-items:center">
+        <div style="display:grid;grid-template-columns:72px 52px 52px 40px 70px 1fr 36px 18px;gap:6px;align-items:center">
           <div style="display:flex;align-items:center;justify-content:flex-start">
-            <div style="width:<%= dpct2 %>%;max-width:58px;height:5px;background:rgba(239,68,68,0.55);border-radius:0 2px 2px 0;min-width:2px"></div>
+            <div style="width:<%= dpct2 %>%;max-width:70px;height:6px;background:rgba(239,68,68,0.55);border-radius:0 3px 3px 0;min-width:2px"></div>
           </div>
-          <div style="text-align:center;font-size:17px;color:rgba(255,120,120,0.8);font-family:Verdana,sans-serif"><%= number_to_human(dmg2, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
-          <div style="text-align:center;font-size:17px;color:#C89B3C;font-family:Verdana,sans-serif"><%= number_to_human(p2["Gold"].to_i, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
+          <div style="text-align:center;font-size:16px;color:rgba(255,120,120,0.8);font-family:Verdana,sans-serif"><%= number_to_human(dmg2, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
+          <div style="text-align:center;font-size:16px;color:#C89B3C;font-family:Verdana,sans-serif"><%= number_to_human(p2["Gold"].to_i, units: {thousand: "k"}, precision: 1, significant: false, strip_insignificant_zeros: true) %></div>
           <div style="text-align:center;font-size:16px;color:rgba(255,255,255,0.5);font-family:Verdana,sans-serif"><%= p2["CS"] %></div>
           <div style="text-align:center">
-            <span style="font-size:16px;font-family:Verdana,sans-serif;white-space:nowrap">
+            <span style="font-size:15px;font-family:Verdana,sans-serif;white-space:nowrap">
               <span style="color:#4ade80"><%= k2 %></span><span style="color:rgba(255,255,255,0.2)">/</span><span style="color:#f87171"><%= d2 %></span><span style="color:rgba(255,255,255,0.2)">/</span><span style="color:#60a5fa"><%= a2 %></span>
             </span>
           </div>
           <div style="min-width:0;text-align:right">
             <div style="font-size:16px;font-weight:bold;color:rgba(255,255,255,0.88);font-family:Verdana,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= p2["Link"] %></div>
-            <div style="font-size:17px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= p2["Champion"] %></div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif"><%= p2["Champion"] %></div>
           </div>
-          <%= champion_icon(p2["Champion"], size: 28) %>
-          <%= lane_icon(p2["Role"], size: 14) %>
+          <%= champion_icon(p2["Champion"], size: 34) %>
+          <%= lane_icon(p2["Role"], size: 16) %>
         </div>
       <% end %>
     </div>
@@ -235,17 +235,17 @@
 <% picks1 = @game["Team1Picks"].to_s.split(",").map(&:strip).reject(&:blank?) %>
 <% picks2 = @game["Team2Picks"].to_s.split(",").map(&:strip).reject(&:blank?) %>
 <% if picks1.any? || picks2.any? %>
-  <div style="padding:8px 14px;border-top:1px solid rgba(200,155,60,0.12);display:grid;grid-template-columns:1fr 1fr;gap:12px;background:rgba(0,0,0,0.08)">
+  <div style="padding:14px 28px;border-top:1px solid rgba(200,155,60,0.12);display:grid;grid-template-columns:1fr 1fr;gap:24px;background:rgba(0,0,0,0.08)">
     <div>
-      <div style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:4px">PICKS <%= team_abbr(@t1) %></div>
-      <div style="display:flex;gap:3px;flex-wrap:wrap">
-        <% picks1.each do |champ| %><%= champion_icon(champ, size: 26) %><% end %>
+      <div style="font-size:13px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:8px">PICKS <%= team_abbr(@t1) %></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <% picks1.each do |champ| %><%= champion_icon(champ, size: 36) %><% end %>
       </div>
     </div>
     <div style="text-align:right">
-      <div style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:4px">PICKS <%= team_abbr(@t2) %></div>
-      <div style="display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end">
-        <% picks2.each do |champ| %><%= champion_icon(champ, size: 26) %><% end %>
+      <div style="font-size:13px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:8px">PICKS <%= team_abbr(@t2) %></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        <% picks2.each do |champ| %><%= champion_icon(champ, size: 36) %><% end %>
       </div>
     </div>
   </div>
@@ -255,28 +255,28 @@
 <% bans1 = @game["Team1Bans"].to_s.split(",").map(&:strip).reject(&:blank?) %>
 <% bans2 = @game["Team2Bans"].to_s.split(",").map(&:strip).reject(&:blank?) %>
 <% if bans1.any? || bans2.any? %>
-  <div style="padding:8px 14px;border-top:1px solid rgba(200,155,60,0.08);display:grid;grid-template-columns:1fr 1fr;gap:12px;background:rgba(0,0,0,0.12)">
+  <div style="padding:14px 28px;border-top:1px solid rgba(200,155,60,0.08);display:grid;grid-template-columns:1fr 1fr;gap:24px;background:rgba(0,0,0,0.12)">
     <div>
-      <div style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:4px">BANS <%= team_abbr(@t1) %></div>
-      <div style="display:flex;gap:3px;flex-wrap:wrap">
+      <div style="font-size:13px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:8px">BANS <%= team_abbr(@t1) %></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
         <% bans1.each do |champ| %>
           <div style="position:relative">
-            <%= champion_icon(champ, size: 24, css_class: "opacity-50 grayscale") %>
+            <%= champion_icon(champ, size: 34, css_class: "opacity-50 grayscale") %>
             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-              <div style="width:100%;height:1px;background:#ef4444;transform:rotate(45deg);position:absolute"></div>
+              <div style="width:100%;height:2px;background:#ef4444;transform:rotate(45deg);position:absolute"></div>
             </div>
           </div>
         <% end %>
       </div>
     </div>
     <div style="text-align:right">
-      <div style="font-size:17px;color:rgba(255,255,255,0.2);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:4px">BANS <%= team_abbr(@t2) %></div>
-      <div style="display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end">
+      <div style="font-size:13px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-bottom:8px">BANS <%= team_abbr(@t2) %></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
         <% bans2.each do |champ| %>
           <div style="position:relative">
-            <%= champion_icon(champ, size: 24, css_class: "opacity-50 grayscale") %>
+            <%= champion_icon(champ, size: 34, css_class: "opacity-50 grayscale") %>
             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-              <div style="width:100%;height:1px;background:#ef4444;transform:rotate(45deg);position:absolute"></div>
+              <div style="width:100%;height:2px;background:#ef4444;transform:rotate(45deg);position:absolute"></div>
             </div>
           </div>
         <% end %>
