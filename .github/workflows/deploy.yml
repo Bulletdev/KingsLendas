@@ -18,7 +18,8 @@ jobs:
       - name: Trigger Coolify webhook
         run: |
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X GET "${{ secrets.COOLIFY_WEBHOOK_URL }}")
+            -X GET "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}")
 
           if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
             echo "Deploy triggered successfully (HTTP $HTTP_STATUS)"
