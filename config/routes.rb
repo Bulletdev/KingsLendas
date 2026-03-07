@@ -35,4 +35,5 @@ Rails.application.routes.draw do
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
+  post "/admin/sync", to: "admin#sync"
 end
