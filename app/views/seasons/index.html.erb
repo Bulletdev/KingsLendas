@@ -17,10 +17,13 @@
              onmouseover="this.style.borderColor='var(--retro-gold)';this.style.background='rgba(200,155,60,0.05)'"
              onmouseout="this.style.borderColor='var(--retro-gold-dim)';this.style.background='var(--retro-card)'">
           <div class="retro-corners"></div>
-          <!-- Season roman numeral badge -->
-          <div style="width:56px;height:56px;border:1px solid var(--retro-gold);background:linear-gradient(135deg,var(--retro-blue),var(--retro-blue-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative">
-            <div class="retro-corners"></div>
-            <span style="font-size:20px;font-weight:bold;color:var(--retro-gold);font-family:var(--retro-font);text-shadow:0 0 8px rgba(200,155,60,0.6)"><%= roman_num %></span>
+          <!-- Season logo + roman numeral badge -->
+          <div style="width:56px;height:56px;flex-shrink:0;position:relative">
+            <%= image_tag "/Kings_Lendas_logo.webp", alt: season[:label], width: 56, height: 56,
+                  style: "width:56px;height:56px;object-fit:contain" %>
+            <div style="position:absolute;bottom:-4px;right:-6px;background:var(--retro-blue-dark);border:1px solid var(--retro-gold);padding:1px 5px">
+              <span style="font-size:10px;font-weight:bold;color:var(--retro-gold);font-family:var(--retro-font)"><%= roman_num %></span>
+            </div>
           </div>
           <div style="flex:1">
             <p style="font-size:9px;color:var(--retro-teal);letter-spacing:0.18em;font-family:var(--retro-font);text-transform:uppercase;margin-bottom:3px">IDL Kings Lendas</p>
