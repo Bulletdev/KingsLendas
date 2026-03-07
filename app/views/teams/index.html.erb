@@ -55,10 +55,10 @@
           <div style="border-top:1px solid rgba(200,155,60,0.12);padding-top:10px">
             <% data[:roster]&.reject { |m| m[:role] == "coach" }&.first(5)&.each do |member| %>
               <div style="display:flex;align-items:center;gap:8px;padding:3px 0">
-                <span style="font-size:17px;color:rgba(255,255,255,0.25);font-family:Verdana,sans-serif;text-transform:uppercase;width:40px;text-align:right"><%= member[:role] %></span>
+                <span style="width:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center"><%= lane_icon(member[:role], size: 16) %></span>
                 <div style="width:4px;height:4px;border-radius:50%;background:<%= data[:color] %>;flex-shrink:0"></div>
-                <span style="font-size:17px;color:rgba(255,255,255,0.7);font-family:Verdana,sans-serif"><%= member[:player] %></span>
-                <% if member[:captain] %><span style="color:var(--retro-gold);font-size:17px">★</span><% end %>
+                <span style="font-size:15px;color:rgba(255,255,255,0.7);font-family:Verdana,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= member[:player] %></span>
+                <% if member[:captain] %><span style="color:var(--retro-gold);font-size:15px;flex-shrink:0">★</span><% end %>
               </div>
             <% end %>
           </div>
