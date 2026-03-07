@@ -1,0 +1,46 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Trigger Coolify Deploy
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: https://kingslendas.com
+
+    steps:
+      - name: Trigger Coolify webhook
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET "${{ secrets.COOLIFY_WEBHOOK_URL }}")
+
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+            echo "Deploy triggered successfully (HTTP $HTTP_STATUS)"
+          else
+            echo "Failed to trigger deploy (HTTP $HTTP_STATUS)"
+            exit 1
+          fi
+
+      - name: Wait for deploy and health check
+        run: |
+          echo "Waiting 60s for Coolify to build and start..."
+          sleep 60
+
+          for i in {1..10}; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://kingslendas.com/up)
+            if [ "$HTTP_STATUS" -eq 200 ]; then
+              echo "Health check passed (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i/10 — HTTP $HTTP_STATUS, retrying in 15s..."
+            sleep 15
+          done
+
+          echo "Health check failed after all attempts"
+          exit 1
