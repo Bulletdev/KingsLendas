@@ -1,0 +1,448 @@
+name: Security Scan — Kings Lendas
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Roda toda segunda às 9h UTC
+    - cron: '0 9 * * 1'
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SAST jobs (sem servidor — analisam código-fonte)
+# ─────────────────────────────────────────────────────────────────────────────
+
+jobs:
+  brakeman:
+    name: Brakeman Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd  # v1
+        with:
+          ruby-version: 3.4.5
+          bundler-cache: true
+
+      - name: Run Brakeman
+        run: |
+          bundle exec brakeman \
+            --format json \
+            --output brakeman-report.json \
+            --no-exit-on-warn \
+            --no-exit-on-error
+
+      - name: Parse Results
+        id: parse
+        run: |
+          WARNINGS=$(jq '.warnings | length' brakeman-report.json)
+          HIGH=$(jq '[.warnings[] | select(.confidence == "High")] | length' brakeman-report.json)
+          echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+          echo "high=$HIGH"         >> $GITHUB_OUTPUT
+
+      - name: Upload Report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
+        with:
+          name: brakeman-report
+          path: brakeman-report.json
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410  # v6
+        with:
+          script: |
+            const warnings = '${{ steps.parse.outputs.warnings }}';
+            const high     = '${{ steps.parse.outputs.high }}';
+            const body = `## Brakeman Security Scan
+            - Total warnings: ${warnings}
+            - High confidence: ${high}
+
+            ${high > 0 ? '[WARN] Issues de alta confiança encontrados! Revisar.' : '[OK] Nenhum issue de alta confiança.'}
+            `;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
+      - name: Fail on High Confidence Issues
+        if: steps.parse.outputs.high > 0
+        run: |
+          echo "::error::${{ steps.parse.outputs.high }} issues de alta confiança encontrados!"
+          exit 1
+
+  # ───────────────────────────────────────────────────────────────────────────
+  dependency-check:
+    name: Dependency Vulnerability Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd  # v1
+        with:
+          ruby-version: 3.4.5
+          bundler-cache: true
+
+      - name: Update Vulnerability Database
+        run: bundle exec bundle-audit update
+
+      - name: Run Bundle Audit
+        id: audit
+        run: |
+          bundle exec bundle-audit check --output bundle-audit.txt \
+            || echo "vulnerabilities=true" >> $GITHUB_OUTPUT
+          cat bundle-audit.txt
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
+        with:
+          name: bundle-audit-report
+          path: bundle-audit.txt
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410  # v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report    = fs.readFileSync('bundle-audit.txt', 'utf8');
+            const hasVulns  = report.includes('Vulnerabilities found');
+            const body = `## Dependency Security Check
+            ${hasVulns ? '[WARN] Vulnerabilidades em dependências!' : '[OK] Nenhuma vulnerabilidade conhecida.'}
+            <details><summary>Ver relatório</summary>
+
+            \`\`\`
+            ${report}
+            \`\`\`
+            </details>`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
+      - name: Fail on Vulnerabilities
+        if: steps.audit.outputs.vulnerabilities == 'true'
+        run: |
+          echo "::error::Dependências vulneráveis encontradas!"
+          exit 1
+
+  # ───────────────────────────────────────────────────────────────────────────
+  semgrep:
+    name: Semgrep Static Analysis
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Run Semgrep
+        run: |
+          semgrep scan \
+            --config=auto \
+            --json \
+            --output=semgrep-report.json \
+            --exclude 'vendor/' \
+            --exclude '.pentest/' \
+            --verbose \
+            || true
+          echo "::group::Semgrep Report Preview"
+          cat semgrep-report.json | head -c 5000
+          echo "::endgroup::"
+
+      - name: Parse Results
+        id: parse
+        run: |
+          TOTAL=$(jq '.results | length' semgrep-report.json)
+          ERRORS=$(jq '[.results[] | select(.extra.severity == "ERROR")] | length' semgrep-report.json)
+          WARNINGS=$(jq '[.results[] | select(.extra.severity == "WARNING")] | length' semgrep-report.json)
+          CRITICAL=$(jq '[.results[] | select(.extra.metadata.confidence == "HIGH" and ((.extra.metadata.subcategory // "vuln") != "audit"))] | length' semgrep-report.json)
+          echo "errors=$ERRORS"     >> $GITHUB_OUTPUT
+          echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+          echo "::notice::Total: $TOTAL | Errors: $ERRORS | Warnings: $WARNINGS | Critical: $CRITICAL"
+
+      - name: Upload Report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
+        with:
+          name: semgrep-report
+          path: semgrep-report.json
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410  # v6
+        with:
+          script: |
+            const errors   = '${{ steps.parse.outputs.errors }}';
+            const warnings = '${{ steps.parse.outputs.warnings }}';
+            const critical = '${{ steps.parse.outputs.critical }}';
+            const body = `## Semgrep Static Analysis
+            - **Errors**: ${errors}
+            - **Critical (high confidence)**: ${critical}
+            - **Warnings**: ${warnings}
+
+            ${errors > 0 ? '[FAIL] Errors encontrados! Corrigir.' : critical > 0 ? '[WARN] Issues de alta confiança. Revisar.' : '[OK] Sem issues críticos.'}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
+      - name: Fail on Critical Errors
+        if: steps.parse.outputs.errors > 0
+        run: |
+          echo "::error::Semgrep encontrou ${{ steps.parse.outputs.errors }} erros de segurança!"
+          exit 1
+
+  # ───────────────────────────────────────────────────────────────────────────
+  secret-scan:
+    name: Secret Detection (TruffleHog)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog Secret Scan
+        uses: trufflesecurity/trufflehog@6961f2bace57ab32b23b3ba40f8f420f6bc7e004  # main
+        with:
+          path: ./
+          extra_args: --only-verified
+
+  # ───────────────────────────────────────────────────────────────────────────
+  secrets-scan-local:
+    name: Secrets Scan (Local)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Run Secrets Check
+        run: |
+          chmod +x .pentest/test-secrets-quick.sh
+          .pentest/test-secrets-quick.sh
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DAST jobs (sobem o servidor Rails e rodam os scripts de pentest)
+# Sem PostgreSQL/Redis — usa SQLite (banco de desenvolvimento/teste)
+# ─────────────────────────────────────────────────────────────────────────────
+
+  dast-auth:
+    name: DAST — Authentication Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd  # v1
+        with:
+          ruby-version: 3.4.5
+          bundler-cache: true
+
+      - name: Setup SQLite DB
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bundle exec rails db:prepare RAILS_ENV=test
+
+      - name: Start Rails Server
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          ADMIN_SYNC_TOKEN: ci-pentest-token
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails server -p 3333 -d
+          timeout 30 bash -c 'until curl -sf http://localhost:3333/up; do sleep 2; done'
+
+      - name: Run Authentication Tests
+        run: |
+          chmod +x .pentest/test-authentication-quick.sh
+          .pentest/test-authentication-quick.sh http://localhost:3333
+
+  dast-sqli:
+    name: DAST — SQL Injection Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd  # v1
+        with:
+          ruby-version: 3.4.5
+          bundler-cache: true
+
+      - name: Setup SQLite DB
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bundle exec rails db:prepare RAILS_ENV=test
+
+      - name: Start Rails Server
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails server -p 3333 -d
+          timeout 30 bash -c 'until curl -sf http://localhost:3333/up; do sleep 2; done'
+
+      - name: Run SQL Injection Tests
+        run: |
+          chmod +x .pentest/test-sql-injection-quick.sh
+          .pentest/test-sql-injection-quick.sh http://localhost:3333
+
+  dast-ssrf:
+    name: DAST — SSRF & Path Traversal Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd  # v1
+        with:
+          ruby-version: 3.4.5
+          bundler-cache: true
+
+      - name: Setup SQLite DB
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bundle exec rails db:prepare RAILS_ENV=test
+
+      - name: Start Rails Server
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          ADMIN_SYNC_TOKEN: ci-pentest-token
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails server -p 3333 -d
+          timeout 30 bash -c 'until curl -sf http://localhost:3333/up; do sleep 2; done'
+
+      - name: Run SSRF Tests
+        run: |
+          chmod +x .pentest/test-ssrf-quick.sh
+          .pentest/test-ssrf-quick.sh http://localhost:3333
+
+  dast-data-integrity:
+    name: DAST — Data Integrity Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd  # v1
+        with:
+          ruby-version: 3.4.5
+          bundler-cache: true
+
+      - name: Setup SQLite DB & Seed test data
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          bundle exec rails db:prepare RAILS_ENV=test
+          bundle exec rails leaguepedia:import_html RAILS_ENV=test 2>/dev/null || true
+
+      - name: Start Rails Server
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          ADMIN_SYNC_TOKEN: ci-pentest-token
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails server -p 3333 -d
+          timeout 30 bash -c 'until curl -sf http://localhost:3333/up; do sleep 2; done'
+
+      - name: Run Data Integrity Tests
+        run: |
+          chmod +x .pentest/test-multi-tenancy-quick.sh
+          .pentest/test-multi-tenancy-quick.sh http://localhost:3333
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Sumário final
+# ─────────────────────────────────────────────────────────────────────────────
+
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs:
+      - brakeman
+      - dependency-check
+      - semgrep
+      - secret-scan
+      - secrets-scan-local
+      - dast-auth
+      - dast-sqli
+      - dast-ssrf
+      - dast-data-integrity
+    if: always()
+    steps:
+      - name: Check Results
+        run: |
+          echo "Brakeman:         ${{ needs.brakeman.result }}"
+          echo "Dependencies:     ${{ needs.dependency-check.result }}"
+          echo "Semgrep:          ${{ needs.semgrep.result }}"
+          echo "TruffleHog:       ${{ needs.secret-scan.result }}"
+          echo "Secrets Local:    ${{ needs.secrets-scan-local.result }}"
+          echo "DAST Auth:        ${{ needs.dast-auth.result }}"
+          echo "DAST SQLi:        ${{ needs.dast-sqli.result }}"
+          echo "DAST SSRF:        ${{ needs.dast-ssrf.result }}"
+          echo "DAST Integrity:   ${{ needs.dast-data-integrity.result }}"
+
+      - name: Post Summary
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410  # v6
+        with:
+          script: |
+            const r = (result) => ({ success: '[OK]', failure: '[FAIL]' }[result] ?? '[WARN]');
+            const needs = {
+              brakeman:   '${{ needs.brakeman.result }}',
+              deps:       '${{ needs.dependency-check.result }}',
+              semgrep:    '${{ needs.semgrep.result }}',
+              trufflehog: '${{ needs.secret-scan.result }}',
+              secrets:    '${{ needs.secrets-scan-local.result }}',
+              auth:       '${{ needs.dast-auth.result }}',
+              sqli:       '${{ needs.dast-sqli.result }}',
+              ssrf:       '${{ needs.dast-ssrf.result }}',
+              integrity:  '${{ needs.dast-data-integrity.result }}',
+            };
+            const allPassed = Object.values(needs).every(v => v === 'success');
+            const body = `## Security Scan — Kings Lendas
+
+            ### SAST (análise estática)
+            | Check | Status |
+            |-------|--------|
+            | Brakeman | ${r(needs.brakeman)} ${needs.brakeman} |
+            | Dependências | ${r(needs.deps)} ${needs.deps} |
+            | Semgrep | ${r(needs.semgrep)} ${needs.semgrep} |
+            | TruffleHog | ${r(needs.trufflehog)} ${needs.trufflehog} |
+            | Segredos locais | ${r(needs.secrets)} ${needs.secrets} |
+
+            ### DAST (testes dinâmicos)
+            | Check | Status |
+            |-------|--------|
+            | Autenticação | ${r(needs.auth)} ${needs.auth} |
+            | SQL Injection | ${r(needs.sqli)} ${needs.sqli} |
+            | SSRF / Path Traversal | ${r(needs.ssrf)} ${needs.ssrf} |
+            | Integridade dos dados | ${r(needs.integrity)} ${needs.integrity} |
+
+            ${allPassed ? '[OK] Todos os checks passaram!' : '[WARN] Alguns checks falharam. Revisar acima.'}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
