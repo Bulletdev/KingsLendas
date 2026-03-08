@@ -10,6 +10,12 @@ development:
   queue:
     <<: *default
     database: storage/development.sqlite3
+<% if ENV["DATABASE_URL"].present? %>
+  leaguepedia:
+    adapter: postgresql
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    url: <%= ENV["DATABASE_URL"] %>
+<% end %>
 
 test:
   <<: *default
@@ -22,3 +28,9 @@ production:
   queue:
     <<: *default
     database: storage/production.sqlite3
+<% if ENV["DATABASE_URL"].present? %>
+  leaguepedia:
+    adapter: postgresql
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    url: <%= ENV["DATABASE_URL"] %>
+<% end %>

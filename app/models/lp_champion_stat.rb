@@ -1,4 +1,4 @@
-class LpChampionStat < ApplicationRecord
+class LpChampionStat < LeaguepediaRecord
   scope :for_tournament, ->(t) { where(tournament: t) }
 
   def as_leaguepedia_hash

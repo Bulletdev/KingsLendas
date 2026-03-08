@@ -1,4 +1,4 @@
-class LpMatch < ApplicationRecord
+class LpMatch < LeaguepediaRecord
   scope :for_overview, ->(page) { where(overview_page: page) }
   scope :played,       -> { where.not(winner: [ nil, "" ]) }
   scope :upcoming,     -> { where(winner: [ nil, "" ]) }

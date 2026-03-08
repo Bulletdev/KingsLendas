@@ -62,7 +62,14 @@ namespace :leaguepedia do
     # ── 1. Sync match schedule from Leaguepedia API (if not yet populated) ──
     if LpMatch.where(overview_page: overview).count == 0
       puts "Syncing match schedule..."
-      LeaguepediaSyncService.new.sync_matches rescue nil
+      begin
+        n = LeaguepediaSyncService.new.sync_matches
+        puts "  #{n} match rows synced."
+      rescue => e
+        puts "  WARNING: match sync failed: #{e.message}"
+      end
+    else
+      puts "  match schedule already populated (#{LpMatch.where(overview_page: overview).count} rows), skipping."
     end
 
     # ── 2. Fix match_day and phase based on date (Leaguepedia stored 2025 for 2026) ──

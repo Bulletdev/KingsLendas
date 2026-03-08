@@ -201,6 +201,11 @@ GEM
     parser (3.3.10.2)
       ast (~> 2.4.1)
       racc
+    pg (1.6.3)
+    pg (1.6.3-aarch64-linux)
+    pg (1.6.3-aarch64-linux-musl)
+    pg (1.6.3-x86_64-linux)
+    pg (1.6.3-x86_64-linux-musl)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -379,6 +384,7 @@ DEPENDENCIES
   kamal
   meta-tags (~> 2.22)
   oj (~> 3.16)
+  pg (~> 1.5)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.4)

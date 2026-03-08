@@ -1,4 +1,4 @@
-class LpGame < ApplicationRecord
+class LpGame < LeaguepediaRecord
   scope :for_tournament, ->(t) { where(tournament: t) }
   scope :ordered,        -> { order(:datetime_utc) }
 

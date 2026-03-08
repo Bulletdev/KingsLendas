@@ -1,4 +1,4 @@
-class LpPlayer < ApplicationRecord
+class LpPlayer < LeaguepediaRecord
   scope :for_tournament, ->(t) { where(tournament: t) }
   scope :for_player,     ->(slug) { where(player_link: slug) }
 
