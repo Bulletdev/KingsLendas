@@ -1,5 +1,5 @@
 module Api
-  class BaseController < ActionController::Base
+  class BaseController < ApplicationController
     before_action :set_json_headers
 
     rescue_from StandardError do |e|
