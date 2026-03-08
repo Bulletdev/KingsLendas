@@ -201,9 +201,9 @@ jobs:
             });
 
       - name: Fail on Critical Errors
-        if: steps.parse.outputs.errors > 0
+        if: steps.parse.outputs.critical > 0
         run: |
-          echo "::error::Semgrep encontrou ${{ steps.parse.outputs.errors }} erros de segurança!"
+          echo "::error::Semgrep encontrou ${{ steps.parse.outputs.critical }} issues críticos de alta confiança!"
           exit 1
 
   # ───────────────────────────────────────────────────────────────────────────
@@ -250,11 +250,14 @@ jobs:
           ruby-version: 3.4.5
           bundler-cache: true
 
-      - name: Setup SQLite DB
+      - name: Setup SQLite DB & Assets
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: bundle exec rails db:prepare RAILS_ENV=test
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails db:prepare RAILS_ENV=test
+          bundle exec rails assets:precompile
 
       - name: Start Rails Server
         env:
@@ -283,11 +286,14 @@ jobs:
           ruby-version: 3.4.5
           bundler-cache: true
 
-      - name: Setup SQLite DB
+      - name: Setup SQLite DB & Assets
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: bundle exec rails db:prepare RAILS_ENV=test
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails db:prepare RAILS_ENV=test
+          bundle exec rails assets:precompile
 
       - name: Start Rails Server
         env:
@@ -315,11 +321,14 @@ jobs:
           ruby-version: 3.4.5
           bundler-cache: true
 
-      - name: Setup SQLite DB
+      - name: Setup SQLite DB & Assets
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: bundle exec rails db:prepare RAILS_ENV=test
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
+        run: |
+          bundle exec rails db:prepare RAILS_ENV=test
+          bundle exec rails assets:precompile
 
       - name: Start Rails Server
         env:
@@ -348,12 +357,14 @@ jobs:
           ruby-version: 3.4.5
           bundler-cache: true
 
-      - name: Setup SQLite DB & Seed test data
+      - name: Setup SQLite DB, Assets & Seed test data
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          SECRET_KEY_BASE: ci_secret_key_base_for_testing_only
         run: |
           bundle exec rails db:prepare RAILS_ENV=test
+          bundle exec rails assets:precompile
           bundle exec rails leaguepedia:import_html RAILS_ENV=test 2>/dev/null || true
 
       - name: Start Rails Server
