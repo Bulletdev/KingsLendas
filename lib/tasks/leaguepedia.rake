@@ -106,6 +106,9 @@ namespace :leaguepedia do
       puts "devdocs/import_data.json not found — skipping stats import."
     end
 
+    # ── 4. Clear MemoryStore so first web request gets fresh DB data ──
+    Rails.cache.clear rescue nil
+
     puts "Bootstrap complete."
   end
 

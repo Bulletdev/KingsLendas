@@ -32,7 +32,7 @@ class HomeController < ApplicationController
 
   def find_recent_matches(limit)
     @schedule.select { |m| m["Winner"].present? }
-             .last(limit)
+             .first(limit)
   end
 
   def detect_phase(schedule)
