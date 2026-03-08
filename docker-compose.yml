@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     image: kings_lendas_dev
+    env_file: .env
     environment:
       RAILS_ENV: development
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
@@ -17,6 +18,7 @@ services:
   worker:
     image: kings_lendas_dev
     command: bin/jobs
+    env_file: .env
     environment:
       RAILS_ENV: development
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}

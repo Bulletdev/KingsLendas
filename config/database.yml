@@ -10,11 +10,11 @@ development:
   queue:
     <<: *default
     database: storage/development.sqlite3
-<% if ENV["DATABASE_URL"].present? %>
+<% if ENV["LEAGUEPEDIA_DATABASE_URL"].present? %>
   leaguepedia:
     adapter: postgresql
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= ENV["LEAGUEPEDIA_DATABASE_URL"] %>
 <% end %>
 
 test:
@@ -28,9 +28,9 @@ production:
   queue:
     <<: *default
     database: storage/production.sqlite3
-<% if ENV["DATABASE_URL"].present? %>
+<% if ENV["LEAGUEPEDIA_DATABASE_URL"].present? %>
   leaguepedia:
     adapter: postgresql
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    url: <%= ENV["DATABASE_URL"] %>
+    url: <%= ENV["LEAGUEPEDIA_DATABASE_URL"] %>
 <% end %>

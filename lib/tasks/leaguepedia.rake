@@ -188,6 +188,115 @@ namespace :leaguepedia do
     puts "Done."
   end
 
+  desc "Create lp_* tables in Supabase (leaguepedia DB) — idempotent"
+  task setup_supabase: :environment do
+    conn = LeaguepediaRecord.connection
+
+    unless conn.table_exists?(:lp_matches)
+      conn.create_table :lp_matches do |t|
+        t.string  :overview_page, null: false
+        t.string  :team1
+        t.string  :team2
+        t.string  :datetime_utc
+        t.integer :best_of
+        t.string  :winner
+        t.integer :team1_score
+        t.integer :team2_score
+        t.integer :match_day
+        t.string  :phase
+        t.timestamps
+      end
+      conn.add_index :lp_matches, :overview_page
+      conn.add_index :lp_matches, :datetime_utc
+      puts "  created lp_matches"
+    else
+      puts "  lp_matches already exists"
+    end
+
+    unless conn.table_exists?(:lp_games)
+      conn.create_table :lp_games do |t|
+        t.string  :unique_game, null: false
+        t.string  :tournament
+        t.string  :team1
+        t.string  :team2
+        t.string  :winner
+        t.string  :gamelength
+        t.string  :datetime_utc
+        t.text    :team1_picks
+        t.text    :team2_picks
+        t.text    :team1_bans
+        t.text    :team2_bans
+        t.integer :team1_kills
+        t.integer :team2_kills
+        t.integer :team1_gold
+        t.integer :team2_gold
+        t.string  :patch
+        t.integer :team1_towers
+        t.integer :team2_towers
+        t.integer :team1_inhibitors
+        t.integer :team2_inhibitors
+        t.integer :team1_dragons
+        t.integer :team2_dragons
+        t.integer :team1_barons
+        t.integer :team2_barons
+        t.integer :team1_rift_heralds
+        t.integer :team2_rift_heralds
+        t.integer :team1_void_grubs
+        t.integer :team2_void_grubs
+        t.string  :win_type
+        t.timestamps
+      end
+      conn.add_index :lp_games, :unique_game, unique: true
+      conn.add_index :lp_games, :tournament
+      puts "  created lp_games"
+    else
+      puts "  lp_games already exists"
+    end
+
+    unless conn.table_exists?(:lp_players)
+      conn.create_table :lp_players do |t|
+        t.string  :unique_game, null: false
+        t.string  :tournament
+        t.string  :player_link
+        t.string  :champion
+        t.integer :kills
+        t.integer :deaths
+        t.integer :assists
+        t.integer :cs
+        t.integer :gold
+        t.integer :damage_to_champions
+        t.string  :team
+        t.string  :role
+        t.string  :side
+        t.timestamps
+      end
+      conn.add_index :lp_players, [ :unique_game, :player_link ], unique: true
+      conn.add_index :lp_players, :tournament
+      conn.add_index :lp_players, :player_link
+      puts "  created lp_players"
+    else
+      puts "  lp_players already exists"
+    end
+
+    unless conn.table_exists?(:lp_champion_stats)
+      conn.create_table :lp_champion_stats do |t|
+        t.string  :tournament, null: false
+        t.string  :champion,   null: false
+        t.integer :picks,  default: 0
+        t.integer :bans,   default: 0
+        t.integer :wins,   default: 0
+        t.integer :games,  default: 0
+        t.timestamps
+      end
+      conn.add_index :lp_champion_stats, [ :tournament, :champion ], unique: true
+      puts "  created lp_champion_stats"
+    else
+      puts "  lp_champion_stats already exists"
+    end
+
+    puts "Supabase setup complete."
+  end
+
   desc "Show current DB counts"
   task status: :environment do
     puts "DB Status:"
