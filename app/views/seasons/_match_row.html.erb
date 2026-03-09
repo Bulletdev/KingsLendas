@@ -1,0 +1,32 @@
+<% t1 = match["Team1"]; t2 = match["Team2"] %>
+<% winner = match["Winner"]; played = winner.present? %>
+<% t1s = match["Team1Score"].to_i; t2s = match["Team2Score"].to_i %>
+
+<div style="border:1px solid <%= played ? 'rgba(200,155,60,0.15)' : 'rgba(5,150,170,0.12)' %>;background:rgba(15,24,35,0.6);padding:10px 14px;display:flex;align-items:center;gap:10px">
+  <div style="flex:1;display:flex;align-items:center;gap:6px;min-width:0;opacity:<%= played && winner != t1 ? '0.4' : '1' %>">
+    <%= team_logo(t1, size: 22) %>
+    <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= team_abbr(t1) %></span>
+  </div>
+
+  <div style="flex-shrink:0;text-align:center;min-width:56px">
+    <% if played %>
+      <div style="display:flex;align-items:center;justify-content:center;gap:4px">
+        <span style="font-size:18px;font-weight:900;font-family:var(--retro-font);color:<%= winner == t1 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.2)' %>"><%= t1s %></span>
+        <span style="color:rgba(255,255,255,0.15);font-size:16px">:</span>
+        <span style="font-size:18px;font-weight:900;font-family:var(--retro-font);color:<%= winner == t2 ? 'var(--color-kl-win)' : 'rgba(255,255,255,0.2)' %>"><%= t2s %></span>
+      </div>
+      <div style="font-size:13px;color:var(--retro-gold-dim);font-family:var(--retro-font);letter-spacing:0.08em;margin-top:1px">Bo<%= match["BestOf"].to_i > 0 ? match["BestOf"] : 1 %></div>
+    <% else %>
+      <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.15);font-family:var(--retro-font)">VS</span>
+    <% end %>
+  </div>
+
+  <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;opacity:<%= played && winner != t2 ? '0.4' : '1' %>">
+    <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right"><%= team_abbr(t2) %></span>
+    <%= team_logo(t2, size: 22) %>
+  </div>
+
+  <div style="flex-shrink:0;min-width:54px;text-align:right">
+    <span style="font-size:14px;color:rgba(255,255,255,0.25);font-family:var(--retro-font)"><%= format_datetime_brt(match["DateTime_UTC"]) %></span>
+  </div>
+</div>

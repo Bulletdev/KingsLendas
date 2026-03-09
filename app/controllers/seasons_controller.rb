@@ -19,9 +19,8 @@ class SeasonsController < ApplicationController
       leaguepedia.standings(tournament)
     end
 
-    @schedule = CacheService.fetch("schedule:#{@slug}", :schedule) do
-      leaguepedia.schedule(tournament)
-    end
+    # Use DB-backed schedule (persists after first successful fetch)
+    @schedule = db_schedule(tournament)
 
     # Fallback 1: compute standings from schedule when TournamentResults is empty
     if @standings.blank? && @schedule.any?
@@ -39,8 +38,15 @@ class SeasonsController < ApplicationController
       aggregate_season_players(raw)
     end.first(10)
 
-    @matches_by_phase = @schedule
-      .group_by { |m| m["Phase"].presence || "Fase de Grupos" }
+    played   = @schedule.select { |m| m["Winner"].present? }
+    upcoming = @schedule.reject { |m| m["Winner"].present? }
+
+    # Group played matches by calendar date (newest first); upcoming at top if any
+    sorted_dates = played.map { |m| m["DateTime_UTC"].to_s[0, 10] }.uniq.sort.reverse
+    @matches_by_date = sorted_dates.map do |date|
+      [ date, played.select { |m| m["DateTime_UTC"].to_s.start_with?(date) } ]
+    end
+    @upcoming_matches = upcoming
   end
 
   private
