@@ -45,12 +45,14 @@ namespace :leaguepedia do
   desc "Sync only player stats"
   task sync_players: :environment do
     n = LeaguepediaSyncService.new.sync_players
+    Rails.cache.delete_matched("kl:players*")
     puts "Synced #{n} player rows."
   end
 
   desc "Sync only champion stats"
   task sync_champions: :environment do
     n = LeaguepediaSyncService.new.sync_champions
+    Rails.cache.delete_matched("kl:champion_stats*")
     puts "Synced #{n} champion stat rows."
   end
 
@@ -190,6 +192,12 @@ namespace :leaguepedia do
     # Rebuild FTS index
     ActiveRecord::Base.connection.execute("INSERT INTO lp_players_fts(lp_players_fts) VALUES('rebuild')")
     puts "  #{player_count} player rows upserted."
+
+    # Clear stale player/champion/games cache so next request reads fresh DB data
+    Rails.cache.delete_matched("kl:players*")
+    Rails.cache.delete_matched("kl:champion_stats*")
+    Rails.cache.delete_matched("kl:games*")
+    puts "Cache cleared."
     puts "Done."
   end
 
