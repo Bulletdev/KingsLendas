@@ -36,12 +36,21 @@
 
       <!-- Live badge + mobile hamburger -->
       <div class="flex items-center gap-3">
-        <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
-           class="hidden sm:flex items-center gap-2"
-           style="font-size:13px;font-weight:bold;letter-spacing:0.1em;color:#fff;background:#c53030;padding:3px 8px;border:1px solid rgba(252,129,129,0.5);font-family:Verdana,sans-serif;text-decoration:none">
-          <span style="width:4px;height:4px;border-radius:50%;background:#fff;animation:live-pulse 2s ease-in-out infinite;display:inline-block"></span>
-          AO VIVO
-        </a>
+        <% if kick_live? %>
+          <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
+             class="hidden sm:flex items-center gap-2"
+             style="font-size:13px;font-weight:bold;letter-spacing:0.1em;color:#fff;background:#c53030;padding:3px 8px;border:1px solid rgba(252,129,129,0.5);font-family:Verdana,sans-serif;text-decoration:none">
+            <span style="width:4px;height:4px;border-radius:50%;background:#fff;animation:live-pulse 2s ease-in-out infinite;display:inline-block"></span>
+            AO VIVO
+          </a>
+        <% else %>
+          <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
+             class="hidden sm:flex items-center gap-2"
+             style="font-size:13px;font-weight:bold;letter-spacing:0.1em;color:rgba(255,255,255,0.35);background:transparent;padding:3px 8px;border:1px solid rgba(255,255,255,0.12);font-family:Verdana,sans-serif;text-decoration:none">
+            <span style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.3);display:inline-block"></span>
+            KICK · OFFLINE
+          </a>
+        <% end %>
         <button data-controller="mobile-nav" data-action="click->mobile-nav#toggle"
                 style="background:none;border:none;color:rgba(255,255,255,0.6);cursor:pointer;padding:4px" class="md:hidden">
           <i class="ri-menu-line" style="font-size:26px"></i>
@@ -58,11 +67,19 @@
                 onmouseover: "this.style.color='var(--retro-gold)'",
                 onmouseout:  "this.style.color='rgba(255,255,255,0.5)'" %>
         <% end %>
-        <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
-           style="font-size:17px;letter-spacing:0.12em;padding:8px 6px;color:#fc8181;font-family:Verdana,sans-serif;text-decoration:none;display:flex;align-items:center;gap:6px">
-          <span style="width:5px;height:5px;border-radius:50%;background:#fc8181;display:inline-block"></span>
-          ASSISTIR AO VIVO
-        </a>
+        <% if kick_live? %>
+          <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
+             style="font-size:17px;letter-spacing:0.12em;padding:8px 6px;color:#fc8181;font-family:Verdana,sans-serif;text-decoration:none;display:flex;align-items:center;gap:6px">
+            <span style="width:5px;height:5px;border-radius:50%;background:#fc8181;animation:live-pulse 2s ease-in-out infinite;display:inline-block"></span>
+            ASSISTIR AO VIVO
+          </a>
+        <% else %>
+          <a href="https://kick.com/BaianoTV" target="_blank" rel="noopener"
+             style="font-size:17px;letter-spacing:0.12em;padding:8px 6px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;text-decoration:none;display:flex;align-items:center;gap:6px">
+            <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.2);display:inline-block"></span>
+            KICK · OFFLINE
+          </a>
+        <% end %>
       </div>
     </div>
   </div>

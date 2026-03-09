@@ -1,4 +1,6 @@
 module ApplicationHelper
+  KICK_CHANNEL = "baianotv"
+
   LANE_ICONS = {
     "top"     => "/lane-icon/top.svg",
     "jungle"  => "/lane-icon/jungle.svg",
@@ -254,5 +256,15 @@ module ApplicationHelper
 
   def team_abbr(team_name)
     TEAMS_DATA[team_name]&.dig(:abbr) || team_name.to_s.first(3).upcase
+  end
+
+  def kick_live?
+    Rails.cache.fetch("kick:live:#{KICK_CHANNEL}", expires_in: 2.minutes) do
+      conn = Faraday.new { |f| f.response :json; f.adapter Faraday.default_adapter }
+      resp = conn.get("https://kick.com/api/v1/channels/#{KICK_CHANNEL}")
+      resp.success? && resp.body["livestream"].present?
+    rescue StandardError
+      false
+    end
   end
 end
