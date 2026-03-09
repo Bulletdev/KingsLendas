@@ -16,20 +16,25 @@
       <% if @standings.any? %>
         <table style="width:100%;border-collapse:collapse">
           <thead>
+            <% has_wl = @standings.any? { |r| r["Wins"] } %>
             <tr style="border-bottom:1px solid var(--retro-gold-dim)">
               <th class="retro-table-head" style="text-align:center;width:32px">#</th>
               <th class="retro-table-head" style="text-align:left">Time</th>
-              <th class="retro-table-head" style="text-align:center">V</th>
-              <th class="retro-table-head" style="text-align:center">D</th>
-              <th class="retro-table-head" style="text-align:center">WR%</th>
+              <% if has_wl %>
+                <th class="retro-table-head" style="text-align:center">V</th>
+                <th class="retro-table-head" style="text-align:center">D</th>
+                <th class="retro-table-head" style="text-align:center">WR%</th>
+              <% end %>
             </tr>
           </thead>
           <tbody>
             <% @standings.each_with_index do |row, idx| %>
+              <% place = row["Place"] || (idx + 1).to_s %>
+              <% champion = @season_data[:champion] == row["Team"] %>
               <tr class="retro-table-row" style="border-bottom:1px solid rgba(200,155,60,0.08)">
                 <td style="padding:10px 8px;text-align:center;white-space:nowrap">
-                  <span style="font-size:17px;font-weight:bold;color:<%= idx.zero? ? 'var(--retro-gold)' : 'rgba(255,255,255,0.4)' %>;font-family:var(--retro-font)"><%= idx + 1 %></span>
-                  <% if idx.zero? %><span style="font-size:16px;margin-left:2px">🏆</span><% end %>
+                  <span style="font-size:17px;font-weight:bold;color:<%= place == "1" ? 'var(--retro-gold)' : 'rgba(255,255,255,0.4)' %>;font-family:var(--retro-font)"><%= place %></span>
+                  <% if champion %><span style="font-size:16px;margin-left:2px">🏆</span><% end %>
                 </td>
                 <td style="padding:10px 8px 10px 0">
                   <div style="display:flex;align-items:center;gap:8px">
@@ -37,17 +42,19 @@
                     <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:var(--retro-font)"><%= row["Team"] %></span>
                   </div>
                 </td>
-                <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:16px;font-weight:bold;color:var(--color-kl-win);font-family:var(--retro-font)"><%= row["Wins"] %></span>
-                </td>
-                <td style="padding:10px 8px;text-align:center">
-                  <span style="font-size:16px;font-weight:bold;color:var(--color-kl-loss);font-family:var(--retro-font)"><%= row["Losses"] %></span>
-                </td>
-                <td style="padding:10px 8px;text-align:center">
-                  <% w = row["Wins"].to_i; l = row["Losses"].to_i; t = w + l %>
-                  <% pct = t.zero? ? 0 : (w.to_f / t * 100).round %>
-                  <span style="font-size:17px;font-weight:bold;font-family:var(--retro-font);color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>"><%= pct %>%</span>
-                </td>
+                <% if has_wl %>
+                  <td style="padding:10px 8px;text-align:center">
+                    <span style="font-size:16px;font-weight:bold;color:var(--color-kl-win);font-family:var(--retro-font)"><%= row["Wins"] %></span>
+                  </td>
+                  <td style="padding:10px 8px;text-align:center">
+                    <span style="font-size:16px;font-weight:bold;color:var(--color-kl-loss);font-family:var(--retro-font)"><%= row["Losses"] %></span>
+                  </td>
+                  <td style="padding:10px 8px;text-align:center">
+                    <% w = row["Wins"].to_i; l = row["Losses"].to_i; t = w + l %>
+                    <% pct = t.zero? ? 0 : (w.to_f / t * 100).round %>
+                    <span style="font-size:17px;font-weight:bold;font-family:var(--retro-font);color:<%= pct >= 60 ? 'var(--color-kl-win)' : (pct >= 40 ? 'rgba(255,255,255,0.6)' : 'var(--color-kl-loss)') %>"><%= pct %>%</span>
+                  </td>
+                <% end %>
               </tr>
             <% end %>
           </tbody>

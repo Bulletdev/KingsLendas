@@ -87,19 +87,56 @@ TEAMS_DATA = {
   },
 
   # Season 3 (extra teams)
-  "100Vices"         => { abbr: "100", slug: "100vices",          parody_of: "100 Thieves",  color: "#E63946" },
-  "FONatic"          => { abbr: "FNC", slug: "fonatic",           parody_of: "Fnatic",        color: "#FF8C00" },
-  "G12 Esports"      => { abbr: "G12", slug: "g12-esports",       parody_of: "G2 Esports",   color: "#00FF87" },
-  "Oreiudos Esports" => { abbr: "ORE", slug: "oreiudos-esports",  parody_of: "Cloud9",        color: "#1DA1F2" },
-  "paiNtriotas"      => { abbr: "PNG", slug: "paintriotas",       parody_of: "paiN Gaming",  color: "#7B2D8B" },
-  "Tepei Assassins"  => { abbr: "TEP", slug: "tepei-assassins",   parody_of: "Team Liquid",  color: "#009FDA" },
-  "ÉanDG"            => { abbr: "EDG", slug: "eandg",             parody_of: "EDward Gaming", color: "#FF4500" }
+  "100Vices"         => { abbr: "100", slug: "100vices",          parody_of: "100 Thieves",  color: "#E63946", logo: "/Teams/Seasons/3/100Vices.webp" },
+  "FONatic"          => { abbr: "FNC", slug: "fonatic",           parody_of: "Fnatic",        color: "#FF8C00", logo: "/Teams/Seasons/3/FONatic.webp" },
+  "G12 Esports"      => { abbr: "G12", slug: "g12-esports",       parody_of: "G2 Esports",   color: "#00FF87", logo: "/Teams/Seasons/2/g12.webp" },
+  "G12"              => { abbr: "G12", slug: "g12-esports",       parody_of: "G2 Esports",   color: "#00FF87", logo: "/Teams/Seasons/2/g12.webp" },
+  "Oreiudos Esports" => { abbr: "ORE", slug: "oreiudos-esports",  parody_of: "Cloud9",        color: "#1DA1F2", logo: "/Teams/Seasons/2/Oreiudos.webp" },
+  "paiNtriotas"      => { abbr: "PNG", slug: "paintriotas",       parody_of: "paiN Gaming",  color: "#7B2D8B", logo: "/Teams/Seasons/3/PaiNtriotas.webp" },
+  "Tepei Assassins"  => { abbr: "TEP", slug: "tepei-assassins",   parody_of: "Team Liquid",  color: "#009FDA", logo: "/Teams/Seasons/2/Tepei.webp" },
+  "Tepei Esports"    => { abbr: "TEP", slug: "tepei-assassins",   parody_of: "Team Liquid",  color: "#009FDA", logo: "/Teams/Seasons/2/Tepei.webp" },
+  "ÉanDG"            => { abbr: "EDG", slug: "eandg",             parody_of: "EDward Gaming", color: "#FF4500", logo: "/Teams/Seasons/3/EanDG.webp" }
 }.freeze
 
 SEASONS_DATA = {
-  "season-1" => { name: "Kings Lendas Season 1", leaguepedia_name: "IDL Kings Lendas", label: "Season 1" },
-  "season-2" => { name: "Kings Lendas Season 2", leaguepedia_name: "IDL Kings Lendas Season 2", label: "Season 2", champion: "Karmine Cospe" },
-  "season-3" => { name: "Kings Lendas Season 3", leaguepedia_name: "IDL Kings Lendas Season 3", label: "Season 3", champion: "Gen GG" },
+  "season-1" => {
+    name: "Kings Lendas Season 1", leaguepedia_name: "IDL Kings Lendas", label: "Season 1",
+    champion: "Oreiudos Esports",
+    static_standings: [
+      { "Team" => "Oreiudos Esports", "Place" => "1", "Wins" => 3, "Losses" => 1 },
+      { "Team" => "G12",              "Place" => "2", "Wins" => 2, "Losses" => 2 },
+      { "Team" => "Tepei Esports",    "Place" => "3", "Wins" => 1, "Losses" => 2 },
+      { "Team" => "Gen GG",           "Place" => "4", "Wins" => 1, "Losses" => 2 }
+    ]
+  },
+  "season-2" => {
+    name: "Kings Lendas Season 2", leaguepedia_name: "IDL Kings Lendas Season 2", label: "Season 2",
+    champion: "Karmine Cospe",
+    static_standings: [
+      { "Team" => "Karmine Cospe",   "Place" => "1",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Gen GG",          "Place" => "2",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Tepei Esports",   "Place" => "3-4", "Wins" => nil, "Losses" => nil },
+      { "Team" => "G12",             "Place" => "3-4", "Wins" => nil, "Losses" => nil },
+      { "Team" => "Vôs Grandes",     "Place" => "5",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Oreiudos Esports", "Place" => "6",   "Wins" => nil, "Losses" => nil }
+    ]
+  },
+  "season-3" => {
+    name: "Kings Lendas Season 3", leaguepedia_name: "IDL Kings Lendas Season 3", label: "Season 3",
+    champion: "Gen GG",
+    static_standings: [
+      { "Team" => "Gen GG",           "Place" => "1",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Karmine Cospe",    "Place" => "2",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "ÉanDG",           "Place" => "3",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "FONatic",          "Place" => "4",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Vôs Grandes",      "Place" => "5-6", "Wins" => nil, "Losses" => nil },
+      { "Team" => "G12",              "Place" => "5-6", "Wins" => nil, "Losses" => nil },
+      { "Team" => "paiNtriotas",      "Place" => "7",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "100Vices",         "Place" => "8",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Oreiudos Esports", "Place" => "9",   "Wins" => nil, "Losses" => nil },
+      { "Team" => "Tepei Esports",    "Place" => "10",  "Wins" => nil, "Losses" => nil }
+    ]
+  },
   "copa"     => { name: "Kings Lendas Cup", leaguepedia_name: "IDL Kings Lendas Cup", label: "Cup 2026" }
 }.freeze
 

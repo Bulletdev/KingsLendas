@@ -23,10 +23,12 @@ class SeasonsController < ApplicationController
       leaguepedia.schedule(tournament)
     end
 
-    # Fallback: compute standings from schedule when TournamentResults is empty
+    # Fallback 1: compute standings from schedule when TournamentResults is empty
     if @standings.blank? && @schedule.any?
       @standings = leaguepedia.standings_from_schedule(@schedule)
     end
+    # Fallback 2: use static standings hardcoded in SEASONS_DATA
+    @standings = @season_data[:static_standings] if @standings.blank? && @season_data[:static_standings]
 
     @champion_stats = CacheService.fetch("champion_stats:#{@slug}", :champion_stats) do
       leaguepedia.champion_stats(tournament)
