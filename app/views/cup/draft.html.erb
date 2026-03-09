@@ -66,15 +66,15 @@
               <th class="retro-table-head" style="text-align:left">Campeão</th>
               <th class="retro-table-head" style="text-align:center">Picks</th>
               <th class="retro-table-head" style="text-align:center">Bans</th>
-              <th class="retro-table-head" style="text-align:center">Jogos</th>
               <th class="retro-table-head" style="text-align:center">Vitórias</th>
+              <th class="retro-table-head" style="text-align:center">Derrotas</th>
               <th class="retro-table-head" style="text-align:center">Win%</th>
               <th class="retro-table-head hidden md:table-cell" style="text-align:center">Presença%</th>
             </tr>
           </thead>
           <tbody>
             <% @champion_stats.each do |champ| %>
-              <% picks = champ["Picks"].to_i; bans = champ["Bans"].to_i; wins = champ["Wins"].to_i; games = champ["Games"].to_i %>
+              <% picks = champ["Picks"].to_i; bans = champ["Bans"].to_i; wins = champ["Wins"].to_i; losses = picks - wins %>
               <% total_games = @champion_stats.map { |c| c["Games"].to_i }.max.to_f %>
               <% presence = total_games > 0 ? ((picks + bans).to_f / (total_games + 1) * 100).clamp(0, 100).round : 0 %>
               <% win_pct = picks > 0 ? (wins.to_f / picks * 100).round : 0 %>
@@ -91,8 +91,8 @@
                 <td style="padding:10px 8px;text-align:center">
                   <span style="font-size:17px;font-weight:bold;color:var(--retro-gold);font-family:Verdana,sans-serif"><%= bans %></span>
                 </td>
-                <td style="padding:10px 8px;text-align:center;font-size:16px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= games %></td>
                 <td style="padding:10px 8px;text-align:center;font-size:16px;font-weight:bold;color:var(--color-kl-win);font-family:Verdana,sans-serif"><%= wins %></td>
+                <td style="padding:10px 8px;text-align:center;font-size:16px;font-weight:bold;color:var(--color-kl-loss);font-family:Verdana,sans-serif"><%= picks > 0 ? losses : "—" %></td>
                 <td style="padding:10px 8px;text-align:center">
                   <span style="font-size:16px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= win_pct >= 60 ? 'var(--color-kl-win)' : (win_pct >= 40 ? 'rgba(255,255,255,0.7)' : 'var(--color-kl-loss)') %>">
                     <%= picks > 0 ? "#{win_pct}%" : "—" %>
