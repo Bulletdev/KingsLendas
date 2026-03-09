@@ -78,13 +78,17 @@ module ApplicationHelper
   # Player photo — uses real photo, falls back to colored avatar
   # -------------------------------------------------------
   def player_photo(player_name, team_name = nil, size: 80, css_class: "")
-    data   = TEAMS_DATA[team_name]
     # Strip " (Full Name)" parentheticals from Leaguepedia links (e.g. "SCARY (Artur Queiroz)" → "SCARY")
     short_name = player_name.to_s.sub(/\s*\(.*\)\z/, "").strip
-    member = data&.dig(:roster)&.find do |m|
-      m[:player] == player_name ||
-        m[:link].to_s == short_name ||
-        m[:player].casecmp?(short_name)
+    finder = ->(roster) { roster&.find { |m| m[:player] == player_name || m[:link].to_s == short_name || m[:player].casecmp?(short_name) } }
+    data   = TEAMS_DATA[team_name]
+    member = finder.call(data&.dig(:roster))
+    # Fallback: search all teams (handles subs playing for a different team)
+    unless member
+      TEAMS_DATA.each_value do |td|
+        member = finder.call(td[:roster])
+        break if member
+      end
     end
     photo  = member&.dig(:photo)
     color  = data&.dig(:color) || "#C89B3C"

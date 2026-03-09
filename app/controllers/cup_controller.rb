@@ -141,7 +141,7 @@ class CupController < ApplicationController
       kda     = deaths.zero? ? (kills + assists).to_f : (kills + assists).to_f / deaths
       {
         "player"   => player,
-        "team"     => games.last["Team"],
+        "team"     => games.group_by { |g| g["Team"] }.max_by { |_, gs| gs.length }.first,
         "role"     => games.last["Role"],
         "games"    => games.length,
         "kills"    => kills,
