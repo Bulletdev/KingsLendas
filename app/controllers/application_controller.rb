@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
   # DB-first helpers: read from SQLite, fallback to API + sync if empty
   def db_schedule(overview_page = CUP_OVERVIEW_PAGE)
     CacheService.fetch("schedule:cup:#{overview_page}", :schedule) do
-      rows = LpMatch.where(overview_page: overview_page).ordered
-      if rows.any?
+      rows = LpMatch.where(overview_page: overview_page).ordered.to_a
+      if rows.present?
         rows.map(&:as_leaguepedia_hash)
       else
         data = leaguepedia.schedule(overview_page)
@@ -44,8 +44,8 @@ class ApplicationController < ActionController::Base
 
   def db_games(tournament = CUP_TOURNAMENT)
     CacheService.fetch("games:cup:#{tournament}", :match_details) do
-      rows = LpGame.where(tournament: tournament).ordered
-      if rows.any?
+      rows = LpGame.where(tournament: tournament).ordered.to_a
+      if rows.present?
         rows.map(&:as_leaguepedia_hash)
       else
         data = leaguepedia.scoreboard_games(tournament)
@@ -57,8 +57,8 @@ class ApplicationController < ActionController::Base
 
   def db_players(tournament = CUP_TOURNAMENT)
     CacheService.fetch("players:cup:#{tournament}", :player_stats) do
-      rows = LpPlayer.where(tournament: tournament)
-      if rows.any?
+      rows = LpPlayer.where(tournament: tournament).to_a
+      if rows.present?
         rows.map(&:as_leaguepedia_hash)
       else
         data = leaguepedia.scoreboard_players(tournament)
@@ -70,15 +70,15 @@ class ApplicationController < ActionController::Base
 
   def db_champions(tournament = CUP_TOURNAMENT)
     CacheService.fetch("champion_stats:cup:#{tournament}", :champion_stats) do
-      rows = LpChampionStat.where(tournament: tournament)
-      if rows.any?
+      rows = LpChampionStat.where(tournament: tournament).to_a
+      if rows.present?
         rows.map(&:as_leaguepedia_hash)
       else
         data = leaguepedia.champion_stats(tournament)
         LeaguepediaSyncService.new(tournament: tournament).sync_champions if data.any?
-        data
+        data.presence
       end
-    end
+    end || []
   end
 
   def team_data(team_name)

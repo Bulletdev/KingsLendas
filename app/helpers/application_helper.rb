@@ -259,8 +259,17 @@ module ApplicationHelper
   end
 
   def kick_live?
+    # Return immediately if already cached (avoids blocking HTTP call per request)
+    cached = Rails.cache.read("kick:live:#{KICK_CHANNEL}")
+    return cached unless cached.nil?
+
     Rails.cache.fetch("kick:live:#{KICK_CHANNEL}", expires_in: 2.minutes) do
-      conn = Faraday.new { |f| f.response :json; f.adapter Faraday.default_adapter }
+      conn = Faraday.new do |f|
+        f.response :json
+        f.options.timeout      = 3
+        f.options.open_timeout = 2
+        f.adapter Faraday.default_adapter
+      end
       resp = conn.get("https://kick.com/api/v1/channels/#{KICK_CHANNEL}")
       resp.success? && resp.body["livestream"].present?
     rescue StandardError

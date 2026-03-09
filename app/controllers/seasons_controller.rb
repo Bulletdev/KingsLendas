@@ -13,30 +13,41 @@ class SeasonsController < ApplicationController
 
     set_meta_tags(title: "#{@season_data[:label]} — Kings Lendas")
 
-    tournament = @season_data[:leaguepedia_name]
-
-    @standings = CacheService.fetch("standings:#{@slug}", :standings) do
-      leaguepedia.standings(tournament)
-    end
+    tournament  = @season_data[:leaguepedia_name]
+    has_static  = @season_data[:static_standings].present?
 
     # Use DB-backed schedule (persists after first successful fetch)
     @schedule = db_schedule(tournament)
 
-    # Fallback 1: compute standings from schedule when TournamentResults is empty
-    if @standings.blank? && @schedule.any?
-      @standings = leaguepedia.standings_from_schedule(@schedule)
+    # Standings: static > computed from schedule > API (only call API when no static fallback)
+    @standings = if has_static
+      @season_data[:static_standings]
+    else
+      api_standings = CacheService.fetch("standings:#{@slug}", :standings) do
+        leaguepedia.standings(tournament)
+      end
+      if api_standings.blank? && @schedule.any?
+        leaguepedia.standings_from_schedule(@schedule)
+      else
+        api_standings
+      end
     end
-    # Fallback 2: use static standings hardcoded in SEASONS_DATA
-    @standings = @season_data[:static_standings] if @standings.blank? && @season_data[:static_standings]
 
-    @champion_stats = CacheService.fetch("champion_stats:#{@slug}", :champion_stats) do
-      leaguepedia.champion_stats(tournament)
-    end.first(10)
+    # Champion stats and player stats: skip API for completed seasons with static data
+    # (Leaguepedia ScoreboardPlayers/ChampionStats are often empty for past seasons anyway)
+    if has_static
+      @champion_stats = []
+      @players        = []
+    else
+      @champion_stats = CacheService.fetch("champion_stats:#{@slug}", :champion_stats) do
+        leaguepedia.champion_stats(tournament)
+      end.first(10)
 
-    @players = CacheService.fetch("players:#{@slug}", :player_stats) do
-      raw = leaguepedia.scoreboard_players(tournament)
-      aggregate_season_players(raw)
-    end.first(10)
+      @players = CacheService.fetch("players:#{@slug}", :player_stats) do
+        raw = leaguepedia.scoreboard_players(tournament)
+        aggregate_season_players(raw)
+      end.first(10)
+    end
 
     played   = @schedule.select { |m| m["Winner"].present? }
     upcoming = @schedule.reject { |m| m["Winner"].present? }
