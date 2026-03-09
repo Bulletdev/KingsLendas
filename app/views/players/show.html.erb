@@ -7,17 +7,17 @@
     <div class="retro-corners-b"></div>
     <div style="height:2px;background:linear-gradient(to right,<%= @team_info[:color] %>,transparent)"></div>
 
-    <div style="display:flex;flex-direction:column;align-items:center;gap:20px;padding:24px" class="sm:flex-row sm:items-start">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px;text-align:center">
       <%= player_photo(@player_name, @player_team, size: 88, css_class: "shadow-lg border-2 flex-shrink-0") %>
 
-      <div style="text-align:center" class="sm:text-left">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:center;margin-bottom:6px" class="sm:justify-start">
+      <div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:center;margin-bottom:6px">
           <h1 style="font-size:26px;font-weight:bold;color:rgba(255,255,255,0.95);font-family:Verdana,sans-serif;margin:0"><%= @player_name %></h1>
           <% if @is_captain %>
             <span class="retro-status" style="color:var(--retro-gold);border-color:var(--retro-gold-dim);background:rgba(200,155,60,0.1)">★ CAPITÃO</span>
           <% end %>
         </div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center" class="sm:justify-start">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center">
           <%= link_to team_path(@team_info[:slug]),
                 style: "display:flex;align-items:center;gap:6px;font-size:17px;color:rgba(255,255,255,0.5);font-family:Verdana,sans-serif;text-decoration:none",
                 onmouseover: "this.style.color='var(--retro-gold)'",
@@ -31,7 +31,7 @@
       </div>
 
       <!-- Key stats -->
-      <div style="margin-left:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px" class="sm:ml-auto">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:360px">
         <% [[@stats[:kda], kda_color(@stats[:kda]), "KDA"], [@stats[:games], "text-white", "Jogos"], [@stats[:avg_cs], "text-kl-gold", "CS/jogo"]].each do |val, color_class, label| %>
           <div style="text-align:center;padding:12px 10px;border:1px solid var(--retro-gold-dim);background:rgba(200,155,60,0.04)">
             <div style="font-size:26px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= color_class %>"><%= val %></div>
