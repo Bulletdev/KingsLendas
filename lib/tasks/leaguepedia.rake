@@ -106,8 +106,13 @@ namespace :leaguepedia do
       puts "devdocs/import_data.json not found — skipping stats import."
     end
 
-    # ── 4. Clear MemoryStore so first web request gets fresh DB data ──
+    # ── 4. Sync past season schedules ──
+    puts "Syncing past season schedules..."
+    Rake::Task["leaguepedia:sync_seasons"].invoke
+
+    # ── 5. Clear cache so first web request gets fresh DB data ──
     Rails.cache.clear rescue nil
+    DdragonService.version rescue nil
 
     puts "Bootstrap complete."
   end
@@ -297,13 +302,64 @@ namespace :leaguepedia do
     puts "Supabase setup complete."
   end
 
+  desc "Sync past season match schedules (Seasons 1, 2, 3) into DB — idempotent with retries"
+  task sync_seasons: :environment do
+    seasons = SEASONS_DATA.reject { |slug, _| slug == "copa" }
+
+    seasons.each do |slug, data|
+      overview_page = data[:leaguepedia_name]
+      existing = LpMatch.where(overview_page: overview_page).count
+
+      if existing > 0
+        puts "#{slug} (#{overview_page}): already #{existing} matches — skipping"
+        next
+      end
+
+      puts "#{slug} (#{overview_page}): syncing..."
+      attempts = 0
+      loop do
+        attempts += 1
+        begin
+          result = LeaguepediaSyncService.new(overview_page: overview_page).sync_matches
+          if result > 0
+            puts "  synced #{result} matches"
+            break
+          else
+            puts "  attempt #{attempts}: API returned empty (rate limit?)"
+            break if attempts >= 3
+            puts "  waiting 30s before retry..."
+            sleep 30
+          end
+        rescue => e
+          puts "  attempt #{attempts}: ERROR #{e.message}"
+          break if attempts >= 3
+          sleep 15
+        end
+      end
+
+      sleep 2 # brief pause between seasons
+    end
+
+    puts "\nSeason sync complete."
+    puts "DB counts:"
+    seasons.each do |slug, data|
+      n = LpMatch.where(overview_page: data[:leaguepedia_name]).count
+      puts "  #{slug}: #{n} matches"
+    end
+  end
+
   desc "Show current DB counts"
   task status: :environment do
-    puts "DB Status:"
+    puts "DB Status (Cup):"
     puts "  matches:  #{LpMatch.where(overview_page: CUP_OVERVIEW_PAGE).count}"
     puts "  games:    #{LpGame.where(tournament: CUP_TOURNAMENT).count}"
     puts "  players:  #{LpPlayer.where(tournament: CUP_TOURNAMENT).count}"
     puts "  champions:#{LpChampionStat.where(tournament: CUP_TOURNAMENT).count}"
-    puts "  DB file:  #{ActiveRecord::Base.connection_db_config.database}"
+    puts "\nDB Status (Seasons):"
+    SEASONS_DATA.reject { |s, _| s == "copa" }.each do |slug, data|
+      n = LpMatch.where(overview_page: data[:leaguepedia_name]).count
+      puts "  #{slug}: #{n} matches"
+    end
+    puts "\n  DB: #{ActiveRecord::Base.connection_db_config.database}"
   end
 end

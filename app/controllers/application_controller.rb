@@ -33,10 +33,13 @@ class ApplicationController < ActionController::Base
         rows.map(&:as_leaguepedia_hash)
       else
         data = leaguepedia.schedule(overview_page)
-        LeaguepediaSyncService.new(overview_page: overview_page).sync_matches if data.any?
-        data
+        if data.any?
+          LeaguepediaSyncService.new(overview_page: overview_page).sync_matches
+          data
+        end
+        # Returns nil when empty so skip_nil: true avoids caching rate-limit failures
       end
-    end
+    end || []
   end
 
   def db_games(tournament = CUP_TOURNAMENT)
