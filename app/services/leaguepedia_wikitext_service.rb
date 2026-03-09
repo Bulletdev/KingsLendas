@@ -77,8 +77,8 @@ class LeaguepediaWikitextService
   end
 
   def build_game(params, tab_name, match_n)
-    team1 = params["team1"]&.strip.presence
-    team2 = params["team2"]&.strip.presence
+    team1 = canonical_team(params["team1"]&.strip.presence)
+    team2 = canonical_team(params["team2"]&.strip.presence)
     return nil if team1.nil? || team2.nil?
 
     winner_n = params["winner"]&.strip
@@ -118,8 +118,8 @@ class LeaguepediaWikitextService
 
     blocks.each_with_index do |block, idx|
       params     = extract_top_level_params(block)
-      team1      = params["team1"]&.strip.presence
-      team2      = params["team2"]&.strip.presence
+      team1      = canonical_team(params["team1"]&.strip.presence)
+      team2      = canonical_team(params["team2"]&.strip.presence)
       next if team1.nil? || team2.nil?
 
       unique_game = "#{OVERVIEW_PAGE}_#{tab_name}_#{idx + 1}_1"
@@ -179,6 +179,11 @@ class LeaguepediaWikitextService
     elsif rbi.include?("support")       then "support"
     else POSITION_ROLES[position - 1]
     end
+  end
+
+  def canonical_team(name)
+    return nil if name.blank?
+    TEAMS_DATA.keys.find { |k| k.casecmp?(name) } || name
   end
 
   def build_datetime(params)
