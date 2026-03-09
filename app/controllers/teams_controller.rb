@@ -72,7 +72,7 @@ class TeamsController < ApplicationController
     bans  = []
     team_games.each do |g|
       side = g["Team1"] == team_name ? "1" : "2"
-      bans += g["Team#{side}Bans"].to_s.split(",").map(&:strip)
+      bans += g["Team#{side}Bans"].to_s.split(",").map { |b| b.strip.capitalize }.reject { |b| b.casecmp("none").zero? || b.empty? }
     end
     [
       picks.tally.sort_by { |_, v| -v }.first(5),
