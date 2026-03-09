@@ -10,7 +10,7 @@ class LeaguepediaWikitextService
     "IDL Kings Lendas Cup/Scoreboards"                          => "Day 1",
     "IDL Kings Lendas Cup/Scoreboards/Day 2"                   => "Day 2",
     "IDL Kings Lendas Cup/Scoreboards/Day 3"                   => "Day 3",
-    "IDL Kings Lendas Cup/Scoreboards/Quarterfinals to Finals" => "Quarterfinals to Finals",
+    "IDL Kings Lendas Cup/Scoreboards/Quarterfinals to Finals" => "Quarterfinals to Finals"
   }.freeze
 
   POSITION_ROLES = %w[top jungle mid bot support].freeze
@@ -106,7 +106,7 @@ class LeaguepediaWikitextService
       "Team1Kills"  => params["team1k"]&.strip.to_i,
       "Team2Kills"  => params["team2k"]&.strip.to_i,
       "Patch"       => params["patch"]&.strip,
-      "WinType"     => nil,
+      "WinType"     => nil
     }
   end
 
@@ -166,7 +166,7 @@ class LeaguepediaWikitextService
       "DamageToChampions" => params["damagetochamps"]&.strip.to_i,
       "Team"              => team,
       "Role"              => role_for(position, params["role_bound_item"]),
-      "Side"              => side,
+      "Side"              => side
     }
   end
 
