@@ -108,17 +108,28 @@
         <% if sg %>
           <% won = sg["Winner"] == game["Team"] %>
           <% opp = sg["Team1"] == game["Team"] ? sg["Team2"] : sg["Team1"] %>
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(200,155,60,0.12);background:var(--retro-card)">
+          <% is_sub = game["Team"] != @player_team %>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid <%= is_sub ? 'rgba(5,150,170,0.4)' : 'rgba(200,155,60,0.12)' %>;background:var(--retro-card)">
             <span class="retro-status" style="font-size:16px;padding:3px 8px;flex-shrink:0;color:<%= won ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>;border-color:<%= won ? 'var(--color-kl-win)' : 'var(--color-kl-loss)' %>"><%= won ? 'V' : 'D' %></span>
             <%= champion_icon(game["Champion"], size: 28) %>
             <div style="flex:1;min-width:0">
-              <div style="display:flex;align-items:center;gap:6px">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
                 <span style="font-size:17px;font-weight:bold;color:rgba(255,255,255,0.85);font-family:Verdana,sans-serif"><%= game["Champion"] %></span>
                 <span style="font-size:16px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif">vs</span>
                 <%= team_logo(opp, size: 16) %>
                 <span style="font-size:17px;color:rgba(255,255,255,0.5);font-family:Verdana,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= opp %></span>
+                <% if is_sub %>
+                  <span style="display:inline-flex;align-items:center;gap:4px;font-size:14px;letter-spacing:0.08em;padding:2px 6px;border:1px solid var(--color-kl-teal);color:var(--color-kl-teal);font-family:Verdana,sans-serif;flex-shrink:0">
+                    SUB <%= team_abbr(game["Team"]) %>
+                  </span>
+                <% end %>
               </div>
-              <div style="font-size:16px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-top:2px"><%= format_datetime_brt(sg["DateTime_UTC"]) %></div>
+              <div style="font-size:16px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;margin-top:2px">
+                <%= format_datetime_brt(sg["DateTime_UTC"]) %>
+                <% if is_sub %>
+                  · jogou pelo <%= game["Team"] %>
+                <% end %>
+              </div>
             </div>
             <div style="text-align:right;flex-shrink:0">
               <div style="font-size:16px;font-weight:bold;font-family:Verdana,sans-serif">
