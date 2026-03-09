@@ -67,10 +67,10 @@ class DdragonService
     def fetch_version
       conn = Faraday.new { |f| f.response :json; f.adapter Faraday.default_adapter }
       response = conn.get(VERSIONS_URL)
-      return "15.4.1" unless response.success?
+      return "16.5.1" unless response.success?
       response.body.first
     rescue Faraday::Error
-      "15.4.1"
+      "16.5.1"
     end
   end
 end

@@ -12,6 +12,7 @@ class LeaguepediaSyncService
     results[:players]  = sync_players
     results[:champions]= sync_champions
     Rails.cache.clear
+    DdragonService.version  # re-warm DDragon version cache after clear
     results
   end
 

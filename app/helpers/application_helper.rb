@@ -125,7 +125,7 @@ module ApplicationHelper
     image_tag(url, alt: champion_name, width: size, height: size,
               class: "rounded object-cover #{css_class}",
               loading: "lazy",
-              onerror: "this.src='/images/champion_placeholder.png'")
+              onerror: "this.style.visibility='hidden'")
   end
 
   # -------------------------------------------------------

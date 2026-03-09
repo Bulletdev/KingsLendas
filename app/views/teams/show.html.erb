@@ -182,7 +182,7 @@
         <% played = @team_matches.select { |m| m["Winner"].present? } %>
         <% if played.any? %>
           <div style="display:grid;gap:8px">
-            <% played.reverse.each do |match| %>
+            <% played.each do |match| %>
               <% opp = match["Team1"] == @team_name ? match["Team2"] : match["Team1"] %>
               <% match_games = @team_games.select { |g|
                    (g["Team1"] == @team_name && g["Team2"] == opp) ||

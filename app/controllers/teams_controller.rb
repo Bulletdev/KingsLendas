@@ -67,13 +67,12 @@ class TeamsController < ApplicationController
   end
 
   def favorite_picks_bans(team_games, team_name)
-    picks = []
+    picks = db_players.select { |p| p["Team"] == team_name }
+                      .map { |p| p["Champion"] }.compact.reject(&:empty?)
     bans  = []
     team_games.each do |g|
       side = g["Team1"] == team_name ? "1" : "2"
-      opp  = side == "1" ? "2" : "1"
-      picks += g["Team#{side}Picks"].to_s.split(",").map(&:strip)
-      bans  += g["Team#{side}Bans"].to_s.split(",").map(&:strip)
+      bans += g["Team#{side}Bans"].to_s.split(",").map(&:strip)
     end
     [
       picks.tally.sort_by { |_, v| -v }.first(5),
