@@ -44,9 +44,16 @@ class LeaguepediaSyncService
 
   def sync_games
     raw = @api.scoreboard_games(@tournament)
+
+    if raw.empty?
+      Rails.logger.warn("[LeaguepediaSyncService] Cargo ScoreboardGames empty — trying WikitextService fallback")
+      raw = LeaguepediaWikitextService.new.all_games
+      Rails.logger.info("[LeaguepediaSyncService] WikitextService returned #{raw.length} games")
+    end
+
     return 0 if raw.empty?
 
-    # Fetch objectives in a separate query to avoid MWException
+    # Fetch objectives in a separate query to avoid MWException (only for Cargo data)
     objectives = {}
     begin
       sleep 1
@@ -99,6 +106,13 @@ class LeaguepediaSyncService
 
   def sync_players
     raw = @api.scoreboard_players(@tournament)
+
+    if raw.empty?
+      Rails.logger.warn("[LeaguepediaSyncService] Cargo ScoreboardPlayers empty — trying WikitextService fallback")
+      raw = LeaguepediaWikitextService.new.all_players
+      Rails.logger.info("[LeaguepediaSyncService] WikitextService returned #{raw.length} player rows")
+    end
+
     return 0 if raw.empty?
 
     rows = raw.filter_map do |p|
