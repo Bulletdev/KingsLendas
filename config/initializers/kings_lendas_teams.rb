@@ -81,7 +81,7 @@ TEAMS_DATA = {
       { player: "Hauz",        role: "mid",     photo: "/Players/CUPS/2026/GenGG/FXW7_hauz_2026_Split_1.webp" },
       { player: "Netuno",      role: "bot",     photo: "/Players/CUPS/2026/GenGG/LOS_Netuno_2025_Split_1.webp" },
       { player: "EsA",         role: "support", photo: "/Players/CUPS/2026/GenGG/IDL_Esa_CBOL%253FO.webp", captain: true },
-      { player: "HamburguesA", role: "support", link: "HamburguesA" },
+      { player: "HamburguesA", role: "support", link: "HamburguesA", photo: "/Players/CUPS/2026/GenGG/HamburguesA.webp" },
       { player: "Brucer",      role: "coach",   photo: "/Players/CUPS/2026/GenGG/IDL_Brucer_CBOL%253FO.webp" }
     ]
   },
