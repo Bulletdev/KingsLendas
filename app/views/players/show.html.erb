@@ -31,11 +31,17 @@
       </div>
 
       <!-- Key stats -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:360px">
-        <% [[@stats[:kda], kda_color(@stats[:kda]), "KDA"], [@stats[:games], "text-white", "Jogos"], [@stats[:avg_cs], "text-kl-gold", "CS/jogo"]].each do |val, color_class, label| %>
-          <div style="text-align:center;padding:12px 10px;border:1px solid var(--retro-gold-dim);background:rgba(200,155,60,0.04)">
-            <div style="font-size:26px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= color_class %>"><%= val %></div>
-            <div style="font-size:17px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-top:3px;text-transform:uppercase"><%= label %></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;max-width:480px">
+        <% key_stats = [
+             [@stats[:kda],      kda_color(@stats[:kda]),                                                  "KDA"],
+             [@stats[:games],    "text-white",                                                              "Jogos"],
+             ["#{@stats[:win_rate]}%", @stats[:win_rate] >= 60 ? "text-kl-win" : (@stats[:win_rate] >= 40 ? "text-white" : "text-kl-loss"), "Win%"],
+             [@stats[:avg_cs_min], "text-kl-gold",                                                         "CS/min"]
+           ] %>
+        <% key_stats.each do |val, color_class, label| %>
+          <div style="text-align:center;padding:12px 8px;border:1px solid var(--retro-gold-dim);background:rgba(200,155,60,0.04)">
+            <div style="font-size:22px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= color_class %>"><%= val %></div>
+            <div style="font-size:15px;color:rgba(255,255,255,0.35);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-top:3px;text-transform:uppercase"><%= label %></div>
           </div>
         <% end %>
       </div>
@@ -47,7 +53,7 @@
   </div>
 
   <!-- Stats grid -->
-  <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-6">
+  <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-2">
     <% [[@stats[:kills],"KILLS","var(--color-kl-win)"],[@stats[:deaths],"DEATHS","var(--color-kl-loss)"],[@stats[:assists],"ASSISTS","var(--retro-teal)"],[@stats[:avg_kills],"K/JOGO","rgba(255,255,255,0.7)"],[@stats[:avg_deaths],"D/JOGO","rgba(255,255,255,0.7)"],[@stats[:avg_assists],"A/JOGO","rgba(255,255,255,0.7)"]].each do |val, label, color| %>
       <div style="border:1px solid var(--retro-gold-dim);background:var(--retro-card);padding:12px 8px;text-align:center;position:relative">
         <div style="height:2px;background:linear-gradient(to right,<%= color %>,transparent);margin-bottom:6px"></div>
@@ -56,6 +62,21 @@
       </div>
     <% end %>
   </div>
+  <% if @stats[:games] > 0 %>
+    <div class="grid grid-cols-3 gap-2 mb-6">
+      <% gold_k = (@stats[:avg_gold].to_f / 1000).round(1) %>
+      <% dmg_k  = (@stats[:avg_dmg].to_f  / 1000).round(1) %>
+      <% [["#{gold_k}k","GOLD/JOGO","var(--retro-gold)"],["#{dmg_k}k","DMG/JOGO","rgba(255,100,80,0.9)"],[@stats[:avg_cs],"CS/JOGO","rgba(255,255,255,0.5)"]].each do |val, label, color| %>
+        <div style="border:1px solid var(--retro-gold-dim);background:var(--retro-card);padding:10px 8px;text-align:center">
+          <div style="height:2px;background:linear-gradient(to right,<%= color %>,transparent);margin-bottom:6px"></div>
+          <div style="font-size:22px;font-weight:bold;font-family:Verdana,sans-serif;color:<%= color %>"><%= val %></div>
+          <div style="font-size:15px;color:rgba(255,255,255,0.3);font-family:Verdana,sans-serif;letter-spacing:0.1em;margin-top:3px"><%= label %></div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="mb-6"></div>
+  <% end %>
 
   <!-- Champion stats -->
   <% if @champ_stats.any? %>
@@ -66,6 +87,7 @@
             <tr style="border-bottom:1px solid var(--retro-gold-dim)">
               <th class="retro-table-head" style="text-align:left">Campeão</th>
               <th class="retro-table-head" style="text-align:center">Jogos</th>
+              <th class="retro-table-head" style="text-align:center">V/D</th>
               <th class="retro-table-head" style="text-align:center">KDA</th>
               <th class="retro-table-head hidden sm:table-cell" style="text-align:center">K/D/A</th>
               <th class="retro-table-head hidden md:table-cell" style="text-align:center">CS/jogo</th>
@@ -81,6 +103,9 @@
                   </div>
                 </td>
                 <td style="padding:10px 8px;text-align:center;font-size:16px;color:rgba(255,255,255,0.45);font-family:Verdana,sans-serif"><%= c["games"] %></td>
+                <td style="padding:10px 8px;text-align:center;font-size:16px;font-family:Verdana,sans-serif">
+                  <span style="color:var(--color-kl-win)"><%= c["wins"] %></span><span style="color:rgba(255,255,255,0.2)">/</span><span style="color:var(--color-kl-loss)"><%= c["games"] - c["wins"] %></span>
+                </td>
                 <td style="padding:10px 8px;text-align:center">
                   <span style="font-size:17px;font-weight:bold;font-family:Verdana,sans-serif" class="<%= kda_color(c['kda']) %>"><%= c["kda"] %></span>
                 </td>
@@ -103,7 +128,7 @@
       <span class="retro-title">Histórico de Partidas</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:6px">
-      <% @match_history.reverse.each do |game| %>
+      <% @match_history.each do |game| %>
         <% sg = @games_index[game["UniqueGame"]] %>
         <% if sg %>
           <% won = sg["Winner"] == game["Team"] %>

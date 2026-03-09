@@ -95,7 +95,9 @@ TEAMS_DATA = {
   "paiNtriotas"      => { abbr: "PNG", slug: "paintriotas",       parody_of: "paiN Gaming",  color: "#7B2D8B", logo: "/Teams/Seasons/3/PaiNtriotas.webp" },
   "Tepei Assassins"  => { abbr: "TEP", slug: "tepei-assassins",   parody_of: "Team Liquid",  color: "#009FDA", logo: "/Teams/Seasons/2/Tepei.webp" },
   "Tepei Esports"    => { abbr: "TEP", slug: "tepei-assassins",   parody_of: "Team Liquid",  color: "#009FDA", logo: "/Teams/Seasons/2/Tepei.webp" },
-  "ÉanDG"            => { abbr: "EDG", slug: "eandg",             parody_of: "EDward Gaming", color: "#FF4500", logo: "/Teams/Seasons/3/EanDG.webp" }
+  "ÉanDG"            => { abbr: "EDG", slug: "eandg",             parody_of: "EDward Gaming", color: "#FF4500", logo: "/Teams/Seasons/3/EanDG.webp" },
+  "Team EsA"         => { abbr: "ESA", slug: "team-esa",          parody_of: "Gen.G",         color: "#C8A84B", logo: "/Teams/Seasons/3/TeamEsa.webp" },
+  "Team Shini"       => { abbr: "SHN", slug: "team-shini",        parody_of: "LOUD",          color: "#00D4FF", logo: "/Teams/Seasons/3/TeamShini.webp" }
 }.freeze
 
 SEASONS_DATA = {
