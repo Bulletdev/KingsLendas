@@ -86,8 +86,8 @@ class LeaguepediaWikitextService
 
     unique_game = "#{OVERVIEW_PAGE}_#{tab_name}_#{match_n}_1"
 
-    bans1  = (1..5).map { |i| params["team1ban#{i}"]&.strip }.compact.join(",")
-    bans2  = (1..5).map { |i| params["team2ban#{i}"]&.strip }.compact.join(",")
+    bans1  = (1..5).map { |i| params["team1ban#{i}"]&.strip&.capitalize }.compact.reject { |b| b.casecmp("none").zero? }.join(",")
+    bans2  = (1..5).map { |i| params["team2ban#{i}"]&.strip&.capitalize }.compact.reject { |b| b.casecmp("none").zero? }.join(",")
 
     {
       "UniqueGame"  => unique_game,

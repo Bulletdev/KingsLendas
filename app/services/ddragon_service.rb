@@ -32,7 +32,14 @@ class DdragonService
     "Velkoz"       => "Velkoz",
     "Wukong"       => "MonkeyKing",
     "XinZhao"      => "XinZhao",
-    "Xinzhao"      => "XinZhao"
+    "Xinzhao"      => "XinZhao",
+    # Wiki lowercase ban names (after .capitalize)
+    "Jarvan"       => "JarvanIV",
+    "Ksante"       => "KSante",
+    "Bardo"        => "Bard",
+    "Tahmkench"    => "TahmKench",
+    "Drmundo"      => "DrMundo",
+    "Aurelionsol"  => "AurelionSol"
   }.freeze
 
   class << self
