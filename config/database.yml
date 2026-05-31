@@ -9,7 +9,7 @@ development:
     database: storage/development.sqlite3
   queue:
     <<: *default
-    database: storage/development.sqlite3
+    database: storage/development_queue.sqlite3
 <% if ENV["LEAGUEPEDIA_DATABASE_URL"].present? %>
   leaguepedia:
     adapter: postgresql
@@ -27,7 +27,7 @@ production:
     database: storage/production.sqlite3
   queue:
     <<: *default
-    database: storage/production.sqlite3
+    database: storage/queue.sqlite3
 <% if ENV["LEAGUEPEDIA_DATABASE_URL"].present? %>
   leaguepedia:
     adapter: postgresql
