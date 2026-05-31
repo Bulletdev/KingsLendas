@@ -52,8 +52,13 @@ group :development do
 end
 
 gem "sqlite3", ">= 2.1"
-gem "pg", "~> 1.5"
 gem "solid_queue", "~> 1.1"
+
+# PostgreSQL driver used only for the optional LEAGUEPEDIA_DATABASE_URL secondary connection.
+# Kept in a named group so deployment platforms don't auto-provision a primary PostgreSQL.
+group :leaguepedia do
+  gem "pg", "~> 1.5"
+end
 
 gem "faraday", "~> 2.14"
 gem "faraday-retry", "~> 2.4"
