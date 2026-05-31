@@ -7,8 +7,8 @@ class LeaguepediaSyncService
 
   def sync_all
     results = {}
+    results[:games]    = sync_games    # must run before matches (fallback uses LpGame data)
     results[:matches]  = sync_matches
-    results[:games]    = sync_games
     results[:players]  = sync_players
     results[:champions]= sync_champions
     Rails.cache.clear
@@ -18,7 +18,11 @@ class LeaguepediaSyncService
 
   def sync_matches
     raw = @api.schedule(@overview_page)
-    return 0 if raw.empty?
+
+    if raw.empty?
+      Rails.logger.warn("[LeaguepediaSyncService] MatchSchedule API empty — deriving results from LpGame")
+      return derive_match_results_from_games
+    end
 
     LpMatch.where(overview_page: @overview_page).delete_all
 
@@ -41,6 +45,47 @@ class LeaguepediaSyncService
 
     LpMatch.insert_all!(rows)
     rows.length
+  end
+
+  def derive_match_results_from_games
+    matches = LpMatch.where(overview_page: @overview_page).to_a
+    return 0 if matches.empty?
+
+    games = LpGame.where(tournament: @tournament).to_a
+    return 0 if games.empty?
+
+    updated = 0
+    matches.each do |match|
+      teams = [ match.team1, match.team2 ].sort
+      match_time = match.datetime_utc.presence && (Time.parse(match.datetime_utc) rescue nil)
+
+      series_games = games.select do |g|
+        next false unless [ g.team1, g.team2 ].sort == teams
+        if match_time
+          game_time = g.datetime_utc.presence && (Time.parse(g.datetime_utc) rescue nil)
+          game_time && (game_time - match_time).abs < 8 * 3600
+        else
+          true
+        end
+      end
+
+      next if series_games.empty?
+
+      t1_wins = series_games.count { |g| g.winner == match.team1 }
+      t2_wins = series_games.count { |g| g.winner == match.team2 }
+      next if t1_wins == 0 && t2_wins == 0
+
+      match.update_columns(
+        team1_score: t1_wins,
+        team2_score: t2_wins,
+        winner:      t1_wins > t2_wins ? match.team1 : match.team2,
+        updated_at:  Time.current
+      )
+      updated += 1
+    end
+
+    Rails.logger.info("[LeaguepediaSyncService] derive_from_games: updated #{updated} matches")
+    updated
   end
 
   def sync_games
