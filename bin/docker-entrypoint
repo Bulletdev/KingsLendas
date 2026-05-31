@@ -10,9 +10,9 @@ fi
 rm -f tmp/pids/server.pid
 
 # Prepare only local SQLite databases on boot.
-# The leaguepedia (Supabase/PostgreSQL) database is managed externally — skip it here
-# to avoid crash when Supabase is paused or unreachable.
-./bin/rails db:prepare:primary db:prepare:queue
+# Run without LEAGUEPEDIA_DATABASE_URL so database.yml omits the leaguepedia block,
+# preventing db:prepare from trying to connect to Supabase (which may be paused).
+env -u LEAGUEPEDIA_DATABASE_URL ./bin/rails db:prepare
 
 # Populate data on first boot (idempotent — skips if already populated)
 ./bin/rails leaguepedia:bootstrap 2>/dev/null || true
