@@ -5,7 +5,8 @@ gem "rails", "~> 8.0.4"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
+gem "puma", ">= 7.2.1"  # CVE-2026-47736, CVE-2026-47737
+gem "net-imap", ">= 0.6.4.1"  # CVE-2026-47240, CVE-2026-47241, CVE-2026-47242
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]

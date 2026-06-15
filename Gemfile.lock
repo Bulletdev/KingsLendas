@@ -167,7 +167,7 @@ GEM
     msgpack (1.8.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.6.4)
+    net-imap (0.6.4.1)
       date
       net-protocol
     net-pop (0.1.2)
@@ -219,7 +219,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (7.2.0)
+    puma (8.0.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -385,10 +385,11 @@ DEPENDENCIES
   importmap-rails
   kamal
   meta-tags (~> 2.22)
+  net-imap (>= 0.6.4.1)
   oj (~> 3.16)
   pg (~> 1.5)
   propshaft
-  puma (>= 5.0)
+  puma (>= 7.2.1)
   rails (~> 8.0.4)
   redis (~> 5.4)
   rubocop-rails-omakase
